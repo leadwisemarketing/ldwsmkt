@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>LeadWiseMarketing – Werkwijze</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #f7f7f7;
+            color: #222;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: #0a5cff;
+            font-weight: 600;
+        }
+
+        /* Layout */
+        .layout__container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .steps {
+            padding-top: 80px;
+        }
+
+        /* Heading */
+        .steps__heading {
+            font-size: 36px;
+            margin-bottom: 40px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Steps list */
+        .steps__list {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            row-gap: 30px;
+            column-gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .steps__index span {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #0a5cff;
+            color: #fff;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+        }
+
+        .steps__content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .steps__title {
+            font-size: 18px;
+            margin-bottom: 6px;
+        }
+
+        .steps__text {
+            font-size: 15px;
+            color: #555;
+        }
+
+        /* See more */
+        .steps__seeMore {
+            grid-column: 1 / -1;
+            margin-top: 20px;
+        }
+
+        /* Expect text */
+        .steps__between {
+            text-align: center;
+            margin: 60px 0 30px;
+        }
+
+        .steps__expect {
+            font-size: 14px;
+            color: #777;
+            text-transform: uppercase;
+        }
+
+        /* Footer results */
+        .steps__footer {
+            background: #0a5cff;
+            color: #fff;
+            padding: 60px 0;
+        }
+
+        .steps__results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .results__content h3 {
+            font-size: 36px;
+            margin-bottom: 5px;
+        }
+
+        .results__content span {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .steps__list {
+                grid-template-columns: 1fr;
+            }
+
+            .steps__index {
+                margin-bottom: -15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="steps">
+        <div class="layout__container">
+            <h2 class="steps__heading">
+                <span class="subtitle">LeadWiseMarketing</span><br>
+                Werkwijze
+            </h2>
+
+            <div class="steps__list">
+                <div class="steps__index"><span>1</span></div>
+                <div class="steps__content">
+                    <h3 class="steps__title">We bespreken de wensen van de campagne</h3>
+                    <p class="steps__text">
+                        Wat is de grootte van de campagne, wat voor groep gaan we bellen en wat is het uiteindelijke doel?
+                    </p>
+                </div>
+
+                <div class="steps__index"><span>2</span></div>
+                <div class="steps__content">
+                    <h3 class="steps__title">We plannen een briefing in</h3>
+                    <p class="steps__text">
+                        Tijdens de briefing krijgen jullie de kans om onze bellers te inspireren en van input te voorzien.
+                    </p>
+                </div>
+
+                <div class="steps__index"><span>3</span></div>
+                <div class="steps__content">
+                    <h3 class="steps__title">We starten met bellen</h3>
+                    <p class="steps__text">
+                        De eerste dagen monitoren we de resultaten en ontvang je updates over de voortgang.
+                    </p>
+                </div>
+
+                <div class="steps__index"><span>4</span></div>
+                <div class="steps__content">
+                    <h3 class="steps__title">Gezamenlijke terugluistersessie</h3>
+                    <p class="steps__text">
+                        Samen luisteren we gesprekken terug om inzichten te verzamelen en te optimaliseren.
+                    </p>
+                </div>
+
+                <div class="steps__index"><span>5</span></div>
+                <div class="steps__content">
+                    <h3 class="steps__title">Rapportage & aanlevering</h3>
+                    <p class="steps__text">
+                        Wekelijks ontvang je een overzicht van alle behaalde resultaten.
+                    </p>
+                </div>
+
+                <div class="steps__seeMore">
+                    <a href="#">→ Naar werkwijze</a>
+                </div>
+            </div>
+
+            <div class="steps__between">
+                <span class="steps__expect">Wat kun je verwachten?</span>
+            </div>
+        </div>
+    </section>
+
+    <footer class="steps__footer">
+        <div class="layout__container">
+            <div class="steps__results">
+                <div class="results__content">
+                    <h3>92%</h3>
+                    <span>Meer kans op betere scores</span>
+                </div>
+                <div class="results__content">
+                    <h3>36%</h3>
+                    <span>Hogere loyaliteit</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
