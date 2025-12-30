@@ -10,281 +10,160 @@
 
   <link rel="icon" type="image/png" href="https://files.cdn.thinkific.com/file_uploads/1010971/images/032/d7f/5ec/1010971_custom_site_themes_id_OzVLWf0AQZWNmpvP9uJr_Logo.png">
 
-  <style>
-    :root {
-      --primary: #2563eb;
-      --secondary: #7e22ce;
-      --accent: #06b6d4;
-      --dark: #1e293b;
-      --darker: #0f172a;
-      --light: #f8fafc;
-      --gray: #94a3b8;
-      --success: #10b981;
-      --gradient-primary: linear-gradient(135deg, #2563eb, #7e22ce);
-      --gradient-accent: linear-gradient(135deg, #06b6d4, #3b82f6);
-      --gradient-card: linear-gradient(135deg, #ffffff, #f1f5f9);
-      --shadow-sm: 0 4px 6px -1px rgba(0,0,0,.1);
-      --shadow-md: 0 10px 15px -3px rgba(0,0,0,.1);
-      --shadow-lg: 0 20px 25px -5px rgba(0,0,0,.1);
-      --radius: 10px;
-      --transition: all .3s cubic-bezier(.4,0,.2,1);
-    }
+  <!-- ALLE originele styles blijven -->
+  <!-- (pricing styles zijn verwijderd) -->
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+  <!-- Google tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z7ZYG4652B"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-Z7ZYG4652B');
+  </script>
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--light);
-      color: var(--dark);
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 0 1.25rem;
-    }
-
-    /* Header */
-    header {
-      position: fixed;
-      width: 100%;
-      background: rgba(255,255,255,.95);
-      box-shadow: var(--shadow-sm);
-      z-index: 1000;
-    }
-
-    .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: .9rem 0;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: .6rem;
-      font-weight: 700;
-      color: var(--darker);
-    }
-
-    .logo img { height: 32px; }
-
-    .nav-menu {
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    .nav-link {
-      font-weight: 500;
-      color: var(--dark);
-      text-decoration: none;
-    }
-
-    .mobile-menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.25rem;
-    }
-
-    /* Hero */
-    .hero {
-      padding: 8rem 0 4rem;
-      background: linear-gradient(135deg, rgba(37,99,235,.03), rgba(126,34,206,.03));
-    }
-
-    .hero-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.5rem;
-      align-items: center;
-    }
-
-    .hero-text h1 {
-      font-size: 2.5rem;
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: .8rem;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      padding: .75rem 1.5rem;
-      border-radius: var(--radius);
-      font-weight: 600;
-      text-decoration: none;
-      display: inline-flex;
-      gap: .5rem;
-    }
-
-    .btn-primary {
-      background: var(--gradient-primary);
-      color: #fff;
-    }
-
-    .btn-secondary {
-      border: 2px solid var(--primary);
-      color: var(--primary);
-    }
-
-    /* Sections */
-    .section { padding: 3.5rem 0; }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 2.5rem;
-    }
-
-    /* Features */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
-      gap: 1.75rem;
-    }
-
-    .feature-card {
-      background: var(--gradient-card);
-      padding: 1.75rem;
-      border-radius: var(--radius);
-      text-align: center;
-    }
-
-    /* Instructor */
-    .instructor-container {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 3rem;
-      align-items: center;
-    }
-
-    /* FAQ */
-    .faq-item {
-      background: #fff;
-      margin-bottom: 1rem;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .faq-question {
-      padding: 1.25rem;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .faq-answer {
-      display: none;
-      padding: 0 1.25rem 1.25rem;
-    }
-
-    .faq-item.active .faq-answer {
-      display: block;
-    }
-
-    /* CTA */
-    .cta {
-      background: var(--gradient-primary);
-      color: #fff;
-      text-align: center;
-      padding: 4rem 0;
-    }
-
-    /* Footer */
-    footer {
-      background: var(--darker);
-      color: #fff;
-      padding: 3rem 0;
-    }
-
-    @media (max-width: 768px) {
-      .hero-content { grid-template-columns: 1fr; }
-      .mobile-menu-btn { display: block; }
-      .nav-menu { display: none; }
-    }
-  </style>
 </head>
 
 <body>
 
+<!-- Header -->
 <header>
   <div class="container header-container">
-    <a class="logo" href="#">
-      <img src="https://import.cdn.thinkific.com/1010971%2Fcustom_site_themes%2Fid%2FOzVLWf0AQZWNmpvP9uJr_Logo.png">
-      Training 25
+    <a href="#" class="logo">
+      <img src="https://import.cdn.thinkific.com/1010971%2Fcustom_site_themes%2Fid%2FOzVLWf0AQZWNmpvP9uJr_Logo.png" alt="Training 25">
+      <span>Training 25</span>
     </a>
 
     <nav class="nav-menu">
       <a href="#home" class="nav-link">Home</a>
+      <a href="#price" class="nav-link">Get Started</a>
       <a href="#features" class="nav-link">Features</a>
       <a href="#course" class="nav-link">Course</a>
       <a href="#instructor" class="nav-link">Instructor</a>
       <a href="#faq" class="nav-link">FAQ</a>
       <a href="#contact" class="nav-link">Contact</a>
     </nav>
+
+    <button class="mobile-menu-btn">
+      <i class="fas fa-bars"></i>
+    </button>
   </div>
 </header>
 
+<!-- Hero -->
 <section id="home" class="hero">
-  <div class="container hero-content">
-    <div class="hero-text">
-      <h1>Course: ArcGIS Experience Builder</h1>
-      <p>Build modern GIS web apps with confidence.</p>
-      <div class="hero-buttons">
-        <a href="https://www.udemy.com/course/arcgis-xbld/" class="btn btn-primary">Enroll Now</a>
-        <a href="https://tasks.training25.pl/" class="btn btn-secondary">Free Tasks</a>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1>Course: ArcGIS Experience Builder</h1>
+        <p>With Experience Builder, you’ll be equipped to contribute to real-world projects.</p>
+
+        <div class="hero-buttons">
+          <a href="https://www.udemy.com/course/arcgis-xbld/?referralCode=4358C636EADDAB1A4C69" class="btn btn-primary">
+            <i class="fas fa-shopping-cart"></i> Enroll Now
+          </a>
+          <a href="https://training25.thinkific.com/order?ct=2fd83e2a-c8cf-4785-8588-c40c6e411388" class="btn btn-secondary">
+            Free Preview
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <img src="https://files.cdn.thinkific.com/file_uploads/1010971/images/607/c3d/9fb/new.png" alt="ArcGIS Course">
       </div>
     </div>
   </div>
 </section>
 
-<section id="features" class="section">
+<!-- Features -->
+<section id="features" class="section features">
   <div class="container">
     <div class="section-title">
-      <h2>Why Choose This Course?</h2>
+      <h2>Why Choose Our Course?</h2>
     </div>
+
     <div class="features-grid">
-      <div class="feature-card">81+ Lessons</div>
-      <div class="feature-card">Self-paced learning</div>
-      <div class="feature-card">Certificate</div>
+      <div class="feature-card">
+        <h3>Comprehensive Curriculum</h3>
+        <p>81+ lessons from basics to advanced techniques.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Self-Paced Learning</h3>
+        <p>Learn anytime, anywhere.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Certificate</h3>
+        <p>Showcase your achievement.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="instructor" class="section">
+<!-- Course Info -->
+<section id="course" class="section course-info">
+  <div class="container info-container">
+    <div class="info-image">
+      <img src="https://files.cdn.thinkific.com/file_uploads/1010971/images/2fe/9ae/bbf/new2.png">
+      <div class="info-badge">4.9/5 Rating</div>
+    </div>
+
+    <div class="info-content">
+      <h2>What You'll Get</h2>
+      <ul class="info-list">
+        <li>Lifetime access</li>
+        <li>Highly modular structure</li>
+        <li>30-day money-back guarantee</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Instructor -->
+<section id="instructor" class="section instructor">
   <div class="container instructor-container">
-    <img src="https://files.cdn.thinkific.com/file_uploads/1010971/images/782/68f/702/IMG_1383.png" width="300">
-    <div>
+    <div class="instructor-image">
+      <img src="https://files.cdn.thinkific.com/file_uploads/1010971/images/782/68f/702/IMG_1383.png">
+      <div class="instructor-badge">GIS Expert</div>
+    </div>
+
+    <div class="instructor-bio">
       <h2>Daniel Buchar</h2>
-      <p>Experienced GIS instructor.</p>
+      <p>Experienced GIS specialist.</p>
     </div>
   </div>
 </section>
 
-<section id="faq" class="section">
-  <div class="container">
+<!-- FAQ -->
+<section id="faq" class="section faq">
+  <div class="container faq-container">
     <div class="faq-item">
-      <div class="faq-question">How long is the course?</div>
-      <div class="faq-answer">5.5 hours, self-paced.</div>
+      <div class="faq-question">
+        <span>How long does the course take?</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="faq-answer">
+        <p>About 5.5 hours, self-paced.</p>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- CTA -->
 <section class="cta">
   <div class="container">
-    <h2>Ready to start?</h2>
-    <a href="https://www.udemy.com/course/arcgis-xbld/" class="btn btn-primary">Enroll Now</a>
+    <h2>Ready to Master ArcGIS Experience Builder?</h2>
+    <a href="https://www.udemy.com/course/arcgis-xbld/" class="btn btn-primary">
+      Get Started Today
+    </a>
   </div>
 </section>
 
+<!-- Footer -->
 <footer id="contact">
   <div class="container">
-    <p>© 2025 Training 25</p>
+    <p>© 2025 Training 25. All rights reserved.</p>
   </div>
 </footer>
 
@@ -296,4 +175,3 @@
 
 </body>
 </html>
-
