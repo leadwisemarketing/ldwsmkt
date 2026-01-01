@@ -764,6 +764,99 @@
     .delay-3 {
       animation-delay: 0.6s;
     }
+
+
+
+
+
+    /* ==================== Formularz Kontaktowy ==================== */
+#contact {
+  max-width: 600px;
+  margin: 0 auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  font-family: 'Inter', sans-serif;
+}
+
+#contact h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  background: linear-gradient(135deg, #2563eb, #7e22ce);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#contact p {
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+#contact input,
+#contact textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+#contact input:focus,
+#contact textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  outline: none;
+}
+
+#contact textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+#contact button[type="submit"] {
+  display: inline-block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #2563eb, #7e22ce);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+#contact button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+#status {
+  display: block;
+  margin-top: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Responsywność */
+@media (max-width: 576px) {
+  #contact {
+    padding: 1.5rem;
+  }
+
+  #contact h2 {
+    font-size: 1.5rem;
+  }
+}
+
+
+    
   </style>
 
 
@@ -1248,6 +1341,7 @@
 </script>
 </body>
 </html>
+
 
 
 
