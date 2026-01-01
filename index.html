@@ -1146,52 +1146,60 @@
       });
     });
   </script>
-    <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDgfdUzNY9DtpkG0eVMvjZzbcWRb16m8zA",
-      authDomain: "leadwise-contactform.firebaseapp.com",
-      projectId: "leadwise-contactform",
-      storageBucket: "leadwise-contactform.firebasestorage.app",
-      messagingSenderId: "351577577868",
-      appId: "1:351577577868:web:011d9d6e798d8f87d85ea9",
-      databaseURL: "https://leadwise-contactform-default-rtdb.firebaseio.com"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyDgfdUzNY9DtpkG0eVMvjZzbcWRb16m8zA",
+    authDomain: "leadwise-contactform.firebaseapp.com",
+    projectId: "leadwise-contactform",
+    storageBucket: "leadwise-contactform.firebasestorage.app",
+    messagingSenderId: "351577577868",
+    appId: "1:351577577868:web:011d9d6e798d8f87d85ea9",
+    databaseURL: "https://leadwise-contactform-default-rtdb.firebaseio.com"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
 
+  document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("contactForm");
     const status = document.getElementById("status");
+
+    if (!form) {
+      console.error("contactForm not found in DOM");
+      return;
+    }
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
 
       const contactData = {
-        firstName: document.getElementById("firstName").value,
-        lastName: document.getElementById("lastName").value,
-        phone: document.getElementById("phone").value,
-        email: document.getElementById("email").value,
+        firstName: document.getElementById("firstName").value.trim(),
+        lastName: document.getElementById("lastName").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        email: document.getElementById("email").value.trim(),
         location: document.getElementById("location").value,
-        motivation: document.getElementById("motivation").value,
+        motivation: document.getElementById("motivation").value.trim(),
         createdAt: new Date().toISOString()
       };
 
       push(ref(database, "contacts"), contactData)
         .then(() => {
-          status.textContent = "Formularz został wysłany!";
+          status.textContent = "Form successfully submitted!";
           form.reset();
           document.getElementById("location").value = "Amsterdam";
         })
-        .catch(error => {
-          status.textContent = "Błąd wysyłania formularza";
+        .catch((error) => {
+          status.textContent = "Error submitting form";
           console.error(error);
         });
     });
-  </script>
+  });
+</script>
 </body>
 </html>
+
 
 
