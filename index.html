@@ -1173,33 +1173,57 @@
     }
 
     form.addEventListener("submit", (e) => {
-      e.preventDefault();
+  e.preventDefault();
 
-      const contactData = {
-        firstName: document.getElementById("firstName").value.trim(),
-        lastName: document.getElementById("lastName").value.trim(),
-        phone: document.getElementById("phone").value.trim(),
-        email: document.getElementById("email").value.trim(),
-        location: document.getElementById("location").value,
-        motivation: document.getElementById("motivation").value.trim(),
-        createdAt: new Date().toISOString()
-      };
+  const firstName = document.getElementById("firstName").value.trim();
+  const lastName = document.getElementById("lastName").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const location = document.getElementById("location").value.trim();
+  const motivation = document.getElementById("motivation").value.trim();
 
-      push(ref(database, "contacts"), contactData)
-        .then(() => {
-          status.textContent = "Form successfully submitted!";
-          form.reset();
-          document.getElementById("location").value = "Amsterdam";
-        })
-        .catch((error) => {
-          status.textContent = "Error submitting form";
-          console.error(error);
-        });
+  // ❗ WALIDACJA
+  if (!firstName || !lastName || !phone || !email || !motivation) {
+    status.textContent = "Please fill in all required fields.";
+    status.style.color = "red";
+    return;
+  }
+
+  // Prosta walidacja email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    status.textContent = "Invalid email address.";
+    status.style.color = "red";
+    return;
+  }
+
+  const contactData = {
+    firstName,
+    lastName,
+    phone,
+    email,
+    location,
+    motivation,
+    createdAt: new Date().toISOString()
+  };
+
+  push(ref(database, "contacts"), contactData)
+    .then(() => {
+      status.textContent = "Form successfully sent!";
+      status.style.color = "lightgreen";
+      form.reset();
+      document.getElementById("location").value = "Amsterdam";
+    })
+    .catch((error) => {
+      status.textContent = "Error sending form.";
+      status.style.color = "red";
+      console.error(error);
     });
-  });
+});
 </script>
 </body>
 </html>
+
 
 
 
