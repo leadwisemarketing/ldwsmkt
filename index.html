@@ -1239,108 +1239,126 @@
       });
     });
   </script>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { 
-    getDatabase, 
-    ref, 
-    push,
-    set 
-  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDgfdUzNY9DtpkG0eVMvjZzbcWRb16m8zA",
-    authDomain: "leadwise-contactform.firebaseapp.com",
-    projectId: "leadwise-contactform",
-    storageBucket: "leadwise-contactform.firebasestorage.app",
-    messagingSenderId: "351577577868",
-    appId: "1:351577577868:web:011d9d6e798d8f87d85ea9",
-    databaseURL: "https://leadwise-contactform-default-rtdb.firebaseio.com"
-  };
 
-  const app = initializeApp(firebaseConfig);
-  const database = getDatabase(app);
-
-  document.addEventListener("DOMContentLoaded", () => {
+ <script type="module">
+  // 1. Najpierw debug info
+  console.log("🔥 Firebase script STARTING loading...");
+  
+  // 2. Prosty test czy DOM jest gotowy
+  document.addEventListener("DOMContentLoaded", function() {
+    console.log("✅ DOM is ready");
+    
     const form = document.getElementById("contactForm");
     const status = document.getElementById("status");
-
+    
     if (!form) {
-      console.error("contactForm not found in DOM");
+      console.error("❌ ERROR: contactForm element not found!");
+      alert("Form not found on page!");
       return;
     }
-
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const firstName = document.getElementById("firstName").value.trim();
-      const lastName = document.getElementById("lastName").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const location = document.getElementById("location").value.trim();
-      const motivation = document.getElementById("motivation").value.trim();
-
-      // Walidacja
-      if (!firstName || !lastName || !phone || !email || !motivation) {
-        status.textContent = "Please fill in all required fields.";
-        status.style.color = "red";
-        return;
-      }
-
-      // Walidacja email
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        status.textContent = "Invalid email address.";
-        status.style.color = "red";
-        return;
-      }
-
-      // Walidacja telefonu (opcjonalnie)
-      if (phone.length < 9) {
-        status.textContent = "Phone number seems too short.";
-        status.style.color = "red";
-        return;
-      }
-
-      const contactData = {
-        firstName,
-        lastName,
-        phone,
-        email,
-        location,
-        motivation,
-        timestamp: new Date().toISOString(),
-        pageUrl: window.location.href
-      };
-
-      // Debug
-      console.log("Sending to Firebase:", contactData);
-      console.log("Database path:", database._databaseId.databaseURL);
-
-      // Wyślij do Firebase
-      const contactsRef = ref(database, "contacts");
-      push(contactsRef, contactData)
-        .then(() => {
-          status.textContent = "✅ Form successfully sent! We'll contact you soon.";
-          status.style.color = "lightgreen";
-          form.reset();
-          document.getElementById("location").value = "Amsterdam";
-          
-          // Ukryj komunikat po 5 sekundach
-          setTimeout(() => {
-            status.textContent = "";
-          }, 5000);
-        })
-        .catch((error) => {
-          console.error("Firebase error:", error);
-          status.textContent = "❌ Error sending form. Please try again or contact us directly.";
-          status.style.color = "red";
-        });
+    
+    console.log("✅ Form found:", form);
+    console.log("✅ Status element found:", status);
+    
+    // 3. TEST: Sprawdź czy przycisk działa
+    form.addEventListener("submit", function(e) {
+      console.log("🟡 SUBMIT BUTTON CLICKED!");
+      e.preventDefault(); // Zatrzymaj domyślne wysłanie
+      
+      // Natychmiastowy test
+      status.textContent = "TEST: Button works!";
+      status.style.color = "yellow";
+      status.style.backgroundColor = "black";
+      status.style.padding = "10px";
+      
+      console.log("🟢 Basic form submit works!");
+      
+      // Teraz dopiero inicjalizuj Firebase
+      initializeFirebase();
     });
   });
+
+  function initializeFirebase() {
+    console.log("🚀 Initializing Firebase...");
+    
+    try {
+      import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js")
+        .then(({ initializeApp }) => {
+          return import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js")
+            .then(({ getDatabase, ref, push }) => {
+              
+              const firebaseConfig = {
+                apiKey: "AIzaSyDgfdUzNY9DtpkG0eVMvjZzbcWRb16m8zA",
+                authDomain: "leadwise-contactform.firebaseapp.com",
+                projectId: "leadwise-contactform",
+                storageBucket: "leadwise-contactform.firebasestorage.app",
+                messagingSenderId: "351577577868",
+                appId: "1:351577577868:web:011d9d6e798d8f87d85ea9",
+                databaseURL: "https://leadwise-contactform-default-rtdb.firebaseio.com"
+              };
+              
+              const app = initializeApp(firebaseConfig);
+              const database = getDatabase(app);
+              
+              console.log("✅ Firebase initialized:", app.name);
+              
+              // Pobierz dane z formularza
+              const firstName = document.getElementById("firstName").value.trim();
+              const lastName = document.getElementById("lastName").value.trim();
+              const phone = document.getElementById("phone").value.trim();
+              const email = document.getElementById("email").value.trim();
+              const motivation = document.getElementById("motivation").value.trim();
+              
+              console.log("📊 Form data:", { firstName, lastName, phone, email, motivation });
+              
+              const contactData = {
+                firstName,
+                lastName,
+                phone,
+                email,
+                location: "Amsterdam",
+                motivation,
+                timestamp: new Date().toISOString(),
+                pageUrl: window.location.href
+              };
+              
+              // Wyślij do Firebase
+              const contactsRef = ref(database, "contacts");
+              
+              console.log("📤 Sending to Firebase...");
+              
+              push(contactsRef, contactData)
+                .then((result) => {
+                  console.log("✅ Data sent successfully!", result);
+                  document.getElementById("status").textContent = "✅ Form sent successfully!";
+                  document.getElementById("status").style.color = "green";
+                  document.getElementById("contactForm").reset();
+                  document.getElementById("location").value = "Amsterdam";
+                })
+                .catch((error) => {
+                  console.error("❌ Firebase error:", error);
+                  document.getElementById("status").textContent = "❌ Error: " + error.message;
+                  document.getElementById("status").style.color = "red";
+                });
+            });
+        })
+        .catch((error) => {
+          console.error("❌ Failed to load Firebase modules:", error);
+          document.getElementById("status").textContent = "❌ Failed to load Firebase";
+          document.getElementById("status").style.color = "red";
+        });
+        
+    } catch (error) {
+      console.error("❌ Error in initializeFirebase:", error);
+    }
+  }
 </script>
+
+  
 </body>
 </html>
+
 
 
 
