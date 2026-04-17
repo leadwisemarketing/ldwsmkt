@@ -2,205 +2,538 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LeadWise CRM — Isolatie Specialisten Brabant</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',-apple-system,sans-serif;background:#f5f3f0;color:#1a1a1a;min-height:100vh}
-input,button,textarea,select{font-family:inherit}
-#root{min-height:100vh}
-@media (max-width:640px){.hide-mobile{display:none} .row2{grid-template-columns:1fr!important}}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  background: #f5f3f0;
+  color: #1a1a1a;
+  min-height: 100vh;
+}
+
+input, button, textarea, select {
+  font-family: inherit;
+}
+
+/* Header */
+.header {
+  background: #1a1a1a;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 2px solid #2d5a27;
+}
+
+.header-content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  color: #4ade80;
+  font-size: 24px;
+}
+
+.logo-title {
+  color: #fff;
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.logo-sub {
+  color: #4ade80;
+  font-size: 10px;
+  font-family: monospace;
+  letter-spacing: 2px;
+}
+
+.nav {
+  display: flex;
+  gap: 4px;
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  color: #999;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.nav-btn.active {
+  background: #333;
+  color: #fff;
+}
+
+.action-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  background: #333;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.new-btn {
+  background: #2d5a27;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Main content */
+.main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px 20px 80px;
+}
+
+/* Cards */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px 24px;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* Status filters */
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+}
+
+/* Lead cards */
+.lead-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.lead-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.status-badge {
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+.lead-name {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.lead-address {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.lead-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lead-phone {
+  font-size: 13px;
+  color: #555;
+}
+
+.lead-price {
+  font-weight: 700;
+  font-family: monospace;
+  font-size: 15px;
+  color: #2d5a27;
+}
+
+/* Form */
+.form-container {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #e0ddd8;
+  border-radius: 10px;
+  font-size: 15px;
+  background: #faf9f7;
+  outline: none;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12;
+}
+
+/* Buttons */
+.btn-primary {
+  background: #2d5a27;
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: #fff;
+  border: 1.5px solid #ddd;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a1a;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 999;
+}
+
+/* Login */
+.login-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d5a27 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-box {
+  background: #fff;
+  border-radius: 24px;
+  padding: 32px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.login-input {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid #e0ddd8;
+  border-radius: 12px;
+  font-size: 16px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px;
+  max-width: 460px;
+  width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
 <body>
 <div id="root"></div>
-<script type="text/babel">
-const {useState,useEffect,useRef} = React;
 
-// ═══════════════════════════════════════════════════════════════
-// 📦 PRODUCTEN DATABASE
-// ═══════════════════════════════════════════════════════════════
-const PRODUCTEN={
-  spouw:[
-    {id:'eps_spouw',naam:'EPS parels',prijs:37.5,rd:1.76,dikte:'6 cm',type:'Inblaas',min:50},
-    {id:'ifoam',naam:'iFoam',prijs:37.5,rd:1.87,dikte:'6 cm',type:'Schuim',min:50},
-    {id:'insucore',naam:'Insucore (biobased)',prijs:47.5,rd:1.77,dikte:'6 cm',type:'Schuim',min:50}
+<script>
+// ================================================================
+// DATA
+// ================================================================
+const PRODUCTEN = {
+  spouw: [
+    { id: "eps_spouw", naam: "EPS parels", prijs: 37.5, rd: 1.76, dikte: "6 cm", type: "Inblaas", min: 50 },
+    { id: "ifoam", naam: "iFoam", prijs: 37.5, rd: 1.87, dikte: "6 cm", type: "Schuim", min: 50 },
+    { id: "insucore", naam: "Insucore (biobased)", prijs: 47.5, rd: 1.77, dikte: "6 cm", type: "Schuim", min: 50 }
   ],
-  vloer:[
-    {id:'purfect',naam:'PUR gesloten cel (Purfect)',prijs:55,rd:4.0,dikte:'10 cm',type:'Gesloten cel',min:35},
-    {id:'pif40',naam:'PIF 40 + folie',prijs:65,rd:3.5,dikte:'12 cm',type:'Reflectie folie',min:35}
+  vloer: [
+    { id: "purfect", naam: "PUR gesloten cel (Purfect)", prijs: 55, rd: 4.0, dikte: "10 cm", type: "Gesloten cel", min: 35 },
+    { id: "pif40", naam: "PIF 40 + folie", prijs: 65, rd: 3.5, dikte: "12 cm", type: "Reflectie folie", min: 35 }
   ],
-  dak:[
-    {id:'pcc',naam:'PCC open cell schuim',prijs:65,rd:4.0,dikte:'14 cm',type:'Open cell',min:35},
-    {id:'easycell',naam:'Easycell biobased',prijs:65,rd:5.0,dikte:'14 cm',type:'Biobased injectie',min:35},
-    {id:'isovlas',naam:'Isovlas + folie',prijs:100,rd:3.67,dikte:'12 cm',type:'Biobased',min:35}
+  dak: [
+    { id: "pcc", naam: "PCC open cell schuim", prijs: 65, rd: 4.0, dikte: "14 cm", type: "Open cell", min: 35 },
+    { id: "easycell", naam: "Easycell biobased", prijs: 65, rd: 5.0, dikte: "14 cm", type: "Biobased injectie", min: 35 },
+    { id: "isovlas", naam: "Isovlas + folie", prijs: 100, rd: 3.67, dikte: "12 cm", type: "Biobased", min: 35 }
   ],
-  bodem:[
-    {id:'eps_bodem',naam:'EPS parels',prijs:42.5,rd:4.92,dikte:'20 cm',type:'Losse isolatie',min:35}
+  bodem: [
+    { id: "eps_bodem", naam: "EPS parels", prijs: 42.5, rd: 4.92, dikte: "20 cm", type: "Losse isolatie", min: 35 }
   ],
-  overig:[
-    {id:'gevel',naam:'Gevel impregneren',prijs:30,rd:null,dikte:'-',type:'Impregnatie',min:0}
+  overig: [
+    { id: "gevel", naam: "Gevel impregneren", prijs: 30, rd: null, dikte: "-", type: "Impregnatie", min: 0 }
   ]
 };
 
-const MEERWERK=[
-  {id:'edna',naam:'Edna onderzoek',prijs:500,e:'stuk'},
-  {id:'natuurlijk',naam:'Natuurlijk vriendelijk isoleren',prijs:500,e:'stuk'},
-  {id:'dakombouw',naam:'Dakombouw',prijs:260,e:'stuk'},
-  {id:'dakdoorvoer',naam:'Dakdoorvoer',prijs:70,e:'stuk'},
-  {id:'klimaatfolie',naam:'Klimaatfolie',prijs:25,e:'stuk'},
-  {id:'verw_opr',naam:'Isolatie verwijderen (opruimen)',prijs:170,e:'m²'},
-  {id:'verw_uitz',naam:'Isolatie verwijderen (uitzuigen)',prijs:195,e:'m²'},
-  {id:'hoogwerker',naam:'Hoogwerker',prijs:550,e:'stuk'},
-  {id:'stijger',naam:'Stijger',prijs:550,e:'stuk'},
-  {id:'afwerking',naam:'Afwerking',prijs:180,e:'m²'},
-  {id:'isovlas_afw',naam:'Isovlas + afwerking',prijs:260,e:'m²'},
-  {id:'koof',naam:'Koof',prijs:200,e:'stuk'},
-  {id:'knieschot',naam:'Knieschot',prijs:100,e:'stuk'},
-  {id:'folie',naam:'Folie',prijs:22,e:'stuk'},
-  {id:'mangat',naam:'Mangat',prijs:300,e:'stuk'}
+const MEERWERK = [
+  { id: "edna", naam: "Edna onderzoek", prijs: 500, e: "stuk" },
+  { id: "natuurlijk", naam: "Natuurlijk vriendelijk isoleren", prijs: 500, e: "stuk" },
+  { id: "dakombouw", naam: "Dakombouw", prijs: 260, e: "stuk" },
+  { id: "dakdoorvoer", naam: "Dakdoorvoer", prijs: 70, e: "stuk" },
+  { id: "klimaatfolie", naam: "Klimaatfolie", prijs: 25, e: "stuk" },
+  { id: "verw_opr", naam: "Isolatie verwijderen (opruimen)", prijs: 170, e: "m²" },
+  { id: "verw_uitz", naam: "Isolatie verwijderen (uitzuigen)", prijs: 195, e: "m²" },
+  { id: "hoogwerker", naam: "Hoogwerker", prijs: 550, e: "stuk" },
+  { id: "stijger", naam: "Stijger", prijs: 550, e: "stuk" },
+  { id: "afwerking", naam: "Afwerking", prijs: 180, e: "m²" },
+  { id: "isovlas_afw", naam: "Isovlas + afwerking", prijs: 260, e: "m²" },
+  { id: "koof", naam: "Koof", prijs: 200, e: "stuk" },
+  { id: "knieschot", naam: "Knieschot", prijs: 100, e: "stuk" },
+  { id: "folie", naam: "Folie", prijs: 22, e: "stuk" },
+  { id: "mangat", naam: "Mangat", prijs: 300, e: "stuk" }
 ];
 
 const ISDE = {
-  spouw_1:5.25, spouw_2:10.5,
-  vloer_1:5.5, vloer_2:11,
-  dak_1:16.25, dak_2:32.5,
-  bodem_1:3, bodem_2:6
+  spouw_1: 5.25, spouw_2: 10.5,
+  vloer_1: 5.5, vloer_2: 11,
+  dak_1: 16.25, dak_2: 32.5,
+  bodem_1: 3, bodem_2: 6
 };
 
-const BTW_F = 1.13;
-const APP_NAME = 'LeadWise CRM';
-const APP_VERSION = '4.0';
+const BTW = 1.13;
+const STORAGE_KEY = "leadwise_crm_data";
+const DEFAULT_PIN = "1234";
 
 const STATUS = {
-  nieuw:{label:"Nieuw",color:"#3b82f6",icon:"●",order:0},
-  terugbellen:{label:"Terugbellen",color:"#f59e0b",icon:"📞",order:1},
-  getekend:{label:"Getekend",color:"#8b5cf6",icon:"✓",order:2},
-  in_uitvoering:{label:"In uitvoering",color:"#10b981",icon:"⚡",order:3},
-  afgewezen:{label:"Afgewezen",color:"#ef4444",icon:"✕",order:4}
+  nieuw: { label: "Nieuw", color: "#3b82f6", icon: "●" },
+  terugbellen: { label: "Terugbellen", color: "#f59e0b", icon: "📞" },
+  getekend: { label: "Getekend", color: "#8b5cf6", icon: "✓" },
+  in_uitvoering: { label: "In uitvoering", color: "#10b981", icon: "⚡" },
+  afgewezen: { label: "Afgewezen", color: "#ef4444", icon: "✕" }
 };
 
-// ═══════════════════════════════════════════════════════════════
-// 🔧 HELPERS
-// ═══════════════════════════════════════════════════════════════
-const fp = v => {
+// ================================================================
+// HELPERS
+// ================================================================
+function formatPrice(v) {
   const n = parseFloat(v);
-  return isNaN(n) ? '–' : '€' + n.toLocaleString('nl-NL', {minimumFractionDigits:2, maximumFractionDigits:2});
-};
-
-const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
-const tdy = () => new Date().toISOString().slice(0,10);
-
-const findProduct = id => {
-  for(const cat of Object.values(PRODUCTEN)) {
-    const p = cat.find(x => x.id === id);
-    if(p) return p;
-  }
-  return null;
-};
-
-const emptyLead = () => ({
-  id: uid(),
-  naam: '',
-  straat: '',
-  postcode: '',
-  woonplaats: '',
-  telefoon: '',
-  email: '',
-  offerteDatum: tdy(),
-  typeWoning: '',
-  vloeroppervlakte: '',
-  wozVoldoet: false,
-  energielabelVoldoet: false,
-  offerteItems: [],
-  meerwerkItems: [],
-  gemeentelijkeSubsidie: '',
-  isdeMultiple: false,
-  totaalExBTW: '0',
-  totaalInclBTW: '0',
-  isdeSubsidie: '0',
-  totaalSubsidie: '0',
-  eigenBijdrage: '0',
-  fotos: [],
-  status: 'nieuw',
-  terugbelDatum: '',
-  terugbelTijd: '',
-  opmerkingen: '',
-  verkoper: '',
-  verkoperTelefoon: '',
-  aangemaakt: new Date().toISOString(),
-  gewijzigd: new Date().toISOString()
-});
-
-// ═══════════════════════════════════════════════════════════════
-# 🧮 BEREKENINGEN
-// ═══════════════════════════════════════════════════════════════
-function recalc(lead) {
-  let totaal = 0;
-  
-  // Offerte items
-  lead.offerteItems.forEach(item => {
-    const m2 = parseFloat(item.m2) || 0;
-    const prijs = parseFloat(item.prijsPerM2) || 0;
-    item.totaal = m2 * prijs;
-    totaal += item.totaal;
-  });
-  
-  // Meerwerk items
-  lead.meerwerkItems.forEach(item => {
-    const aantal = parseFloat(item.aantal) || 0;
-    const prijs = parseFloat(item.prijsPer) || 0;
-    item.totaal = aantal * prijs;
-    totaal += item.totaal;
-  });
-  
-  lead.totaalExBTW = totaal.toFixed(2);
-  lead.totaalInclBTW = (totaal * BTW_F).toFixed(2);
-  
-  // ISDE subsidie berekening
-  let isdeTotaal = 0;
-  const uniqueCategories = new Set(lead.offerteItems.filter(i => i.productId !== 'gevel').map(i => i.categorie));
-  const heeftMeerdere = uniqueCategories.size >= 2 || lead.isdeMultiple;
-  
-  lead.offerteItems.forEach(item => {
-    const m2 = parseFloat(item.m2) || 0;
-    let key = '';
-    if(item.categorie === 'spouw') key = heeftMeerdere ? 'spouw_2' : 'spouw_1';
-    else if(item.categorie === 'vloer') key = heeftMeerdere ? 'vloer_2' : 'vloer_1';
-    else if(item.categorie === 'dak') key = heeftMeerdere ? 'dak_2' : 'dak_1';
-    else if(item.categorie === 'bodem') key = heeftMeerdere ? 'bodem_2' : 'bodem_1';
-    
-    if(key && ISDE[key]) isdeTotaal += m2 * ISDE[key];
-  });
-  
-  lead.isdeSubsidie = isdeTotaal.toFixed(2);
-  const gemeente = parseFloat(lead.gemeentelijkeSubsidie) || 0;
-  lead.totaalSubsidie = (isdeTotaal + gemeente).toFixed(2);
-  lead.eigenBijdrage = (parseFloat(lead.totaalInclBTW) - parseFloat(lead.totaalSubsidie)).toFixed(2);
-  lead.gewijzigd = new Date().toISOString();
-  
-  return {...lead};
+  return isNaN(n) ? "–" : "€" + n.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-// ═══════════════════════════════════════════════════════════════
-# 💾 STORAGE (localStorage)
-// ═══════════════════════════════════════════════════════════════
-const STORAGE_KEY = 'leadwise_crm_data';
-const API_KEY_STORAGE = 'leadwise_claude_api_key';
-const PIN_STORAGE = 'leadwise_crm_pin';
-const DEFAULT_PIN = '1234'; // Verander dit naar eigen wens!
+function generateId() {
+  return Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+}
 
+function getToday() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function findProduct(id) {
+  for (const cat of Object.values(PRODUCTEN)) {
+    const p = cat.find(x => x.id === id);
+    if (p) return p;
+  }
+  return null;
+}
+
+function findMeerwerk(id) {
+  return MEERWERK.find(m => m.id === id);
+}
+
+function emptyLead() {
+  return {
+    id: generateId(),
+    naam: "",
+    straat: "",
+    postcode: "",
+    woonplaats: "",
+    telefoon: "",
+    email: "",
+    offerteDatum: getToday(),
+    typeWoning: "",
+    vloeroppervlakte: "",
+    wozVoldoet: false,
+    energielabelVoldoet: false,
+    offerteItems: [],
+    meerwerkItems: [],
+    gemeentelijkeSubsidie: "",
+    isdeMultiple: false,
+    totaalExBTW: "0",
+    totaalInclBTW: "0",
+    isdeSubsidie: "0",
+    totaalSubsidie: "0",
+    eigenBijdrage: "0",
+    fotos: [],
+    status: "nieuw",
+    terugbelDatum: "",
+    terugbelTijd: "",
+    opmerkingen: "",
+    verkoper: "",
+    verkoperTelefoon: "",
+    aangemaakt: new Date().toISOString()
+  };
+}
+
+function recalc(lead) {
+  let total = 0;
+  
+  lead.offerteItems.forEach(item => {
+    const m2 = parseFloat(item.m2) || 0;
+    const price = parseFloat(item.prijsPerM2) || 0;
+    item.totaal = m2 * price;
+    total += item.totaal;
+  });
+  
+  lead.meerwerkItems.forEach(item => {
+    const aantal = parseFloat(item.aantal) || 0;
+    const price = parseFloat(item.prijsPer) || 0;
+    item.totaal = aantal * price;
+    total += item.totaal;
+  });
+  
+  lead.totaalExBTW = total.toFixed(2);
+  lead.totaalInclBTW = (total * BTW).toFixed(2);
+  
+  let isdeTotal = 0;
+  const uniqueCats = new Set(lead.offerteItems.filter(i => i.productId !== "gevel").map(i => i.categorie));
+  const hasMultiple = uniqueCats.size >= 2 || lead.isdeMultiple;
+  
+  lead.offerteItems.forEach(item => {
+    const m2 = parseFloat(item.m2) || 0;
+    let key = "";
+    if (item.categorie === "spouw") key = hasMultiple ? "spouw_2" : "spouw_1";
+    else if (item.categorie === "vloer") key = hasMultiple ? "vloer_2" : "vloer_1";
+    else if (item.categorie === "dak") key = hasMultiple ? "dak_2" : "dak_1";
+    else if (item.categorie === "bodem") key = hasMultiple ? "bodem_2" : "bodem_1";
+    
+    if (key && ISDE[key]) isdeTotal += m2 * ISDE[key];
+  });
+  
+  lead.isdeSubsidie = isdeTotal.toFixed(2);
+  const gemeente = parseFloat(lead.gemeentelijkeSubsidie) || 0;
+  lead.totaalSubsidie = (isdeTotal + gemeente).toFixed(2);
+  lead.eigenBijdrage = (parseFloat(lead.totaalInclBTW) - parseFloat(lead.totaalSubsidie)).toFixed(2);
+  
+  return { ...lead };
+}
+
+// ================================================================
+// STORAGE
+// ================================================================
 function loadLeads() {
   try {
     const data = localStorage.getItem(STORAGE_KEY);
     return data ? JSON.parse(data) : [];
-  } catch(e) {
-    console.error('Load error:', e);
+  } catch (e) {
+    console.error("Load error:", e);
     return [];
   }
 }
@@ -209,621 +542,307 @@ function saveLeads(leads) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(leads));
     return true;
-  } catch(e) {
-    console.error('Save error:', e);
+  } catch (e) {
+    console.error("Save error:", e);
     return false;
   }
 }
 
-function getApiKey() {
-  return localStorage.getItem(API_KEY_STORAGE) || '';
-}
+// ================================================================
+// REACT COMPONENTS
+// ================================================================
+const { useState, useEffect, useRef } = React;
 
-function setApiKey(key) {
-  localStorage.setItem(API_KEY_STORAGE, key);
-}
-
-function isAuthenticated() {
-  const savedPin = localStorage.getItem(PIN_STORAGE);
-  if(!savedPin) return false;
-  return true;
-}
-
-function authenticate(pin) {
-  if(pin === DEFAULT_PIN) {
-    localStorage.setItem(PIN_STORAGE, 'true');
-    return true;
-  }
-  return false;
-}
-
-function logout() {
-  localStorage.removeItem(PIN_STORAGE);
-}
-
-// ═══════════════════════════════════════════════════════════════
-# 📸 IMAGE COMPRESSION
-// ═══════════════════════════════════════════════════════════════
-function compressImage(dataUrl, maxSize = 800) {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      let width = img.width;
-      let height = img.height;
-      
-      if(width > height && width > maxSize) {
-        height = (height * maxSize) / width;
-        width = maxSize;
-      } else if(height > maxSize) {
-        width = (width * maxSize) / height;
-        height = maxSize;
-      }
-      
-      canvas.width = width;
-      canvas.height = height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, width, height);
-      resolve(canvas.toDataURL('image/jpeg', 0.6));
-    };
-    img.src = dataUrl;
-  });
-}
-
-// ═══════════════════════════════════════════════════════════════
-# 🎯 PRODUCT MAPPING (voor AI scan)
-// ═══════════════════════════════════════════════════════════════
-function mapProductToId(categorie, productNaam) {
-  if(!productNaam) return PRODUCTEN[categorie]?.[0]?.id || null;
-  
-  const naam = productNaam.toLowerCase();
-  const mapping = {
-    spouw: { eps: 'eps_spouw', ifoam: 'ifoam', insucore: 'insucore', parel: 'eps_spouw' },
-    vloer: { pur: 'purfect', purfect: 'purfect', pif: 'pif40', folie: 'pif40' },
-    dak: { pcc: 'pcc', easycell: 'easycell', isovlas: 'isovlas', open: 'pcc' },
-    bodem: { eps: 'eps_bodem', parel: 'eps_bodem' }
-  };
-  
-  if(mapping[categorie]) {
-    for(const [key, id] of Object.entries(mapping[categorie])) {
-      if(naam.includes(key)) return id;
-    }
-  }
-  
-  return PRODUCTEN[categorie]?.[0]?.id || null;
-}
-
-// ═══════════════════════════════════════════════════════════════
-# 🏠 MAIN APP COMPONENT
-// ═══════════════════════════════════════════════════════════════
 function App() {
   const [leads, setLeads] = useState([]);
-  const [view, setView] = useState('dashboard');
+  const [view, setView] = useState("dashboard");
   const [editLead, setEditLead] = useState(null);
   const [selectedLead, setSelectedLead] = useState(null);
-  const [filter, setFilter] = useState('alle');
-  const [search, setSearch] = useState('');
-  const [tab, setTab] = useState('klant');
-  const [loaded, setLoaded] = useState(false);
-  const [isScanning, setIsScanning] = useState(false);
-  const [showApiModal, setShowApiModal] = useState(false);
-  const [apiKeyInput, setApiKeyInput] = useState('');
-  const [toast, setToast] = useState('');
-  const [showLogin, setShowLogin] = useState(!isAuthenticated());
-  const [pinInput, setPinInput] = useState('');
-  const [loginError, setLoginError] = useState('');
+  const [filter, setFilter] = useState("alle");
+  const [search, setSearch] = useState("");
+  const [tab, setTab] = useState("klant");
+  const [toast, setToast] = useState("");
+  const [showLogin, setShowLogin] = useState(true);
+  const [pinInput, setPinInput] = useState("");
+  const [loginError, setLoginError] = useState("");
   
-  const scanRef = useRef(null);
-  const photoRef = useRef(null);
-  const importRef = useRef(null);
-
-  // Load data on mount
   useEffect(() => {
-    if(isAuthenticated()) {
+    // Check if already logged in
+    const loggedIn = localStorage.getItem("leadwise_logged_in");
+    if (loggedIn === "true") {
+      setShowLogin(false);
       setLeads(loadLeads());
     }
-    setLoaded(true);
   }, []);
   
-  // Save data when changed
   useEffect(() => {
-    if(loaded && isAuthenticated()) {
+    if (!showLogin) {
       saveLeads(leads);
     }
-  }, [leads, loaded]);
-
-  const showToast = (msg, isError = false) => {
+  }, [leads, showLogin]);
+  
+  const showToast = (msg) => {
     setToast(msg);
-    setTimeout(() => setToast(''), 3000);
+    setTimeout(() => setToast(""), 3000);
   };
-
+  
   const handleLogin = () => {
-    if(authenticate(pinInput)) {
+    if (pinInput === DEFAULT_PIN) {
+      localStorage.setItem("leadwise_logged_in", "true");
       setShowLogin(false);
-      setLoginError('');
+      setLoginError("");
       setLeads(loadLeads());
-      showToast('✅ Ingelogd!');
+      showToast("✅ Ingelogd!");
     } else {
-      setLoginError('Ongeldige pincode');
+      setLoginError("Ongeldige pincode");
     }
   };
-
+  
   const handleLogout = () => {
-    logout();
+    localStorage.removeItem("leadwise_logged_in");
     setShowLogin(true);
     setLeads([]);
-    setView('dashboard');
-    showToast('🔒 Uitgelogd');
+    setView("dashboard");
+    showToast("🔒 Uitgelogd");
   };
-
+  
   const saveLead = (lead) => {
     const updated = recalc(lead);
     setLeads(prev => {
       const index = prev.findIndex(l => l.id === updated.id);
-      if(index >= 0) {
+      if (index >= 0) {
         const newLeads = [...prev];
         newLeads[index] = updated;
         return newLeads;
       }
       return [updated, ...prev];
     });
-    setView('list');
-    showToast('✅ Lead opgeslagen!');
+    setView("list");
+    showToast("✅ Lead opgeslagen!");
   };
-
+  
   const deleteLead = (id) => {
-    if(confirm('Weet je zeker dat je deze lead wilt verwijderen?')) {
+    if (confirm("Weet je zeker dat je deze lead wilt verwijderen?")) {
       setLeads(prev => prev.filter(l => l.id !== id));
-      if(selectedLead?.id === id) setSelectedLead(null);
-      showToast('🗑️ Lead verwijderd');
+      showToast("🗑️ Lead verwijderd");
     }
   };
-
+  
   const updateStatus = (lead, newStatus) => {
-    const updated = {...lead, status: newStatus};
-    if(newStatus !== 'terugbellen') {
-      updated.terugbelDatum = '';
-      updated.terugbelTijd = '';
+    const updated = { ...lead, status: newStatus };
+    if (newStatus !== "terugbellen") {
+      updated.terugbelDatum = "";
+      updated.terugbelTijd = "";
     }
     setLeads(prev => prev.map(l => l.id === updated.id ? updated : l));
     setSelectedLead(updated);
     showToast(`Status gewijzigd naar ${STATUS[newStatus].label}`);
   };
-
+  
   const exportData = () => {
-    const exportObj = {
-      app: APP_NAME,
-      version: APP_VERSION,
-      exportDate: new Date().toISOString(),
-      leads: leads
-    };
-    const blob = new Blob([JSON.stringify(exportObj, null, 2)], {type: 'application/json'});
+    const blob = new Blob([JSON.stringify({ leads, exportDate: new Date().toISOString() }, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = `leadwise-crm-backup-${tdy()}.json`;
-    document.body.appendChild(a);
+    a.download = `leadwise-backup-${getToday()}.json`;
     a.click();
-    document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    showToast('📥 Backup gedownload!');
+    showToast("📥 Backup gedownload!");
   };
-
+  
   const importData = (e) => {
     const file = e.target.files[0];
-    if(!file) return;
+    if (!file) return;
     
     const reader = new FileReader();
     reader.onload = (ev) => {
       try {
         const data = JSON.parse(ev.target.result);
-        let importedLeads = null;
-        
-        if(data.app === APP_NAME && data.leads) {
-          importedLeads = data.leads;
-        } else if(Array.isArray(data)) {
-          importedLeads = data;
+        const importedLeads = data.leads || data;
+        if (Array.isArray(importedLeads)) {
+          setLeads(prev => {
+            const merged = [...prev];
+            importedLeads.forEach(lead => {
+              if (!lead.id) lead.id = generateId();
+              const existingIndex = merged.findIndex(l => l.id === lead.id);
+              if (existingIndex >= 0) {
+                merged[existingIndex] = lead;
+              } else {
+                merged.push(lead);
+              }
+            });
+            return merged;
+          });
+          showToast(`📤 ${importedLeads.length} leads geïmporteerd!`);
+        } else {
+          throw new Error("Invalid format");
         }
-        
-        if(!importedLeads) throw new Error('Invalid format');
-        
-        const merged = [...leads];
-        importedLeads.forEach(lead => {
-          if(!lead.id) lead.id = uid();
-          const existingIndex = merged.findIndex(l => l.id === lead.id);
-          if(existingIndex >= 0) {
-            merged[existingIndex] = lead;
-          } else {
-            merged.push(lead);
-          }
-        });
-        
-        setLeads(merged);
-        showToast(`📤 ${importedLeads.length} leads geïmporteerd!`);
-      } catch(err) {
-        showToast('❌ Ongeldig backup bestand', true);
+      } catch (err) {
+        showToast("❌ Ongeldig bestand");
       }
     };
     reader.readAsText(file);
-    e.target.value = '';
+    e.target.value = "";
   };
-
-  const handleScan = async (e) => {
-    const file = e.target.files?.[0];
-    if(!file || !editLead) {
-      showToast('⚠️ Open eerst een lead om te scannen', true);
-      e.target.value = '';
-      return;
-    }
-    
-    let apiKey = getApiKey();
-    if(!apiKey) {
-      setShowApiModal(true);
-      e.target.value = '';
-      return;
-    }
-    
-    setIsScanning(true);
-    
-    try {
-      // Read file as base64
-      const base64 = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result.split(',')[1]);
-        reader.readAsDataURL(file);
-      });
-      
-      // Compress image
-      const compressed = await compressImage(`data:${file.type || 'image/jpeg'};base64,${base64}`);
-      
-      // Call Claude API
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true'
-        },
-        body: JSON.stringify({
-          model: 'claude-3-sonnet-20240229',
-          max_tokens: 2000,
-          messages: [{
-            role: 'user',
-            content: [
-              {
-                type: 'image',
-                source: {
-                  type: 'base64',
-                  media_type: file.type || 'image/jpeg',
-                  data: base64
-                }
-              },
-              {
-                type: 'text',
-                text: `Extraheer uit deze isolatie offerte ALLEEN JSON, geen uitleg. Format:
-                {
-                  "naam": "klantnaam",
-                  "straat": "straat + huisnummer",
-                  "postcode": "1234AB",
-                  "woonplaats": "plaats",
-                  "telefoon": "nummer",
-                  "email": "email@example.com",
-                  "offerteDatum": "YYYY-MM-DD",
-                  "typeWoning": "Vrijstaand/Hoekwoning/etc",
-                  "vloeroppervlakte": "50",
-                  "producten": [{"categorie": "spouw/vloer/dak/bodem", "productNaam": "EPS parels", "m2": "75", "prijsPerM2": "37.5"}],
-                  "opmerkingen": "eventuele notities",
-                  "verkoper": "naam verkoper"
-                }
-                Gebruik alleen cijfers voor getallen, datum in YYYY-MM-DD.`
-              }
-            ]
-          }]
-        })
-      });
-      
-      if(!response.ok) {
-        if(response.status === 401) {
-          setApiKey('');
-          setShowApiModal(true);
-          showToast('❌ API Key ongeldig', true);
-        } else {
-          showToast(`❌ API Error: ${response.status}`, true);
-        }
-        setIsScanning(false);
-        e.target.value = '';
-        return;
-      }
-      
-      const data = await response.json();
-      const text = data.content?.[0]?.text || '';
-      const jsonMatch = text.match(/\{[\s\S]*\}/);
-      
-      if(!jsonMatch) throw new Error('Geen JSON gevonden');
-      
-      const parsed = JSON.parse(jsonMatch[0]);
-      const updated = {...editLead, fotos: [...(editLead.fotos || []), compressed]};
-      
-      // Map fields
-      const fieldMap = ['naam', 'straat', 'postcode', 'woonplaats', 'telefoon', 'email', 'offerteDatum', 'typeWoning', 'vloeroppervlakte', 'opmerkingen', 'verkoper'];
-      fieldMap.forEach(field => {
-        if(parsed[field]) updated[field] = parsed[field];
-      });
-      
-      if(parsed.producten?.length) {
-        updated.offerteItems = parsed.producten.map(p => {
-          const productId = mapProductToId(p.categorie, p.productNaam);
-          const product = findProduct(productId);
-          return {
-            categorie: p.categorie,
-            productId: productId,
-            m2: p.m2 || '',
-            prijsPerM2: p.prijsPerM2 || (product ? product.prijs : 0),
-            totaal: 0
-          };
-        }).filter(i => i.productId);
-      }
-      
-      const uniqueCats = new Set(updated.offerteItems.map(i => i.categorie));
-      if(uniqueCats.size >= 2) updated.isdeMultiple = true;
-      
-      setEditLead(recalc(updated));
-      showToast('✅ Offerte gescand! Controleer de gegevens.');
-    } catch(err) {
-      console.error('Scan error:', err);
-      showToast('❌ Scan mislukt: ' + err.message, true);
-    }
-    
-    setIsScanning(false);
-    e.target.value = '';
-  };
-
-  const handlePhotos = async (e) => {
-    if(!editLead) return;
-    
-    const files = Array.from(e.target.files);
-    const compressed = await Promise.all(
-      files.map(file => new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = async (ev) => resolve(await compressImage(ev.target.result));
-        reader.readAsDataURL(file);
-      }))
-    );
-    
-    setEditLead(prev => ({
-      ...prev,
-      fotos: [...(prev.fotos || []), ...compressed]
-    }));
-    e.target.value = '';
-    showToast(`📸 ${compressed.length} foto('s) toegevoegd`);
-  };
-
-  // Filter leads
+  
   const filteredLeads = leads.filter(lead => {
-    if(filter !== 'alle' && lead.status !== filter) return false;
-    if(search) {
+    if (filter !== "alle" && lead.status !== filter) return false;
+    if (search) {
       const searchLower = search.toLowerCase();
       return [lead.naam, lead.straat, lead.woonplaats, lead.telefoon, lead.email].some(
-        f => (f || '').toLowerCase().includes(searchLower)
+        f => (f || "").toLowerCase().includes(searchLower)
       );
     }
     return true;
   });
-
+  
   // Login screen
-  if(showLogin) {
+  if (showLogin) {
     return (
-      <div style={{minHeight:'100vh', background:'linear-gradient(135deg, #1a1a1a 0%, #2d5a27 100%)', display:'flex', alignItems:'center', justifyContent:'center', padding:20}}>
-        <div style={{background:'#fff', borderRadius:24, padding:32, maxWidth:400, width:'100%', textAlign:'center'}}>
-          <div style={{fontSize:48, marginBottom:16}}>◆</div>
-          <h1 style={{fontSize:24, marginBottom:8, color:'#1a1a1a'}}>{APP_NAME}</h1>
-          <p style={{color:'#666', marginBottom:24}}>Isolatie CRM — Brabant</p>
+      <div className="login-container">
+        <div className="login-box">
+          <div style={{ fontSize: 48, marginBottom: 16 }}>◆</div>
+          <h1 style={{ fontSize: 24, marginBottom: 8 }}>LeadWise CRM</h1>
+          <p style={{ color: "#666", marginBottom: 24 }}>Isolatie CRM — Brabant</p>
           <input
             type="password"
+            className="login-input"
             placeholder="Voer pincode in"
-            style={{width:'100%', padding:14, border:'2px solid #e0ddd8', borderRadius:12, fontSize:16, marginBottom:16, textAlign:'center'}}
             value={pinInput}
             onChange={e => setPinInput(e.target.value)}
-            onKeyPress={e => e.key === 'Enter' && handleLogin()}
+            onKeyPress={e => e.key === "Enter" && handleLogin()}
             autoFocus
           />
-          {loginError && <p style={{color:'#ef4444', fontSize:14, marginBottom:16}}>{loginError}</p>}
-          <button onClick={handleLogin} style={{width:'100%', padding:14, background:'#2d5a27', color:'#fff', border:'none', borderRadius:12, fontSize:16, fontWeight:600, cursor:'pointer'}}>
+          {loginError && <p style={{ color: "#ef4444", fontSize: 14, marginBottom: 16 }}>{loginError}</p>}
+          <button className="btn-primary" style={{ width: "100%" }} onClick={handleLogin}>
             Inloggen
           </button>
-          <p style={{fontSize:12, color:'#999', marginTop:20}}>Demo pincode: 1234</p>
+          <p style={{ fontSize: 12, color: "#999", marginTop: 20 }}>Demo pincode: 1234</p>
         </div>
       </div>
     );
   }
-
+  
   // Main app
   return (
-    <div style={{fontFamily:"'DM Sans',sans-serif", background:'#f5f3f0', minHeight:'100vh', color:'#1a1a1a'}}>
-      {/* Hidden file inputs */}
-      <input type="file" ref={importRef} accept=".json" onChange={importData} style={{display:'none'}}/>
-      <input type="file" ref={scanRef} accept="image/*" capture="environment" onChange={handleScan} style={{display:'none'}}/>
-      <input type="file" ref={photoRef} accept="image/*" multiple onChange={handlePhotos} style={{display:'none'}}/>
-
-      {/* API Key Modal */}
-      {showApiModal && (
-        <div style={{position:'fixed', inset:0, background:'rgba(0,0,0,0.5)', zIndex:300, display:'flex', alignItems:'center', justifyContent:'center', padding:20}}>
-          <div style={{background:'#fff', borderRadius:20, padding:28, maxWidth:460, width:'100%'}}>
-            <div style={{fontSize:20, fontWeight:700, marginBottom:8}}>🔑 Claude API Key</div>
-            <p style={{fontSize:14, color:'#666', marginBottom:16}}>
-              Voor AI scan functionaliteit. Ga naar <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noreferrer">console.anthropic.com</a> voor een key.
-            </p>
-            <input
-              style={{width:'100%', padding:14, border:'2px solid #e0ddd8', borderRadius:12, fontSize:14, fontFamily:'monospace', marginBottom:16}}
-              type="password"
-              placeholder="sk-ant-api03-..."
-              value={apiKeyInput}
-              onChange={e => setApiKeyInput(e.target.value)}
-            />
-            <div style={{display:'flex', gap:12}}>
-              <button style={{flex:1, padding:12, borderRadius:10, border:'1.5px solid #ddd', background:'#fff', fontSize:14, fontWeight:600, cursor:'pointer'}} onClick={() => setShowApiModal(false)}>
-                Annuleren
-              </button>
-              <button style={{flex:2, padding:12, borderRadius:10, border:'none', background:'#2d5a27', color:'#fff', fontSize:14, fontWeight:700, cursor:'pointer'}} onClick={() => {
-                if(!apiKeyInput.startsWith('sk-')) {
-                  showToast('❌ Ongeldige API key', true);
-                  return;
-                }
-                setApiKey(apiKeyInput);
-                setShowApiModal(false);
-                showToast('✅ API key opgeslagen!');
-              }}>
-                Opslaan
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Toast notification */}
-      {toast && (
-        <div style={{position:'fixed', bottom:24, left:'50%', transform:'translateX(-50%)', background:'#1a1a1a', color:'#fff', padding:'12px 24px', borderRadius:12, fontSize:14, fontWeight:600, zIndex:999, boxShadow:'0 4px 20px rgba(0,0,0,0.3)'}}>
-          {toast}
-        </div>
-      )}
-
-      {/* Header */}
-      <header style={{background:'#1a1a1a', position:'sticky', top:0, zIndex:100, borderBottom:'2px solid #2d5a27'}}>
-        <div style={{maxWidth:960, margin:'0 auto', padding:'12px 20px', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:12}}>
-          <div style={{display:'flex', alignItems:'center', gap:10}}>
-            <span style={{color:'#4ade80', fontSize:24}}>◆</span>
+    <div>
+      {toast && <div className="toast">{toast}</div>}
+      
+      <div className="header">
+        <div className="header-content">
+          <div className="logo">
+            <span className="logo-icon">◆</span>
             <div>
-              <div style={{color:'#fff', fontWeight:700, fontSize:17}}>{APP_NAME}</div>
-              <div style={{color:'#4ade80', fontSize:10, fontFamily:'monospace', letterSpacing:2}}>BRABANT</div>
+              <div className="logo-title">LeadWise CRM</div>
+              <div className="logo-sub">BRABANT</div>
             </div>
           </div>
           
-          <nav style={{display:'flex', gap:4}}>
-            {[
-              ['dashboard', '◫ Dashboard'],
-              ['list', '☰ Leads'],
-              ['agenda', '📅 Agenda']
-            ].map(([key, label]) => (
-              <button key={key} onClick={() => setView(key)} style={{
-                background: view === key ? '#333' : 'transparent',
-                border: 'none',
-                color: view === key ? '#fff' : '#999',
-                padding: '8px 14px',
-                borderRadius: 8,
-                cursor: 'pointer',
-                fontSize: 14,
-                fontWeight: 500
-              }}>
-                {label}
-              </button>
-            ))}
-          </nav>
+          <div className="nav">
+            <button className={`nav-btn ${view === "dashboard" ? "active" : ""}`} onClick={() => setView("dashboard")}>
+              ◫ Dashboard
+            </button>
+            <button className={`nav-btn ${view === "list" ? "active" : ""}`} onClick={() => setView("list")}>
+              ☰ Leads
+            </button>
+            <button className={`nav-btn ${view === "agenda" ? "active" : ""}`} onClick={() => setView("agenda")}>
+              📅 Agenda
+            </button>
+          </div>
           
-          <div style={{display:'flex', gap:8}}>
-            <button onClick={exportData} style={{background:'#333', border:'none', borderRadius:10, padding:'10px 14px', fontSize:18, cursor:'pointer'}} title="Export">📥</button>
-            <button onClick={() => importRef.current?.click()} style={{background:'#333', border:'none', borderRadius:10, padding:'10px 14px', fontSize:18, cursor:'pointer'}} title="Import">📤</button>
-            <button onClick={handleLogout} style={{background:'#555', border:'none', borderRadius:10, padding:'10px 14px', fontSize:14, cursor:'pointer', color:'#fff'}} title="Uitloggen">🔒</button>
-            <button onClick={() => {
+          <div className="action-btns">
+            <button className="action-btn" onClick={exportData} title="Export">📥</button>
+            <input type="file" id="import-file" accept=".json" style={{ display: "none" }} onChange={importData} />
+            <button className="action-btn" onClick={() => document.getElementById("import-file").click()} title="Import">📤</button>
+            <button className="action-btn" onClick={handleLogout} title="Uitloggen" style={{ fontSize: 14 }}>🔒</button>
+            <button className="new-btn" onClick={() => {
               setEditLead(emptyLead());
-              setTab('klant');
-              setView('form');
-            }} style={{background:'#2d5a27', color:'#fff', border:'none', padding:'10px 20px', borderRadius:10, fontWeight:600, fontSize:14, cursor:'pointer'}}>
+              setTab("klant");
+              setView("form");
+            }}>
               + Nieuwe Lead
             </button>
           </div>
         </div>
-      </header>
-
-      {/* Main content */}
-      <div style={{maxWidth:960, margin:'0 auto', padding:'20px 20px 80px'}}>
-        {view === 'dashboard' && (
-          <DashboardView leads={leads} onSelectLead={lead => {
-            setSelectedLead(lead);
-            setView('detail');
-          }} setView={setView} setFilter={setFilter} />
+      </div>
+      
+      <div className="main">
+        {view === "dashboard" && (
+          <DashboardView leads={leads} onSelectLead={lead => { setSelectedLead(lead); setView("detail"); }} setFilter={setFilter} setView={setView} />
         )}
         
-        {view === 'list' && (
-          <ListView leads={filteredLeads} filter={filter} setFilter={setFilter} search={search} setSearch={setSearch} onSelectLead={lead => {
-            setSelectedLead(lead);
-            setView('detail');
-          }} onNew={() => {
-            setEditLead(emptyLead());
-            setTab('klant');
-            setView('form');
-          }} />
+        {view === "list" && (
+          <ListView 
+            leads={filteredLeads} 
+            filter={filter} 
+            setFilter={setFilter} 
+            search={search} 
+            setSearch={setSearch} 
+            onSelectLead={lead => { setSelectedLead(lead); setView("detail"); }}
+            onNew={() => { setEditLead(emptyLead()); setTab("klant"); setView("form"); }}
+          />
         )}
         
-        {view === 'form' && editLead && (
-          <FormView lead={editLead} setLead={setEditLead} tab={tab} setTab={setTab} onSave={saveLead} onCancel={() => setView('list')} isScanning={isScanning} scanRef={scanRef} photoRef={photoRef} />
+        {view === "form" && editLead && (
+          <FormView 
+            lead={editLead} 
+            setLead={setEditLead} 
+            tab={tab} 
+            setTab={setTab} 
+            onSave={saveLead} 
+            onCancel={() => setView("list")} 
+          />
         )}
         
-        {view === 'detail' && selectedLead && (
-          <DetailView lead={selectedLead} onEdit={() => {
-            setEditLead(JSON.parse(JSON.stringify(selectedLead)));
-            setTab('klant');
-            setView('form');
-          }} onDelete={() => deleteLead(selectedLead.id)} onBack={() => setView('list')} onStatusChange={s => updateStatus(selectedLead, s)} />
+        {view === "detail" && selectedLead && (
+          <DetailView 
+            lead={selectedLead} 
+            onEdit={() => { setEditLead(JSON.parse(JSON.stringify(selectedLead))); setTab("klant"); setView("form"); }}
+            onDelete={() => deleteLead(selectedLead.id)}
+            onBack={() => setView("list")}
+            onStatusChange={s => updateStatus(selectedLead, s)}
+          />
         )}
         
-        {view === 'agenda' && (
-          <AgendaView leads={leads} onSelectLead={lead => {
-            setSelectedLead(lead);
-            setView('detail');
-          }} />
+        {view === "agenda" && (
+          <AgendaView leads={leads} onSelectLead={lead => { setSelectedLead(lead); setView("detail"); }} />
         )}
       </div>
     </div>
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-# 📊 DASHBOARD VIEW
-// ═══════════════════════════════════════════════════════════════
-function DashboardView({ leads, onSelectLead, setView, setFilter }) {
+function DashboardView({ leads, onSelectLead, setFilter, setView }) {
   const counts = {};
   Object.keys(STATUS).forEach(k => counts[k] = leads.filter(l => l.status === k).length);
   
-  const today = tdy();
-  const callbacksToday = leads.filter(l => l.status === 'terugbellen' && l.terugbelDatum === today);
+  const today = getToday();
+  const callbacksToday = leads.filter(l => l.status === "terugbellen" && l.terugbelDatum === today);
+  const recentLeads = [...leads].sort((a, b) => new Date(b.aangemaakt) - new Date(a.aangemaakt)).slice(0, 5);
+  const signedValue = leads.filter(l => ["getekend", "in_uitvoering"].includes(l.status)).reduce((sum, l) => sum + (parseFloat(l.totaalInclBTW) || 0), 0);
   
-  const recentLeads = [...leads]
-    .sort((a, b) => new Date(b.aangemaakt) - new Date(a.aangemaakt))
-    .slice(0, 5);
-  
-  const signedValue = leads
-    .filter(l => ['getekend', 'in_uitvoering'].includes(l.status))
-    .reduce((sum, l) => sum + (parseFloat(l.totaalInclBTW) || 0), 0);
-
   return (
     <div>
-      <div style={{fontSize:26, fontWeight:700, marginBottom:20}}>📊 Dashboard</div>
+      <h2 style={{ fontSize: 26, fontWeight: 700, marginBottom: 20 }}>📊 Dashboard</h2>
       
-      {/* Stats cards */}
-      <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))', gap:12, marginBottom:24}}>
-        <div style={{background:'#fff', borderRadius:14, padding:'20px 24px', borderLeft:'3px solid #3b82f6'}}>
-          <div style={{fontSize:32, fontWeight:700}}>{leads.length}</div>
-          <div style={{fontSize:13, color:'#888', marginTop:4}}>Totaal Leads</div>
+      <div className="stats-grid">
+        <div className="stat-card" style={{ borderLeft: "3px solid #3b82f6" }}>
+          <div className="stat-value">{leads.length}</div>
+          <div className="stat-label">Totaal Leads</div>
         </div>
-        <div style={{background:'#fff', borderRadius:14, padding:'20px 24px', borderLeft:'3px solid #f59e0b'}}>
-          <div style={{fontSize:32, fontWeight:700}}>{callbacksToday.length}</div>
-          <div style={{fontSize:13, color:'#888', marginTop:4}}>Terugbellen vandaag</div>
+        <div className="stat-card" style={{ borderLeft: "3px solid #f59e0b" }}>
+          <div className="stat-value">{callbacksToday.length}</div>
+          <div className="stat-label">Terugbellen vandaag</div>
         </div>
-        <div style={{background:'#fff', borderRadius:14, padding:'20px 24px', borderLeft:'3px solid #10b981'}}>
-          <div style={{fontSize:32, fontWeight:700}}>{fp(signedValue)}</div>
-          <div style={{fontSize:13, color:'#888', marginTop:4}}>Getekende waarde</div>
+        <div className="stat-card" style={{ borderLeft: "3px solid #10b981" }}>
+          <div className="stat-value">{formatPrice(signedValue)}</div>
+          <div className="stat-label">Getekende waarde</div>
         </div>
       </div>
       
-      {/* Status filters */}
-      <div style={{display:'flex', gap:8, flexWrap:'wrap', marginBottom:28}}>
+      <div className="filters">
         {Object.entries(STATUS).map(([key, config]) => (
-          <button key={key} onClick={() => { setFilter(key); setView('list'); }} style={{
-            display:'flex', alignItems:'center', gap:6, padding:'8px 16px', borderRadius:999, fontSize:13,
-            background: config.color + '18', color: config.color, border: `1px solid ${config.color}33`,
-            cursor:'pointer', fontFamily:'inherit'
-          }}>
+          <button key={key} className="filter-btn" style={{ background: config.color + "18", color: config.color, border: `1px solid ${config.color}33` }} onClick={() => { setFilter(key); setView("list"); }}>
             <span>{config.icon}</span>
             <b>{counts[key]}</b>
             <span>{config.label}</span>
@@ -831,136 +850,109 @@ function DashboardView({ leads, onSelectLead, setView, setFilter }) {
         ))}
       </div>
       
-      {/* Callbacks today */}
       {callbacksToday.length > 0 && (
-        <div style={{marginBottom:28}}>
-          <div style={{fontSize:16, fontWeight:700, marginBottom:12}}>📞 Vandaag terugbellen</div>
+        <div style={{ marginBottom: 28 }}>
+          <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 12 }}>📞 Vandaag terugbellen</h3>
           {callbacksToday.map(lead => (
-            <div key={lead.id} onClick={() => onSelectLead(lead)} style={{
-              display:'flex', justifyContent:'space-between', alignItems:'center', background:'#fff',
-              borderRadius:12, padding:'14px 18px', marginBottom:8, cursor:'pointer', borderLeft:'3px solid #f59e0b'
-            }}>
-              <div>
-                <div style={{fontWeight:600}}>{lead.naam || 'Onbekend'}</div>
-                <div style={{fontSize:13, color:'#888'}}>{lead.telefoon}</div>
-              </div>
-              <div style={{textAlign:'right'}}>
-                <div style={{fontWeight:600, color:'#f59e0b'}}>{lead.terugbelTijd || '—'}</div>
-                <a href={`tel:${lead.telefoon}`} onClick={e => e.stopPropagation()} style={{color:'#3b82f6', fontSize:13}}>📞 Bellen</a>
+            <div key={lead.id} className="lead-card" style={{ borderLeft: "3px solid #f59e0b" }} onClick={() => onSelectLead(lead)}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div>
+                  <div style={{ fontWeight: 600 }}>{lead.naam || "Onbekend"}</div>
+                  <div style={{ fontSize: 13, color: "#888" }}>{lead.telefoon}</div>
+                </div>
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ fontWeight: 600, color: "#f59e0b" }}>{lead.terugbelTijd || "—"}</div>
+                  <a href={`tel:${lead.telefoon}`} onClick={e => e.stopPropagation()} style={{ color: "#3b82f6", fontSize: 13 }}>📞 Bellen</a>
+                </div>
               </div>
             </div>
           ))}
         </div>
       )}
       
-      {/* Recent leads */}
       <div>
-        <div style={{fontSize:16, fontWeight:700, marginBottom:12}}>📋 Recente leads</div>
+        <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 12 }}>📋 Recente leads</h3>
         {recentLeads.map(lead => {
           const config = STATUS[lead.status];
           return (
-            <div key={lead.id} onClick={() => onSelectLead(lead)} style={{
-              display:'flex', alignItems:'center', gap:12, background:'#fff', borderRadius:12,
-              padding:'14px 18px', marginBottom:6, cursor:'pointer'
-            }}>
-              <span style={{width:10, height:10, borderRadius:'50%', background:config?.color}} />
-              <div style={{flex:1}}>
-                <div style={{fontWeight:600}}>{lead.naam || 'Onbekend'}</div>
-                <div style={{fontSize:13, color:'#888'}}>{lead.woonplaats || lead.straat || 'Geen adres'}</div>
+            <div key={lead.id} className="lead-card" onClick={() => onSelectLead(lead)}>
+              <div className="lead-header">
+                <span className="status-badge" style={{ background: config?.color }}>{config?.icon} {config?.label}</span>
               </div>
-              <div style={{fontWeight:700, fontFamily:'monospace', fontSize:14}}>{fp(lead.totaalInclBTW)}</div>
+              <div className="lead-name">{lead.naam || "Onbekend"}</div>
+              <div className="lead-address">{lead.woonplaats || lead.straat || "Geen adres"}</div>
+              <div className="lead-footer">
+                <span className="lead-price">{formatPrice(lead.totaalInclBTW)}</span>
+              </div>
             </div>
           );
         })}
-        {recentLeads.length === 0 && (
-          <div style={{textAlign:'center', padding:40, color:'#999'}}>Nog geen leads. Klik op "+ Nieuwe Lead" om te beginnen.</div>
-        )}
       </div>
     </div>
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-# 📋 LIST VIEW
-// ═══════════════════════════════════════════════════════════════
 function ListView({ leads, filter, setFilter, search, setSearch, onSelectLead, onNew }) {
   return (
     <div>
-      <input style={{
-        width:'100%', padding:'14px 18px', border:'2px solid #e0ddd8', borderRadius:12,
-        fontSize:15, marginBottom:16, background:'#fff'
-      }} placeholder="🔍 Zoek op naam, adres, telefoon of e-mail..." value={search} onChange={e => setSearch(e.target.value)}/>
+      <input className="form-input" style={{ marginBottom: 16 }} placeholder="🔍 Zoek op naam, adres, telefoon..." value={search} onChange={e => setSearch(e.target.value)} />
       
-      <div style={{display:'flex', gap:6, flexWrap:'wrap', marginBottom:18}}>
-        <button onClick={() => setFilter('alle')} style={{
-          padding:'6px 14px', borderRadius:8, border:'1.5px solid #ddd',
-          background: filter === 'alle' ? '#1a1a1a' : '#fff',
-          color: filter === 'alle' ? '#fff' : '#666', fontSize:13, cursor:'pointer'
-        }}>Alle ({leads.length})</button>
+      <div className="filters">
+        <button className="filter-btn" style={{ background: filter === "alle" ? "#1a1a1a" : "#fff", color: filter === "alle" ? "#fff" : "#666" }} onClick={() => setFilter("alle")}>
+          Alle ({leads.length})
+        </button>
         {Object.entries(STATUS).map(([key, config]) => (
-          <button key={key} onClick={() => setFilter(key)} style={{
-            padding:'6px 14px', borderRadius:8, border:'1.5px solid #ddd',
-            background: filter === key ? config.color : '#fff',
-            color: filter === key ? '#fff' : '#666', fontSize:13, cursor:'pointer'
-          }}>{config.icon} {config.label}</button>
+          <button key={key} className="filter-btn" style={{ background: filter === key ? config.color : "#fff", color: filter === key ? "#fff" : "#666" }} onClick={() => setFilter(key)}>
+            {config.icon} {config.label}
+          </button>
         ))}
       </div>
       
       {leads.map(lead => {
         const config = STATUS[lead.status];
         return (
-          <div key={lead.id} onClick={() => onSelectLead(lead)} style={{
-            background:'#fff', borderRadius:14, padding:'16px 20px', marginBottom:10,
-            cursor:'pointer', boxShadow:'0 1px 3px rgba(0,0,0,0.06)'
-          }}>
-            <div style={{display:'flex', justifyContent:'space-between', marginBottom:8}}>
-              <span style={{color:'#fff', fontSize:11, fontWeight:700, padding:'3px 10px', borderRadius:999, background:config?.color}}>
-                {config?.icon} {config?.label}
-              </span>
-              {lead.status === 'terugbellen' && lead.terugbelDatum && (
-                <span style={{fontSize:12, color:'#f59e0b', fontWeight:600}}>📞 {lead.terugbelDatum}</span>
+          <div key={lead.id} className="lead-card" onClick={() => onSelectLead(lead)}>
+            <div className="lead-header">
+              <span className="status-badge" style={{ background: config?.color }}>{config?.icon} {config?.label}</span>
+              {lead.status === "terugbellen" && lead.terugbelDatum && (
+                <span style={{ fontSize: 12, color: "#f59e0b", fontWeight: 600 }}>📞 {lead.terugbelDatum}</span>
               )}
             </div>
-            <div style={{fontSize:17, fontWeight:700, marginBottom:2}}>{lead.naam || 'Onbekende klant'}</div>
-            <div style={{fontSize:13, color:'#888', marginBottom:10}}>{lead.straat && `${lead.straat}, `}{lead.postcode} {lead.woonplaats}</div>
-            <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-              <span style={{fontSize:13, color:'#555'}}>{lead.telefoon || 'Geen telefoon'}</span>
-              <span style={{fontWeight:700, fontFamily:'monospace', fontSize:15, color:'#2d5a27'}}>{fp(lead.totaalInclBTW)}</span>
+            <div className="lead-name">{lead.naam || "Onbekende klant"}</div>
+            <div className="lead-address">{lead.straat && `${lead.straat}, `}{lead.postcode} {lead.woonplaats}</div>
+            <div className="lead-footer">
+              <span className="lead-phone">{lead.telefoon || "Geen telefoon"}</span>
+              <span className="lead-price">{formatPrice(lead.totaalInclBTW)}</span>
             </div>
           </div>
         );
       })}
       
       {leads.length === 0 && (
-        <div style={{textAlign:'center', padding:60}}>
-          <div style={{fontSize:48, marginBottom:12}}>🏠</div>
-          <div style={{fontWeight:600, marginBottom:8}}>Geen leads gevonden</div>
-          <button onClick={onNew} style={{background:'#2d5a27', color:'#fff', border:'none', padding:'10px 20px', borderRadius:10, fontWeight:600, cursor:'pointer'}}>
-            + Nieuwe Lead
-          </button>
+        <div style={{ textAlign: "center", padding: 60 }}>
+          <div style={{ fontSize: 48, marginBottom: 12 }}>🏠</div>
+          <div style={{ fontWeight: 600, marginBottom: 8 }}>Geen leads gevonden</div>
+          <button className="btn-primary" onClick={onNew}>+ Nieuwe Lead</button>
         </div>
       )}
     </div>
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-# 📝 FORM VIEW
-// ═══════════════════════════════════════════════════════════════
-function FormView({ lead, setLead, tab, setTab, onSave, onCancel, isScanning, scanRef, photoRef }) {
+function FormView({ lead, setLead, tab, setTab, onSave, onCancel }) {
   const updateField = (field, value) => {
-    setLead(prev => recalc({...prev, [field]: value}));
+    setLead(prev => recalc({ ...prev, [field]: value }));
   };
   
   const toggleProduct = (category, productId, isChecked) => {
     let items = [...lead.offerteItems];
-    if(isChecked) {
+    if (isChecked) {
       const product = PRODUCTEN[category]?.find(p => p.id === productId);
-      if(product) {
+      if (product) {
         items.push({
           categorie: category,
           productId: productId,
-          m2: '',
+          m2: "",
           prijsPerM2: product.prijs,
           totaal: 0
         });
@@ -968,140 +960,164 @@ function FormView({ lead, setLead, tab, setTab, onSave, onCancel, isScanning, sc
     } else {
       items = items.filter(i => i.productId !== productId);
     }
-    setLead(prev => recalc({...prev, offerteItems: items}));
+    setLead(prev => recalc({ ...prev, offerteItems: items }));
   };
   
   const updateOfferItem = (productId, field, value) => {
-    const items = lead.offerteItems.map(i => 
-      i.productId === productId ? {...i, [field]: value} : i
-    );
-    setLead(prev => recalc({...prev, offerteItems: items}));
+    const items = lead.offerteItems.map(i => i.productId === productId ? { ...i, [field]: value } : i);
+    setLead(prev => recalc({ ...prev, offerteItems: items }));
   };
   
   const tabs = [
-    ['klant', '👤 Klant'],
-    ['woning', '🏠 Woning'],
-    ['offerte', '📄 Offerte'],
-    ['meerwerk', '🔧 Meerwerk'],
-    ['subsidie', '💰 Subsidie'],
-    ['fotos', '📸 Foto\'s'],
-    ['status', '⚙️ Status']
+    ["klant", "👤 Klant"],
+    ["woning", "🏠 Woning"],
+    ["offerte", "📄 Offerte"],
+    ["meerwerk", "🔧 Meerwerk"],
+    ["subsidie", "💰 Subsidie"],
+    ["status", "⚙️ Status"]
   ];
   
   return (
     <div>
-      <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16}}>
-        <button style={{background:'none', border:'none', fontSize:15, fontWeight:600, cursor:'pointer', color:'#555'}} onClick={onCancel}>
-          ← Terug
-        </button>
-        <div style={{fontSize:20, fontWeight:700}}>{lead.naam ? `✏️ ${lead.naam}` : '➕ Nieuwe Lead'}</div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        <button className="btn-secondary" style={{ padding: "8px 16px" }} onClick={onCancel}>← Terug</button>
+        <div style={{ fontSize: 20, fontWeight: 700 }}>{lead.naam ? `✏️ ${lead.naam}` : "➕ Nieuwe Lead"}</div>
       </div>
       
-      {/* Scan button */}
-      <button onClick={() => scanRef.current?.click()} disabled={isScanning} style={{
-        display:'flex', alignItems:'center', justifyContent:'center', gap:8, width:'100%', padding:16,
-        background: isScanning ? '#888' : 'linear-gradient(135deg, #2d5a27, #4ade80)',
-        color:'#fff', border:'none', borderRadius:14, fontSize:16, fontWeight:700,
-        cursor: isScanning ? 'wait' : 'pointer', marginBottom:20
-      }}>
-        {isScanning ? '⏳ Bezig met scannen...' : '📸 Scan offerte (AI)'}
-      </button>
-      
-      {/* Tabs */}
-      <div style={{display:'flex', gap:4, marginBottom:20, overflowX:'auto'}}>
+      <div style={{ display: "flex", gap: 4, marginBottom: 20, overflowX: "auto" }}>
         {tabs.map(([key, label]) => (
           <button key={key} onClick={() => setTab(key)} style={{
-            padding:'10px 18px', borderRadius:10, border:'1.5px solid #e0ddd8', whiteSpace:'nowrap',
-            background: tab === key ? '#1a1a1a' : '#fff', color: tab === key ? '#fff' : '#666',
-            fontSize:14, fontWeight:500, cursor:'pointer'
+            padding: "10px 18px",
+            borderRadius: 10,
+            border: "1.5px solid #e0ddd8",
+            whiteSpace: "nowrap",
+            background: tab === key ? "#1a1a1a" : "#fff",
+            color: tab === key ? "#fff" : "#666",
+            fontSize: 14,
+            fontWeight: 500,
+            cursor: "pointer"
           }}>
             {label}
           </button>
         ))}
       </div>
       
-      {/* Form content */}
-      <div style={{background:'#fff', borderRadius:14, padding:20}}>
-        {/* Klant tab */}
-        {tab === 'klant' && (
+      <div className="form-container">
+        {tab === "klant" && (
           <>
-            <Field label="Naam klant" value={lead.naam} onChange={v => updateField('naam', v)} />
-            <Field label="Straat + huisnummer" value={lead.straat} onChange={v => updateField('straat', v)} />
-            <div className="row2" style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:12}}>
-              <Field label="Postcode" value={lead.postcode} onChange={v => updateField('postcode', v)} />
-              <Field label="Woonplaats" value={lead.woonplaats} onChange={v => updateField('woonplaats', v)} />
+            <div className="form-group">
+              <label className="form-label">Naam klant</label>
+              <input className="form-input" value={lead.naam} onChange={e => updateField("naam", e.target.value)} />
             </div>
-            <Field label="Telefoon" value={lead.telefoon} onChange={v => updateField('telefoon', v)} type="tel" />
-            <Field label="E-mail" value={lead.email} onChange={v => updateField('email', v)} type="email" />
-            <Field label="Offertedatum" value={lead.offerteDatum} onChange={v => updateField('offerteDatum', v)} type="date" />
-            <div className="row2" style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:12}}>
-              <Field label="Verkoper" value={lead.verkoper} onChange={v => updateField('verkoper', v)} />
-              <Field label="Verkoper telefoon" value={lead.verkoperTelefoon} onChange={v => updateField('verkoperTelefoon', v)} type="tel" />
+            <div className="form-group">
+              <label className="form-label">Straat + huisnummer</label>
+              <input className="form-input" value={lead.straat} onChange={e => updateField("straat", e.target.value)} />
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              <div className="form-group">
+                <label className="form-label">Postcode</label>
+                <input className="form-input" value={lead.postcode} onChange={e => updateField("postcode", e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Woonplaats</label>
+                <input className="form-input" value={lead.woonplaats} onChange={e => updateField("woonplaats", e.target.value)} />
+              </div>
+            </div>
+            <div className="form-group">
+              <label className="form-label">Telefoon</label>
+              <input className="form-input" type="tel" value={lead.telefoon} onChange={e => updateField("telefoon", e.target.value)} />
+            </div>
+            <div className="form-group">
+              <label className="form-label">E-mail</label>
+              <input className="form-input" type="email" value={lead.email} onChange={e => updateField("email", e.target.value)} />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Offertedatum</label>
+              <input className="form-input" type="date" value={lead.offerteDatum} onChange={e => updateField("offerteDatum", e.target.value)} />
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              <div className="form-group">
+                <label className="form-label">Verkoper</label>
+                <input className="form-input" value={lead.verkoper} onChange={e => updateField("verkoper", e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Verkoper telefoon</label>
+                <input className="form-input" type="tel" value={lead.verkoperTelefoon} onChange={e => updateField("verkoperTelefoon", e.target.value)} />
+              </div>
             </div>
           </>
         )}
         
-        {/* Woning tab */}
-        {tab === 'woning' && (
+        {tab === "woning" && (
           <>
-            <div style={{marginBottom:16}}>
-              <label style={{display:'block', fontSize:12, fontWeight:600, color:'#888', marginBottom:6}}>Type woning</label>
-              <select style={{width:'100%', padding:'12px 14px', border:'1.5px solid #e0ddd8', borderRadius:10, background:'#faf9f7'}} value={lead.typeWoning} onChange={e => updateField('typeWoning', e.target.value)}>
+            <div className="form-group">
+              <label className="form-label">Type woning</label>
+              <select className="form-input" value={lead.typeWoning} onChange={e => updateField("typeWoning", e.target.value)}>
                 <option value="">-- Selecteer --</option>
-                {['Vrijstaand','Hoekwoning','Tussenwoning','2-onder-1-kap','Appartement','Bovenwoning','Bungalow'].map(t => <option key={t}>{t}</option>)}
+                {["Vrijstaand", "Hoekwoning", "Tussenwoning", "2-onder-1-kap", "Appartement", "Bovenwoning", "Bungalow"].map(t => <option key={t}>{t}</option>)}
               </select>
             </div>
-            <Field label="Vloeroppervlakte (m²)" value={lead.vloeroppervlakte} onChange={v => updateField('vloeroppervlakte', v)} type="number" />
-            <label style={{display:'flex', alignItems:'center', gap:10, marginBottom:14, cursor:'pointer'}}>
-              <input type="checkbox" checked={lead.wozVoldoet} onChange={e => updateField('wozVoldoet', e.target.checked)} style={{width:18, height:18}} />
+            <div className="form-group">
+              <label className="form-label">Vloeroppervlakte (m²)</label>
+              <input className="form-input" type="number" value={lead.vloeroppervlakte} onChange={e => updateField("vloeroppervlakte", e.target.value)} />
+            </div>
+            <label style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14, cursor: "pointer" }}>
+              <input type="checkbox" checked={lead.wozVoldoet} onChange={e => updateField("wozVoldoet", e.target.checked)} style={{ width: 18, height: 18 }} />
               WOZ-waarde voldoet aan voorwaarden
             </label>
-            <label style={{display:'flex', alignItems:'center', gap:10, marginBottom:14, cursor:'pointer'}}>
-              <input type="checkbox" checked={lead.energielabelVoldoet} onChange={e => updateField('energielabelVoldoet', e.target.checked)} style={{width:18, height:18}} />
+            <label style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14, cursor: "pointer" }}>
+              <input type="checkbox" checked={lead.energielabelVoldoet} onChange={e => updateField("energielabelVoldoet", e.target.checked)} style={{ width: 18, height: 18 }} />
               Energielabel voldoet aan voorwaarden
             </label>
           </>
         )}
         
-        {/* Offerte tab */}
-        {tab === 'offerte' && (
+        {tab === "offerte" && (
           <div>
-            <p style={{marginBottom:16, fontSize:14, color:'#666'}}>Selecteer producten en vul het aantal m² in.</p>
+            <p style={{ marginBottom: 16, fontSize: 14, color: "#666" }}>Selecteer producten en vul het aantal m² in.</p>
             {Object.entries(PRODUCTEN).map(([category, products]) => (
-              <div key={category} style={{marginBottom:24, paddingBottom:20, borderBottom:'1px solid #eee'}}>
-                <div style={{fontSize:15, fontWeight:700, marginBottom:12, color:'#2d5a27'}}>
-                  {category === 'spouw' && '🏠 Spouwmuur'}
-                  {category === 'vloer' && '⬇️ Vloerisolatie'}
-                  {category === 'dak' && '🏔️ Dakisolatie'}
-                  {category === 'bodem' && '🌍 Bodemisolatie'}
-                  {category === 'overig' && '🔧 Overige werkzaamheden'}
+              <div key={category} style={{ marginBottom: 24, paddingBottom: 20, borderBottom: "1px solid #eee" }}>
+                <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 12, color: "#2d5a27" }}>
+                  {category === "spouw" && "🏠 Spouwmuur"}
+                  {category === "vloer" && "⬇️ Vloerisolatie"}
+                  {category === "dak" && "🏔️ Dakisolatie"}
+                  {category === "bodem" && "🌍 Bodemisolatie"}
+                  {category === "overig" && "🔧 Overige werkzaamheden"}
                 </div>
                 {products.map(product => {
                   const existing = lead.offerteItems.find(i => i.productId === product.id);
                   return (
                     <div key={product.id} style={{
-                      background: existing ? '#f0fdf4' : '#faf9f7',
-                      border: `1.5px solid ${existing ? '#2d5a27' : '#e0ddd8'}`,
-                      borderRadius:12, padding:14, marginBottom:12
+                      background: existing ? "#f0fdf4" : "#faf9f7",
+                      border: `1.5px solid ${existing ? "#2d5a27" : "#e0ddd8"}`,
+                      borderRadius: 12,
+                      padding: 14,
+                      marginBottom: 12
                     }}>
-                      <label style={{display:'flex', justifyContent:'space-between', alignItems:'center', cursor:'pointer', marginBottom:6}}>
-                        <div style={{display:'flex', alignItems:'center', gap:10}}>
-                          <input type="checkbox" checked={!!existing} onChange={e => toggleProduct(category, product.id, e.target.checked)} style={{width:20, height:20}} />
+                      <label style={{ display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer", marginBottom: 6 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                          <input type="checkbox" checked={!!existing} onChange={e => toggleProduct(category, product.id, e.target.checked)} style={{ width: 20, height: 20 }} />
                           <b>{product.naam}</b>
                         </div>
-                        <span style={{fontFamily:'monospace', fontWeight:700, color:'#2d5a27'}}>{fp(product.prijs)}/m²</span>
+                        <span style={{ fontFamily: "monospace", fontWeight: 700, color: "#2d5a27" }}>{formatPrice(product.prijs)}/m²</span>
                       </label>
-                      <div style={{fontSize:13, color:'#888'}}>
-                        {product.dikte} · RD {product.rd || '-'} · {product.type}
-                        {product.min ? ` · Min. ${product.min}m²` : ''}
+                      <div style={{ fontSize: 13, color: "#888" }}>
+                        {product.dikte} · RD {product.rd || "-"} · {product.type}
+                        {product.min ? ` · Min. ${product.min}m²` : ""}
                       </div>
                       {existing && (
                         <>
-                          <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginTop:12}}>
-                            <Field label="m²" value={existing.m2} onChange={v => updateOfferItem(product.id, 'm2', v)} type="number" />
-                            <Field label="Prijs per m²" value={existing.prijsPerM2} onChange={v => updateOfferItem(product.id, 'prijsPerM2', v)} type="number" prefix="€" />
+                          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 12 }}>
+                            <div className="form-group">
+                              <label className="form-label">m²</label>
+                              <input className="form-input" type="number" value={existing.m2} onChange={e => updateOfferItem(product.id, "m2", e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                              <label className="form-label">Prijs per m²</label>
+                              <input className="form-input" type="number" value={existing.prijsPerM2} onChange={e => updateOfferItem(product.id, "prijsPerM2", e.target.value)} />
+                            </div>
                           </div>
-                          <div style={{fontSize:13, fontWeight:700, color:'#2d5a27', marginTop:8}}>Subtotaal: {fp(existing.totaal)}</div>
+                          <div style={{ fontSize: 13, fontWeight: 700, color: "#2d5a27", marginTop: 8 }}>Subtotaal: {formatPrice(existing.totaal)}</div>
                         </>
                       )}
                     </div>
@@ -1112,15 +1128,14 @@ function FormView({ lead, setLead, tab, setTab, onSave, onCancel, isScanning, sc
           </div>
         )}
         
-        {/* Meerwerk tab */}
-        {tab === 'meerwerk' && (
+        {tab === "meerwerk" && (
           <div>
-            <div style={{marginBottom:16}}>
-              <label style={{display:'block', fontSize:12, fontWeight:600, color:'#888', marginBottom:6}}>Meerwerk toevoegen</label>
-              <select style={{width:'100%', padding:'12px 14px', border:'1.5px solid #e0ddd8', borderRadius:10, background:'#faf9f7'}} value="" onChange={e => {
-                if(!e.target.value) return;
+            <div className="form-group">
+              <label className="form-label">Meerwerk toevoegen</label>
+              <select className="form-input" value="" onChange={e => {
+                if (!e.target.value) return;
                 const meerwerk = MEERWERK.find(m => m.id === e.target.value);
-                if(meerwerk) {
+                if (meerwerk) {
                   setLead(prev => recalc({
                     ...prev,
                     meerwerkItems: [...prev.meerwerkItems, {
@@ -1131,35 +1146,38 @@ function FormView({ lead, setLead, tab, setTab, onSave, onCancel, isScanning, sc
                     }]
                   }));
                 }
-                e.target.value = '';
+                e.target.value = "";
               }}>
                 <option value="">-- Selecteer meerwerk --</option>
-                {MEERWERK.map(m => <option key={m.id} value={m.id}>{m.naam} — {fp(m.prijs)}/{m.e}</option>)}
+                {MEERWERK.map(m => <option key={m.id} value={m.id}>{m.naam} — {formatPrice(m.prijs)}/{m.e}</option>)}
               </select>
             </div>
             
             {lead.meerwerkItems.map((item, idx) => {
-              const meerwerk = MEERWERK.find(m => m.id === item.meerwerkId);
+              const meerwerk = findMeerwerk(item.meerwerkId);
               return (
-                <div key={idx} style={{background:'#f0fdf4', border:'1.5px solid #2d5a27', borderRadius:12, padding:14, marginBottom:12}}>
-                  <div style={{display:'flex', justifyContent:'space-between', marginBottom:8}}>
+                <div key={idx} style={{ background: "#f0fdf4", border: "1.5px solid #2d5a27", borderRadius: 12, padding: 14, marginBottom: 12 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
                     <b>{meerwerk?.naam}</b>
-                    <button style={{background:'none', border:'none', color:'#ef4444', cursor:'pointer', fontSize:18}} onClick={() => {
+                    <button style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer", fontSize: 18 }} onClick={() => {
                       setLead(prev => recalc({
                         ...prev,
                         meerwerkItems: prev.meerwerkItems.filter((_, i) => i !== idx)
                       }));
                     }}>✕</button>
                   </div>
-                  <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:12}}>
-                    <Field label="Aantal" value={item.aantal} onChange={v => {
-                      const newItems = [...lead.meerwerkItems];
-                      newItems[idx] = {...newItems[idx], aantal: v};
-                      setLead(prev => recalc({...prev, meerwerkItems: newItems}));
-                    }} type="number" />
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                    <div className="form-group">
+                      <label className="form-label">Aantal</label>
+                      <input className="form-input" type="number" value={item.aantal} onChange={e => {
+                        const newItems = [...lead.meerwerkItems];
+                        newItems[idx] = { ...newItems[idx], aantal: e.target.value };
+                        setLead(prev => recalc({ ...prev, meerwerkItems: newItems }));
+                      }} />
+                    </div>
                     <div>
-                      <label style={{display:'block', fontSize:12, fontWeight:600, color:'#888', marginBottom:6}}>Subtotaal</label>
-                      <div style={{padding:'12px 14px', fontWeight:700, color:'#2d5a27', background:'#fff', borderRadius:10}}>{fp(item.totaal)}</div>
+                      <label className="form-label">Subtotaal</label>
+                      <div style={{ padding: "12px 14px", fontWeight: 700, color: "#2d5a27", background: "#fff", borderRadius: 10 }}>{formatPrice(item.totaal)}</div>
                     </div>
                   </div>
                 </div>
@@ -1168,97 +1186,72 @@ function FormView({ lead, setLead, tab, setTab, onSave, onCancel, isScanning, sc
           </div>
         )}
         
-        {/* Subsidie tab */}
-        {tab === 'subsidie' && (
+        {tab === "subsidie" && (
           <div>
-            <Field label="Gemeentelijke subsidie (extra)" value={lead.gemeentelijkeSubsidie} onChange={v => updateField('gemeentelijkeSubsidie', v)} type="number" prefix="€" />
-            <label style={{display:'flex', alignItems:'center', gap:10, marginBottom:20, cursor:'pointer'}}>
-              <input type="checkbox" checked={lead.isdeMultiple} onChange={e => updateField('isdeMultiple', e.target.checked)} style={{width:18, height:18}} />
+            <div className="form-group">
+              <label className="form-label">Gemeentelijke subsidie (extra)</label>
+              <input className="form-input" type="number" value={lead.gemeentelijkeSubsidie} onChange={e => updateField("gemeentelijkeSubsidie", e.target.value)} />
+            </div>
+            <label style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20, cursor: "pointer" }}>
+              <input type="checkbox" checked={lead.isdeMultiple} onChange={e => updateField("isdeMultiple", e.target.checked)} style={{ width: 18, height: 18 }} />
               <span>2 of meer maatregelen → <strong>dubbele ISDE subsidie</strong></span>
             </label>
             
-            <div style={{background:'#f5f3f0', borderRadius:12, padding:16, marginTop:8}}>
-              <div style={{fontWeight:700, fontSize:13, color:'#2d5a27', marginBottom:12}}>💰 PRIJSBEROEKENING</div>
+            <div style={{ background: "#f5f3f0", borderRadius: 12, padding: 16, marginTop: 8 }}>
+              <div style={{ fontWeight: 700, fontSize: 13, color: "#2d5a27", marginBottom: 12 }}>💰 PRIJSBEROEKENING</div>
               {lead.offerteItems.map(i => {
                 const p = findProduct(i.productId);
-                return <div key={i.productId} style={{display:'flex', justifyContent:'space-between', padding:'6px 0', fontSize:14, borderBottom:'1px solid #e0ddd8'}}>
-                  <span>{p?.naam} · {i.m2 || 0}m²</span><span>{fp(i.totaal)}</span>
+                return <div key={i.productId} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", fontSize: 14, borderBottom: "1px solid #e0ddd8" }}>
+                  <span>{p?.naam} · {i.m2 || 0}m²</span><span>{formatPrice(i.totaal)}</span>
                 </div>;
               })}
               {lead.meerwerkItems.map((i, idx) => {
-                const m = MEERWERK.find(mw => mw.id === i.meerwerkId);
-                return <div key={idx} style={{display:'flex', justifyContent:'space-between', padding:'6px 0', fontSize:14, borderBottom:'1px solid #e0ddd8'}}>
-                  <span>{m?.naam}</span><span>{fp(i.totaal)}</span>
+                const m = findMeerwerk(i.meerwerkId);
+                return <div key={idx} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", fontSize: 14, borderBottom: "1px solid #e0ddd8" }}>
+                  <span>{m?.naam}</span><span>{formatPrice(i.totaal)}</span>
                 </div>;
               })}
-              <div style={{display:'flex', justifyContent:'space-between', fontWeight:700, fontSize:16, borderTop:'2px solid #2d5a27', paddingTop:12, marginTop:8}}>
-                <span>Excl. BTW</span><span>{fp(lead.totaalExBTW)}</span>
+              <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: 16, borderTop: "2px solid #2d5a27", paddingTop: 12, marginTop: 8 }}>
+                <span>Excl. BTW</span><span>{formatPrice(lead.totaalExBTW)}</span>
               </div>
-              <div style={{display:'flex', justifyContent:'space-between', fontWeight:700, fontSize:16, paddingTop:4}}>
-                <span>Incl. BTW (13%)</span><span>{fp(lead.totaalInclBTW)}</span>
+              <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: 16, paddingTop: 4 }}>
+                <span>Incl. BTW (13%)</span><span>{formatPrice(lead.totaalInclBTW)}</span>
               </div>
             </div>
             
-            <div style={{background:'#f5f3f0', borderRadius:12, padding:16, marginTop:12}}>
-              <div style={{fontWeight:700, fontSize:13, color:'#2d5a27', marginBottom:12}}>🎯 SUBSIDIES</div>
-              <div style={{display:'flex', justifyContent:'space-between', padding:'6px 0', fontSize:14}}>
-                <span>ISDE subsidie</span><span style={{color:'#10b981'}}>- {fp(lead.isdeSubsidie)}</span>
+            <div style={{ background: "#f5f3f0", borderRadius: 12, padding: 16, marginTop: 12 }}>
+              <div style={{ fontWeight: 700, fontSize: 13, color: "#2d5a27", marginBottom: 12 }}>🎯 SUBSIDIES</div>
+              <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", fontSize: 14 }}>
+                <span>ISDE subsidie</span><span style={{ color: "#10b981" }}>- {formatPrice(lead.isdeSubsidie)}</span>
               </div>
               {parseFloat(lead.gemeentelijkeSubsidie) > 0 && (
-                <div style={{display:'flex', justifyContent:'space-between', padding:'6px 0', fontSize:14}}>
-                  <span>Gemeentelijk</span><span style={{color:'#10b981'}}>- {fp(lead.gemeentelijkeSubsidie)}</span>
+                <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", fontSize: 14 }}>
+                  <span>Gemeentelijk</span><span style={{ color: "#10b981" }}>- {formatPrice(lead.gemeentelijkeSubsidie)}</span>
                 </div>
               )}
-              <div style={{display:'flex', justifyContent:'space-between', fontWeight:700, fontSize:20, borderTop:'2px solid #2d5a27', paddingTop:12, marginTop:8}}>
-                <span>Eigen bijdrage</span><span>{fp(lead.eigenBijdrage)}</span>
+              <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: 20, borderTop: "2px solid #2d5a27", paddingTop: 12, marginTop: 8 }}>
+                <span>Eigen bijdrage</span><span>{formatPrice(lead.eigenBijdrage)}</span>
               </div>
             </div>
           </div>
         )}
         
-        {/* Fotos tab */}
-        {tab === 'fotos' && (
+        {tab === "status" && (
           <div>
-            <div onClick={() => photoRef.current?.click()} style={{
-              border:'2px dashed #d0cdc8', borderRadius:12, padding:20, textAlign:'center', cursor:'pointer', marginBottom:16
-            }}>
-              <div style={{fontSize:32, marginBottom:8}}>📸</div>
-              <div style={{fontWeight:600}}>Klik om foto's toe te voegen</div>
-              <div style={{fontSize:13, color:'#888', marginTop:4}}>Meerdere foto's mogelijk</div>
-            </div>
-            {lead.fotos?.length > 0 && (
-              <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(100px,1fr))', gap:10}}>
-                {lead.fotos.map((foto, idx) => (
-                  <div key={idx} style={{position:'relative', borderRadius:10, overflow:'hidden', aspectRatio:'4/3', background:'#eee'}}>
-                    <img src={foto} style={{width:'100%', height:'100%', objectFit:'cover'}} />
-                    <button onClick={() => {
-                      setLead(prev => ({
-                        ...prev,
-                        fotos: prev.fotos.filter((_, i) => i !== idx)
-                      }));
-                    }} style={{
-                      position:'absolute', top:4, right:4, background:'rgba(0,0,0,0.6)', color:'#fff',
-                      border:'none', borderRadius:'50%', width:24, height:24, cursor:'pointer'
-                    }}>✕</button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-        
-        {/* Status tab */}
-        {tab === 'status' && (
-          <div>
-            <div style={{marginBottom:20}}>
-              <label style={{display:'block', fontSize:12, fontWeight:600, color:'#888', marginBottom:8}}>Status</label>
-              <div style={{display:'flex', flexDirection:'column', gap:8}}>
+            <div className="form-group">
+              <label className="form-label">Status</label>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {Object.entries(STATUS).map(([key, config]) => (
-                  <button key={key} onClick={() => updateField('status', key)} style={{
-                    padding:'12px 18px', borderRadius:10, fontSize:14, fontWeight:600, cursor:'pointer',
-                    textAlign:'left', border: `2px solid ${config.color}`,
-                    background: lead.status === key ? config.color : 'transparent',
-                    color: lead.status === key ? '#fff' : config.color
+                  <button key={key} onClick={() => updateField("status", key)} style={{
+                    padding: "12px 18px",
+                    borderRadius: 10,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    textAlign: "left",
+                    border: `2px solid ${config.color}`,
+                    background: lead.status === key ? config.color : "transparent",
+                    color: lead.status === key ? "#fff" : config.color
                   }}>
                     {config.icon} {config.label}
                   </button>
@@ -1266,175 +1259,145 @@ function FormView({ lead, setLead, tab, setTab, onSave, onCancel, isScanning, sc
               </div>
             </div>
             
-            {lead.status === 'terugbellen' && (
-              <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:20}}>
-                <Field label="Terugbel datum" value={lead.terugbelDatum} onChange={v => updateField('terugbelDatum', v)} type="date" />
-                <Field label="Terugbel tijd" value={lead.terugbelTijd} onChange={v => updateField('terugbelTijd', v)} type="time" />
+            {lead.status === "terugbellen" && (
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
+                <div className="form-group">
+                  <label className="form-label">Terugbel datum</label>
+                  <input className="form-input" type="date" value={lead.terugbelDatum} onChange={e => updateField("terugbelDatum", e.target.value)} />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Terugbel tijd</label>
+                  <input className="form-input" type="time" value={lead.terugbelTijd} onChange={e => updateField("terugbelTijd", e.target.value)} />
+                </div>
               </div>
             )}
             
-            <div>
-              <label style={{display:'block', fontSize:12, fontWeight:600, color:'#888', marginBottom:6}}>Opmerkingen / notities</label>
-              <textarea style={{width:'100%', padding:'12px 14px', border:'1.5px solid #e0ddd8', borderRadius:10, minHeight:100, resize:'vertical'}} value={lead.opmerkingen || ''} onChange={e => updateField('opmerkingen', e.target.value)} />
+            <div className="form-group">
+              <label className="form-label">Opmerkingen / notities</label>
+              <textarea className="form-input" rows="4" value={lead.opmerkingen || ""} onChange={e => updateField("opmerkingen", e.target.value)} />
             </div>
           </div>
         )}
       </div>
       
-      <div style={{display:'flex', gap:12, marginTop:20}}>
-        <button onClick={onCancel} style={{flex:1, padding:14, borderRadius:12, border:'1.5px solid #ddd', background:'#fff', fontSize:15, fontWeight:600, cursor:'pointer'}}>
-          Annuleren
-        </button>
-        <button onClick={() => onSave(lead)} style={{flex:2, padding:14, borderRadius:12, border:'none', background:'#2d5a27', color:'#fff', fontSize:15, fontWeight:700, cursor:'pointer'}}>
-          💾 Opslaan
-        </button>
+      <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
+        <button className="btn-secondary" style={{ flex: 1 }} onClick={onCancel}>Annuleren</button>
+        <button className="btn-primary" style={{ flex: 2 }} onClick={() => onSave(lead)}>💾 Opslaan</button>
       </div>
     </div>
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-# 🔍 DETAIL VIEW
-// ═══════════════════════════════════════════════════════════════
 function DetailView({ lead, onEdit, onDelete, onBack, onStatusChange }) {
   const config = STATUS[lead.status];
   
   return (
     <div>
-      <div style={{display:'flex', justifyContent:'space-between', marginBottom:16}}>
-        <button style={{background:'none', border:'none', fontSize:15, fontWeight:600, cursor:'pointer', color:'#555'}} onClick={onBack}>
-          ← Terug naar overzicht
-        </button>
-        <div style={{display:'flex', gap:8}}>
-          <button onClick={onEdit} style={{background:'#fff', border:'1.5px solid #ddd', borderRadius:10, padding:'8px 16px', fontSize:14, fontWeight:600, cursor:'pointer'}}>
-            ✏️ Bewerken
-          </button>
-          <button onClick={onDelete} style={{background:'#fff', border:'1.5px solid #fca5a5', borderRadius:10, padding:'8px 14px', cursor:'pointer', color:'#ef4444'}}>
-            🗑️ Verwijderen
-          </button>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+        <button className="btn-secondary" style={{ padding: "8px 16px" }} onClick={onBack}>← Terug naar overzicht</button>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button className="btn-secondary" style={{ padding: "8px 16px" }} onClick={onEdit}>✏️ Bewerken</button>
+          <button className="btn-secondary" style={{ border: "1.5px solid #fca5a5", color: "#ef4444" }} onClick={onDelete}>🗑️ Verwijderen</button>
         </div>
       </div>
       
-      <div style={{background:'#fff', borderRadius:16, padding:24}}>
-        {/* Header */}
-        <div style={{display:'flex', justifyContent:'space-between', flexWrap:'wrap', gap:12, marginBottom:20}}>
+      <div className="form-container">
+        <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 20 }}>
           <div>
-            <div style={{fontSize:24, fontWeight:700}}>{lead.naam || 'Onbekende klant'}</div>
-            <div style={{fontSize:14, color:'#888', marginTop:4}}>{lead.straat && `${lead.straat}, `}{lead.postcode} {lead.woonplaats}</div>
+            <div style={{ fontSize: 24, fontWeight: 700 }}>{lead.naam || "Onbekende klant"}</div>
+            <div style={{ fontSize: 14, color: "#888", marginTop: 4 }}>{lead.straat && `${lead.straat}, `}{lead.postcode} {lead.woonplaats}</div>
           </div>
-          <span style={{color:'#fff', fontSize:13, fontWeight:700, padding:'6px 16px', borderRadius:999, background:config?.color}}>
+          <span className="status-badge" style={{ background: config?.color, fontSize: 13, padding: "6px 16px" }}>
             {config?.icon} {config?.label}
           </span>
         </div>
         
-        {/* Quick status buttons */}
-        <div style={{display:'flex', alignItems:'center', gap:6, flexWrap:'wrap', marginBottom:24, paddingBottom:20, borderBottom:'1px solid #eee'}}>
-          <span style={{fontSize:12, color:'#888', marginRight:8}}>Snel wijzigen:</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", marginBottom: 24, paddingBottom: 20, borderBottom: "1px solid #eee" }}>
+          <span style={{ fontSize: 12, color: "#888", marginRight: 8 }}>Snel wijzigen:</span>
           {Object.entries(STATUS).map(([key, cfg]) => key !== lead.status && (
             <button key={key} onClick={() => onStatusChange(key)} style={{
-              background:'none', border:`1.5px solid ${cfg.color}66`, borderRadius:8,
-              padding:'4px 12px', fontSize:12, fontWeight:600, cursor:'pointer', color:cfg.color
+              background: "none",
+              border: `1.5px solid ${cfg.color}66`,
+              borderRadius: 8,
+              padding: "4px 12px",
+              fontSize: 12,
+              fontWeight: 600,
+              cursor: "pointer",
+              color: cfg.color
             }}>
               {cfg.icon} {cfg.label}
             </button>
           ))}
         </div>
         
-        {/* Contact info */}
-        <div style={{marginBottom:24}}>
-          <div style={{fontSize:13, fontWeight:700, color:'#2d5a27', marginBottom:12}}>📞 CONTACTGEGEVENS</div>
-          <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))', gap:12}}>
-            {lead.telefoon && <div><div style={{fontSize:11, color:'#999'}}>Telefoon</div><a href={`tel:${lead.telefoon}`} style={{color:'#3b82f6', fontWeight:500}}>{lead.telefoon}</a></div>}
-            {lead.email && <div><div style={{fontSize:11, color:'#999'}}>E-mail</div><a href={`mailto:${lead.email}`} style={{color:'#3b82f6', fontWeight:500}}>{lead.email}</a></div>}
-            {lead.offerteDatum && <div><div style={{fontSize:11, color:'#999'}}>Offertedatum</div><div>{lead.offerteDatum}</div></div>}
-            {lead.typeWoning && <div><div style={{fontSize:11, color:'#999'}}>Type woning</div><div>{lead.typeWoning}</div></div>}
-            {lead.vloeroppervlakte && <div><div style={{fontSize:11, color:'#999'}}>Vloeroppervlakte</div><div>{lead.vloeroppervlakte} m²</div></div>}
+        <div style={{ marginBottom: 24 }}>
+          <div style={{ fontSize: 13, fontWeight: 700, color: "#2d5a27", marginBottom: 12 }}>📞 CONTACTGEGEVENS</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(220px,1fr))", gap: 12 }}>
+            {lead.telefoon && <div><div style={{ fontSize: 11, color: "#999" }}>Telefoon</div><a href={`tel:${lead.telefoon}`} style={{ color: "#3b82f6", fontWeight: 500 }}>{lead.telefoon}</a></div>}
+            {lead.email && <div><div style={{ fontSize: 11, color: "#999" }}>E-mail</div><a href={`mailto:${lead.email}`} style={{ color: "#3b82f6", fontWeight: 500 }}>{lead.email}</a></div>}
+            {lead.offerteDatum && <div><div style={{ fontSize: 11, color: "#999" }}>Offertedatum</div><div>{lead.offerteDatum}</div></div>}
+            {lead.typeWoning && <div><div style={{ fontSize: 11, color: "#999" }}>Type woning</div><div>{lead.typeWoning}</div></div>}
+            {lead.vloeroppervlakte && <div><div style={{ fontSize: 11, color: "#999" }}>Vloeroppervlakte</div><div>{lead.vloeroppervlakte} m²</div></div>}
           </div>
         </div>
         
-        {/* Offerte details */}
         {lead.offerteItems?.length > 0 && (
-          <div style={{marginBottom:24}}>
-            <div style={{fontSize:13, fontWeight:700, color:'#2d5a27', marginBottom:12}}>📋 OFFERTE DETAILS</div>
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: "#2d5a27", marginBottom: 12 }}>📋 OFFERTE DETAILS</div>
             {lead.offerteItems.map(item => {
               const p = findProduct(item.productId);
-              return <div key={item.productId} style={{display:'flex', justifyContent:'space-between', padding:'6px 0', fontSize:14, borderBottom:'1px solid #f0f0f0'}}>
-                <span>{p?.naam} · {item.m2}m² × {fp(item.prijsPerM2)}</span>
-                <span>{fp(item.totaal)}</span>
+              return <div key={item.productId} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", fontSize: 14, borderBottom: "1px solid #f0f0f0" }}>
+                <span>{p?.naam} · {item.m2}m² × {formatPrice(item.prijsPerM2)}</span>
+                <span>{formatPrice(item.totaal)}</span>
               </div>;
             })}
             {lead.meerwerkItems?.map((item, idx) => {
-              const m = MEERWERK.find(mw => mw.id === item.meerwerkId);
-              return <div key={idx} style={{display:'flex', justifyContent:'space-between', padding:'6px 0', fontSize:14, borderBottom:'1px solid #f0f0f0'}}>
+              const m = findMeerwerk(item.meerwerkId);
+              return <div key={idx} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", fontSize: 14, borderBottom: "1px solid #f0f0f0" }}>
                 <span>{m?.naam}</span>
-                <span>{fp(item.totaal)}</span>
+                <span>{formatPrice(item.totaal)}</span>
               </div>;
             })}
-            <div style={{borderTop:'2px solid #eee', margin:'8px 0'}} />
-            <div style={{display:'flex', justifyContent:'space-between', fontWeight:700, padding:'6px 0'}}>
-              <span>Excl. BTW</span><span>{fp(lead.totaalExBTW)}</span>
+            <div style={{ borderTop: "2px solid #eee", margin: "8px 0" }} />
+            <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, padding: "6px 0" }}>
+              <span>Excl. BTW</span><span>{formatPrice(lead.totaalExBTW)}</span>
             </div>
-            <div style={{display:'flex', justifyContent:'space-between', fontWeight:700, padding:'6px 0'}}>
-              <span>Incl. BTW (13%)</span><span>{fp(lead.totaalInclBTW)}</span>
+            <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, padding: "6px 0" }}>
+              <span>Incl. BTW (13%)</span><span>{formatPrice(lead.totaalInclBTW)}</span>
             </div>
           </div>
         )}
         
-        {/* Subsidie */}
         {parseFloat(lead.totaalSubsidie) > 0 && (
-          <div style={{marginBottom:24}}>
-            <div style={{fontSize:13, fontWeight:700, color:'#2d5a27', marginBottom:12}}>💰 SUBSIDIES</div>
-            <div style={{display:'flex', justifyContent:'space-between', padding:'6px 0', fontSize:14}}>
-              <span>ISDE</span><span style={{color:'#10b981'}}>- {fp(lead.isdeSubsidie)}</span>
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: "#2d5a27", marginBottom: 12 }}>💰 SUBSIDIES</div>
+            <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", fontSize: 14 }}>
+              <span>ISDE</span><span style={{ color: "#10b981" }}>- {formatPrice(lead.isdeSubsidie)}</span>
             </div>
             {parseFloat(lead.gemeentelijkeSubsidie) > 0 && (
-              <div style={{display:'flex', justifyContent:'space-between', padding:'6px 0', fontSize:14}}>
-                <span>Gemeentelijk</span><span style={{color:'#10b981'}}>- {fp(lead.gemeentelijkeSubsidie)}</span>
+              <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", fontSize: 14 }}>
+                <span>Gemeentelijk</span><span style={{ color: "#10b981" }}>- {formatPrice(lead.gemeentelijkeSubsidie)}</span>
               </div>
             )}
-            <div style={{borderTop:'2px solid #eee', margin:'8px 0'}} />
-            <div style={{display:'flex', justifyContent:'space-between', fontWeight:700, fontSize:18, padding:'6px 0'}}>
-              <span>Eigen bijdrage</span><span>{fp(lead.eigenBijdrage)}</span>
+            <div style={{ borderTop: "2px solid #eee", margin: "8px 0" }} />
+            <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: 18, padding: "6px 0" }}>
+              <span>Eigen bijdrage</span><span>{formatPrice(lead.eigenBijdrage)}</span>
             </div>
           </div>
         )}
         
-        {/* Terugbel reminder */}
-        {lead.status === 'terugbellen' && lead.terugbelDatum && (
-          <div style={{background:'#fef3c7', borderRadius:10, padding:16, marginBottom:24}}>
-            <div style={{fontSize:13, fontWeight:700, color:'#2d5a27', marginBottom:8}}>📞 TERUGBELLEN</div>
-            <div style={{fontSize:18, fontWeight:700}}>{lead.terugbelDatum} {lead.terugbelTijd && `om ${lead.terugbelTijd}`}</div>
-            {lead.telefoon && <a href={`tel:${lead.telefoon}`} style={{display:'inline-block', marginTop:10, background:'#2d5a27', color:'#fff', padding:'8px 16px', borderRadius:8, textDecoration:'none'}}>📞 Nu bellen</a>}
+        {lead.status === "terugbellen" && lead.terugbelDatum && (
+          <div style={{ background: "#fef3c7", borderRadius: 10, padding: 16, marginBottom: 24 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: "#2d5a27", marginBottom: 8 }}>📞 TERUGBELLEN</div>
+            <div style={{ fontSize: 18, fontWeight: 700 }}>{lead.terugbelDatum} {lead.terugbelTijd && `om ${lead.terugbelTijd}`}</div>
+            {lead.telefoon && <a href={`tel:${lead.telefoon}`} style={{ display: "inline-block", marginTop: 10, background: "#2d5a27", color: "#fff", padding: "8px 16px", borderRadius: 8, textDecoration: "none" }}>📞 Nu bellen</a>}
           </div>
         )}
         
-        {/* Photos */}
-        {lead.fotos?.length > 0 && (
-          <div style={{marginBottom:24}}>
-            <div style={{fontSize:13, fontWeight:700, color:'#2d5a27', marginBottom:12}}>📸 FOTO'S</div>
-            <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(100px,1fr))', gap:10}}>
-              {lead.fotos.map((foto, idx) => (
-                <div key={idx} style={{borderRadius:10, overflow:'hidden', aspectRatio:'4/3', cursor:'pointer'}} onClick={() => window.open(foto)}>
-                  <img src={foto} style={{width:'100%', height:'100%', objectFit:'cover'}} />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-        
-        {/* Opmerkingen */}
         {lead.opmerkingen && (
-          <div style={{marginBottom:24}}>
-            <div style={{fontSize:13, fontWeight:700, color:'#2d5a27', marginBottom:12}}>📝 NOTITIES</div>
-            <div style={{whiteSpace:'pre-wrap', color:'#555', background:'#faf9f7', padding:12, borderRadius:10}}>{lead.opmerkingen}</div>
-          </div>
-        )}
-        
-        {/* Verkoper info */}
-        {lead.verkoper && (
           <div>
-            <div style={{fontSize:13, fontWeight:700, color:'#2d5a27', marginBottom:12}}>👤 VERKOPER</div>
-            <div>{lead.verkoper}{lead.verkoperTelefoon && ` · ${lead.verkoperTelefoon}`}</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: "#2d5a27", marginBottom: 12 }}>📝 NOTITIES</div>
+            <div style={{ whiteSpace: "pre-wrap", color: "#555", background: "#faf9f7", padding: 12, borderRadius: 10 }}>{lead.opmerkingen}</div>
           </div>
         )}
       </div>
@@ -1442,103 +1405,89 @@ function DetailView({ lead, onEdit, onDelete, onBack, onStatusChange }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-# 📅 AGENDA VIEW
-// ═══════════════════════════════════════════════════════════════
 function AgendaView({ leads, onSelectLead }) {
   const callbacks = leads
-    .filter(l => l.status === 'terugbellen' && l.terugbelDatum)
-    .sort((a, b) => (a.terugbelDatum + (a.terugbelTijd || '99:99')).localeCompare(b.terugbelDatum + (b.terugbelTijd || '99:99')));
+    .filter(l => l.status === "terugbellen" && l.terugbelDatum)
+    .sort((a, b) => (a.terugbelDatum + (a.terugbelTijd || "99:99")).localeCompare(b.terugbelDatum + (b.terugbelTijd || "99:99")));
   
   const grouped = {};
   callbacks.forEach(lead => {
-    if(!grouped[lead.terugbelDatum]) grouped[lead.terugbelDatum] = [];
+    if (!grouped[lead.terugbelDatum]) grouped[lead.terugbelDatum] = [];
     grouped[lead.terugbelDatum].push(lead);
   });
   
-  const today = tdy();
+  const today = getToday();
   const formatDate = (dateStr) => {
-    if(dateStr === today) return '📅 Vandaag';
+    if (dateStr === today) return "📅 Vandaag";
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    if(dateStr === tomorrow.toISOString().slice(0,10)) return '📅 Morgen';
-    return new Date(dateStr).toLocaleDateString('nl-NL', {weekday:'long', day:'numeric', month:'long'});
+    if (dateStr === tomorrow.toISOString().slice(0, 10)) return "📅 Morgen";
+    return new Date(dateStr).toLocaleDateString("nl-NL", { weekday: "long", day: "numeric", month: "long" });
   };
   
   return (
     <div>
-      <div style={{fontSize:26, fontWeight:700, marginBottom:20}}>📅 Terugbel agenda</div>
+      <h2 style={{ fontSize: 26, fontWeight: 700, marginBottom: 20 }}>📅 Terugbel agenda</h2>
       
       {Object.entries(grouped).map(([date, items]) => (
-        <div key={date} style={{marginBottom:28}}>
+        <div key={date} style={{ marginBottom: 28 }}>
           <div style={{
-            fontSize:16, fontWeight:700, marginBottom:10,
-            color: date === today ? '#f59e0b' : date < today ? '#ef4444' : '#333',
-            paddingBottom:6, borderBottom:'2px solid #e0ddd8'
+            fontSize: 16,
+            fontWeight: 700,
+            marginBottom: 10,
+            color: date === today ? "#f59e0b" : date < today ? "#ef4444" : "#333",
+            paddingBottom: 6,
+            borderBottom: "2px solid #e0ddd8"
           }}>
-            {formatDate(date)} {date < today && <span style={{fontSize:11, marginLeft:8, color:'#ef4444'}}>(VERLOPEN)</span>}
-            <span style={{fontSize:13, fontWeight:'normal', marginLeft:8, color:'#888'}}>{items.length} belmoment(en)</span>
+            {formatDate(date)} {date < today && <span style={{ fontSize: 11, marginLeft: 8, color: "#ef4444" }}>(VERLOPEN)</span>}
+            <span style={{ fontSize: 13, fontWeight: "normal", marginLeft: 8, color: "#888" }}>{items.length} belmoment(en)</span>
           </div>
           
           {items.map(lead => (
-            <div key={lead.id} onClick={() => onSelectLead(lead)} style={{
-              display:'flex', alignItems:'center', gap:14, background:'#fff', borderRadius:12,
-              padding:'14px 18px', marginBottom:8, cursor:'pointer'
-            }}>
-              <div style={{fontWeight:700, fontFamily:'monospace', fontSize:15, minWidth:60, color:'#f59e0b'}}>
-                {lead.terugbelTijd || '—:—'}
+            <div key={lead.id} className="lead-card" onClick={() => onSelectLead(lead)}>
+              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                <div style={{ fontWeight: 700, fontFamily: "monospace", fontSize: 15, minWidth: 60, color: "#f59e0b" }}>
+                  {lead.terugbelTijd || "—:—"}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 600 }}>{lead.naam || "Onbekend"}</div>
+                  <div style={{ fontSize: 13, color: "#888" }}>{lead.telefoon || "Geen telefoon"}</div>
+                </div>
+                <a href={`tel:${lead.telefoon}`} onClick={e => e.stopPropagation()} style={{
+                  fontSize: 22,
+                  padding: "8px 12px",
+                  borderRadius: 10,
+                  background: "#f0fdf4",
+                  textDecoration: "none"
+                }}>📞</a>
               </div>
-              <div style={{flex:1}}>
-                <div style={{fontWeight:600}}>{lead.naam || 'Onbekend'}</div>
-                <div style={{fontSize:13, color:'#888'}}>{lead.telefoon || 'Geen telefoon'}</div>
-              </div>
-              <a href={`tel:${lead.telefoon}`} onClick={e => e.stopPropagation()} style={{
-                fontSize:22, padding:'8px 12px', borderRadius:10, background:'#f0fdf4', textDecoration:'none'
-              }}>📞</a>
             </div>
           ))}
         </div>
       ))}
       
       {callbacks.length === 0 && (
-        <div style={{textAlign:'center', padding:60}}>
-          <div style={{fontSize:48, marginBottom:12}}>📅</div>
-          <div style={{fontWeight:600}}>Geen terugbelafspraken</div>
-          <div style={{fontSize:14, color:'#888', marginTop:8}}>Wijzig de status van een lead naar "Terugbellen" om hier afspraken te zien.</div>
+        <div style={{ textAlign: "center", padding: 60 }}>
+          <div style={{ fontSize: 48, marginBottom: 12 }}>📅</div>
+          <div style={{ fontWeight: 600 }}>Geen terugbelafspraken</div>
+          <div style={{ fontSize: 14, color: "#888", marginTop: 8 }}>Wijzig de status van een lead naar "Terugbellen" om hier afspraken te zien.</div>
         </div>
       )}
     </div>
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-# 🔧 FIELD COMPONENT
-// ═══════════════════════════════════════════════════════════════
-function Field({ label, value, onChange, type = 'text', prefix }) {
-  return (
-    <div style={{marginBottom:16}}>
-      <label style={{display:'block', fontSize:12, fontWeight:600, color:'#888', marginBottom:6}}>{label}</label>
-      <div style={{position:'relative'}}>
-        {prefix && <span style={{position:'absolute', left:12, top:'50%', transform:'translateY(-50%)', color:'#999', fontSize:14, fontWeight:600}}>{prefix}</span>}
-        <input
-          type={type}
-          value={value || ''}
-          onChange={e => onChange(e.target.value)}
-          style={{
-            width:'100%', padding: prefix ? '12px 14px 12px 28px' : '12px 14px',
-            border:'1.5px solid #e0ddd8', borderRadius:10, fontSize:15,
-            background:'#faf9f7', outline:'none', fontFamily:'inherit'
-          }}
-        />
-      </div>
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════════
-# 🚀 RENDER APP
-// ═══════════════════════════════════════════════════════════════
-ReactDOM.render(<App />, document.getElementById('root'));
+// ================================================================
+// RENDER
+// ================================================================
+// Wait for React to load
+window.onload = function() {
+  ReactDOM.render(React.createElement(App), document.getElementById("root"));
+};
 </script>
+
+<!-- Load React -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
 </body>
 </html>
