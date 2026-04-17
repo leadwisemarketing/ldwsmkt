@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>LeadWise CRM — Isolatie Specialisten Brabant</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -256,7 +256,7 @@ input, button, textarea, select {
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12;
+  gap: 12px;
 }
 
 /* Buttons */
@@ -323,26 +323,6 @@ input, button, textarea, select {
   font-size: 16px;
   margin-bottom: 16px;
   text-align: center;
-}
-
-/* Modal */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 300;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.modal-content {
-  background: #fff;
-  border-radius: 20px;
-  padding: 28px;
-  max-width: 460px;
-  width: 100%;
 }
 
 /* Responsive */
@@ -567,7 +547,6 @@ function App() {
   const [loginError, setLoginError] = useState("");
   
   useEffect(() => {
-    // Check if already logged in
     const loggedIn = localStorage.getItem("leadwise_logged_in");
     if (loggedIn === "true") {
       setShowLogin(false);
@@ -1013,7 +992,7 @@ function FormView({ lead, setLead, tab, setTab, onSave, onCancel }) {
               <label className="form-label">Straat + huisnummer</label>
               <input className="form-input" value={lead.straat} onChange={e => updateField("straat", e.target.value)} />
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <div className="form-row">
               <div className="form-group">
                 <label className="form-label">Postcode</label>
                 <input className="form-input" value={lead.postcode} onChange={e => updateField("postcode", e.target.value)} />
@@ -1035,7 +1014,7 @@ function FormView({ lead, setLead, tab, setTab, onSave, onCancel }) {
               <label className="form-label">Offertedatum</label>
               <input className="form-input" type="date" value={lead.offerteDatum} onChange={e => updateField("offerteDatum", e.target.value)} />
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <div className="form-row">
               <div className="form-group">
                 <label className="form-label">Verkoper</label>
                 <input className="form-input" value={lead.verkoper} onChange={e => updateField("verkoper", e.target.value)} />
@@ -1107,7 +1086,7 @@ function FormView({ lead, setLead, tab, setTab, onSave, onCancel }) {
                       </div>
                       {existing && (
                         <>
-                          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 12 }}>
+                          <div className="form-row" style={{ marginTop: 12 }}>
                             <div className="form-group">
                               <label className="form-label">m²</label>
                               <input className="form-input" type="number" value={existing.m2} onChange={e => updateOfferItem(product.id, "m2", e.target.value)} />
@@ -1166,7 +1145,7 @@ function FormView({ lead, setLead, tab, setTab, onSave, onCancel }) {
                       }));
                     }}>✕</button>
                   </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                  <div className="form-row">
                     <div className="form-group">
                       <label className="form-label">Aantal</label>
                       <input className="form-input" type="number" value={item.aantal} onChange={e => {
@@ -1260,7 +1239,7 @@ function FormView({ lead, setLead, tab, setTab, onSave, onCancel }) {
             </div>
             
             {lead.status === "terugbellen" && (
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
+              <div className="form-row" style={{ marginBottom: 20 }}>
                 <div className="form-group">
                   <label className="form-label">Terugbel datum</label>
                   <input className="form-input" type="date" value={lead.terugbelDatum} onChange={e => updateField("terugbelDatum", e.target.value)} />
@@ -1480,13 +1459,11 @@ function AgendaView({ leads, onSelectLead }) {
 // ================================================================
 // RENDER
 // ================================================================
-// Wait for React to load
 window.onload = function() {
   ReactDOM.render(React.createElement(App), document.getElementById("root"));
 };
 </script>
 
-<!-- Load React -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
 </body>
