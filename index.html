@@ -1,1470 +1,1124 @@
+
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>LeadWise CRM — Isolatie Specialisten Brabant</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leadwise Marketing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Ikona strony (favicon) -->
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/leadwisemarketing/ldwsmkt/refs/heads/main/logo%20linksboven%20header%20goeie%20wit.png">
+<link rel="icon" href="https://raw.githubusercontent.com/leadwisemarketing/ldwsmkt/refs/heads/main/logo%20linksboven%20header%20goeie%20wit.png" type="image/png">
+  
+<!-- Ikona dla urządzeń Apple (iPhone, iPad) -->
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/leadwisemarketing/ldwsmkt/refs/heads/main/logo%20linksboven%20header%20goeie%20wit.png">
+
+<!-- Ikona dla Androida / Progressive Web App -->
+<link rel="manifest" href="https://raw.githubusercontent.com/leadwisemarketing/ldwsmkt/refs/heads/main/logo%20linksboven%20header%20goeie%20wit.png">
+
+
+  
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #7e22ce;
+      --accent: #06b6d4;
+      --dark: #1e293b;
+      --darker: #0f172a;
+      --light: #f8fafc;
+      --gray: #94a3b8;
+      --success: #10b981;
+      
+      --gradient-primary: linear-gradient(135deg, #2563eb, #7e22ce);
+      --gradient-accent: linear-gradient(135deg, #06b6d4, #3b82f6);
+      --gradient-card: linear-gradient(135deg, #ffffff, #f1f5f9);
+      
+      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      
+      --radius: 10px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--dark);
+      background-color: var(--light);
+      line-height: 1.5;
+      overflow-x: hidden;
+      font-size: 0.95rem;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 0.875rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      margin-bottom: 1.25rem;
+      font-size: 0.95rem;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: white;
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-accent {
+      background: var(--gradient-accent);
+      color: white;
+    }
+
+    .section {
+      padding: 3.5rem 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title h2 {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 1.25rem;
+    }
+
+    .section-title h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 3px;
+      background: var(--gradient-primary);
+      border-radius: 2px;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-sm);
+      padding: 0.875rem 0;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--darker);
+    }
+
+    .logo img {
+      height: 32px;
+      width: auto;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      color: var(--dark);
+      position: relative;
+      font-size: 0.95rem;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gradient-primary);
+      transition: var(--transition);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.25rem;
+      cursor: pointer;
+      color: var(--dark);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 8rem 0 4rem;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.03) 0%, rgba(126, 34, 206, 0.03) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: var(--gradient-primary);
+      opacity: 0.1;
+      filter: blur(60px);
+    }
+
+    .hero-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .hero-text h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1.25rem;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-text p {
+      font-size: 1.1rem;
+      color: var(--gray);
+      margin-bottom: 2rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 0.875rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-image {
+      position: relative;
+    }
+
+    .hero-image img {
+      width: 100%;
+      max-width: 450px;
+      height: auto;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      transform: perspective(800px) rotateY(-10deg);
+      transition: var(--transition);
+    }
+
+    .hero-image img:hover {
+      transform: perspective(800px) rotateY(0);
+    }
+
+    /* Features */
+    .features {
+      background: white;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.75rem;
+    }
+
+    .feature-card {
+      background: var(--gradient-card);
+      padding: 1.75rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      text-align: center;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .feature-icon {
+      width: 55px;
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      border-radius: 50%;
+      background: var(--gradient-primary);
+      color: white;
+      font-size: 1.5rem;
+    }
+
+    /* Course Info */
+    .course-info {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.03) 0%, rgba(126, 34, 206, 0.03) 100%);
+    }
+
+    .info-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .info-image {
+      position: relative;
+    }
+
+    .info-image img {
+      width: 100%;
+      max-width: 450px;
+      height: auto;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .info-badge {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      background: var(--gradient-primary);
+      color: white;
+      padding: 0.625rem 1.25rem;
+      border-radius: 25px;
+      font-weight: 600;
+      box-shadow: var(--shadow-md);
+      font-size: 0.85rem;
+    }
+
+    .info-content h2 {
+      margin-bottom: 1.25rem;
+    }
+
+    .info-list {
+      list-style: none;
+      margin-bottom: 1.75rem;
+    }
+
+    .info-list li {
+      margin-bottom: 0.625rem;
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      font-size: 0.95rem;
+    }
+
+    .info-list li::before {
+      content: '✓';
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      background: var(--success);
+      color: white;
+      border-radius: 50%;
+      font-size: 0.7rem;
+    }
+
+    /* Instructor */
+    .instructor {
+      background: white;
+    }
+
+    .instructor-container {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .instructor-image {
+      position: relative;
+    }
+
+    .instructor-image img {
+      width: 100%;
+      max-width: 1000px;
+      height: auto;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .instructor-badge {
+      position: absolute;
+      bottom: -12px;
+      left: -12px;
+      background: var(--gradient-primary);
+      color: white;
+      padding: 0.625rem 1.25rem;
+      border-radius: 25px;
+      font-weight: 600;
+      box-shadow: var(--shadow-md);
+      font-size: 0.85rem;
+    }
+
+    .instructor-bio h2 {
+      margin-bottom: 1.25rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 0.875rem;
+      margin-top: 1.25rem;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--light);
+      color: var(--dark);
+      transition: var(--transition);
+    }
+
+    .social-link:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    /* FAQ */
+    .faq {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.03) 0%, rgba(126, 34, 206, 0.03) 100%);
+    }
+
+    .faq-container {
+      max-width: 750px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      margin-bottom: 1.25rem;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      background: white;
+    }
+
+    .faq-question {
+      padding: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+
+    .faq-question:hover {
+      color: var(--primary);
+    }
+
+    .faq-question i {
+      transition: var(--transition);
+    }
+
+    .faq-answer {
+      padding: 0 1.25rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: var(--transition);
+      font-size: 0.9rem;
+    }
+
+    .faq-item.active .faq-question i {
+      transform: rotate(180deg);
+    }
+
+    .faq-item.active .faq-answer {
+      padding: 0 1.25rem 1.25rem;
+      max-height: 500px;
+    }
+
+    /* CTA */
+    .cta {
+      background: var(--gradient-primary);
+      color: white;
+      text-align: center;
+      padding: 5rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      left: -80px;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .cta::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      right: -80px;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .cta h2 {
+      margin-bottom: 1.25rem;
+    }
+
+    .cta p {
+      max-width: 550px;
+      margin: 0 auto 2rem;
+      opacity: 0.9;
+    }
+
+  /* Footer */
+footer {
+  background: var(--primary);
+  color: white; /* Alle standaardtekst wit */
+  padding: 4rem 0 1.75rem;
 }
 
-body {
-  font-family: 'DM Sans', -apple-system, sans-serif;
-  background: #f5f3f0;
-  color: #1a1a1a;
-  min-height: 100vh;
-}
-
-input, button, textarea, select {
-  font-family: inherit;
-}
-
-/* Header */
-.header {
-  background: #1a1a1a;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  border-bottom: 2px solid #2d5a27;
-}
-
-.header-content {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo-icon {
-  color: #4ade80;
-  font-size: 24px;
-}
-
-.logo-title {
-  color: #fff;
-  font-weight: 700;
-  font-size: 17px;
-}
-
-.logo-sub {
-  color: #4ade80;
-  font-size: 10px;
-  font-family: monospace;
-  letter-spacing: 2px;
-}
-
-.nav {
-  display: flex;
-  gap: 4px;
-}
-
-.nav-btn {
-  background: transparent;
-  border: none;
-  color: #999;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.nav-btn.active {
-  background: #333;
-  color: #fff;
-}
-
-.action-btns {
-  display: flex;
-  gap: 8px;
-}
-
-.action-btn {
-  background: #333;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.new-btn {
-  background: #2d5a27;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-/* Main content */
-.main {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 20px 20px 80px;
-}
-
-/* Cards */
-.stats-grid {
+.footer-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 12px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30rem;
+  margin-bottom: 2.5rem;
 }
 
-.stat-card {
-  background: #fff;
-  border-radius: 14px;
-  padding: 20px 24px;
-}
-
-.stat-value {
-  font-size: 32px;
-  font-weight: 700;
-}
-
-.stat-label {
-  font-size: 13px;
-  color: #888;
-  margin-top: 4px;
-}
-
-/* Status filters */
-.filters {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 28px;
-}
-
-.filter-btn {
+.footer-logo {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: 999px;
-  font-size: 13px;
-  cursor: pointer;
-  font-family: inherit;
-  border: none;
-}
-
-/* Lead cards */
-.lead-card {
-  background: #fff;
-  border-radius: 14px;
-  padding: 16px 20px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-}
-
-.lead-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-
-.status-badge {
-  color: #fff;
-  font-size: 11px;
+  gap: 0.625rem;
+  margin-bottom: 1.25rem;
   font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 999px;
-  text-transform: uppercase;
+  font-size: 1.25rem;
+  color: white; /* Logo tekst wit */
 }
 
-.lead-name {
-  font-size: 17px;
-  font-weight: 700;
-  margin-bottom: 2px;
+.footer-logo img {
+  height: 32px;
+  width: auto;
 }
 
-.lead-address {
-  font-size: 13px;
-  color: #888;
-  margin-bottom: 10px;
+.footer-about p {
+  color: white; /* Paragraaftekst wit */
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  opacity: 1; /* Volledige zichtbaarheid */
 }
 
-.lead-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.footer-links h3,
+.footer-contact h3 {
+  margin-bottom: 1.25rem;
+  position: relative;
+  display: inline-block;
+  font-size: 1.1rem;
+  color: white; /* Kopjes wit */
 }
 
-.lead-phone {
-  font-size: 13px;
-  color: #555;
+.footer-links h3::after,
+.footer-contact h3::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 25px;
+  height: 2px;
+  background: var(--gradient-primary);
+  border-radius: 2px;
 }
 
-.lead-price {
-  font-weight: 700;
-  font-family: monospace;
-  font-size: 15px;
-  color: #2d5a27;
+.footer-links ul {
+  list-style: none;
 }
 
-/* Form */
-.form-container {
-  background: #fff;
-  border-radius: 14px;
-  padding: 20px;
+.footer-links li {
+  margin-bottom: 0.625rem;
 }
 
-.form-group {
-  margin-bottom: 16px;
+.footer-links a {
+  color: white; /* Links wit */
+  transition: var(--transition);
+  font-size: 0.9rem;
 }
 
-.form-label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: #888;
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.footer-links a:hover {
+  color: var(--gradient-primary); /* Hoverkleur kan gradient of wit zijn */
+  padding-left: 5px;
 }
 
-.form-input {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1.5px solid #e0ddd8;
-  border-radius: 10px;
-  font-size: 15px;
-  background: #faf9f7;
-  outline: none;
-  font-family: inherit;
-  box-sizing: border-box;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-/* Buttons */
-.btn-primary {
-  background: #2d5a27;
-  color: #fff;
-  border: none;
-  padding: 14px;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.btn-secondary {
-  background: #fff;
-  border: 1.5px solid #ddd;
-  padding: 14px;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-/* Toast */
-.toast {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #1a1a1a;
-  color: #fff;
-  padding: 12px 24px;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 600;
-  z-index: 999;
-}
-
-/* Login */
-.login-container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d5a27 100%);
+.footer-contact p {
+  margin-bottom: 0.875rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 20px;
+  gap: 0.625rem;
+  color: white; /* Contact tekst wit */
+  font-size: 0.9rem;
+  opacity: 1; /* Volledige zichtbaarheid */
 }
 
-.login-box {
-  background: #fff;
-  border-radius: 24px;
-  padding: 32px;
-  max-width: 400px;
-  width: 100%;
+.footer-bottom {
   text-align: center;
+  padding-top: 1.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2); /* Iets lichter voor contrast */
+  color: white; /* Tekst wit */
+  font-size: 0.85rem;
+  opacity: 1; /* Volledige zichtbaarheid */
 }
 
-.login-input {
-  width: 100%;
-  padding: 14px;
-  border: 2px solid #e0ddd8;
-  border-radius: 12px;
-  font-size: 16px;
-  margin-bottom: 16px;
-  text-align: center;
-}
+    /* Responsive */
+    @media (max-width: 992px) {
+      h1 {
+        font-size: 2.25rem;
+      }
+      
+      h2 {
+        font-size: 1.75rem;
+      }
+      
+      .hero-content,
+      .info-container,
+      .instructor-container {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      
+      .hero-text {
+        order: 2;
+        text-align: center;
+      }
+      
+      .hero-image {
+        order: 1;
+      }
+    }
 
-/* Responsive */
-@media (max-width: 640px) {
-  .form-row {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
+    @media (max-width: 768px) {
+      .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background: white;
+        padding: 1.75rem;
+        box-shadow: var(--shadow-md);
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition);
+      }
+      
+      .nav-menu.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .hero {
+        padding: 6rem 0 2.5rem;
+      }
+      
+      .hero-text h1 {
+        font-size: 2rem;
+      }
+      
+      .hero-buttons {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .section {
+        padding: 2.5rem 0;
+      }
+      
+      .hero-text h1 {
+        font-size: 1.75rem;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .hero-buttons {
+        flex-direction: column;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .delay-1 {
+      animation-delay: 0.2s;
+    }
+
+    .delay-2 {
+      animation-delay: 0.4s;
+    }
+
+    .delay-3 {
+      animation-delay: 0.6s;
+    }
+
+    
+  </style>
+
+
+  
+  
 </head>
 <body>
-<div id="root"></div>
+  <!-- Header -->
+  <header>
+    <div class="container header-container">
+      <a href="#" class="logo">
+        <img src="https://raw.githubusercontent.com/leadwisemarketing/ldwsmkt/refs/heads/main/logo%20linksboven%20header%20goeie%20wit.png" alt="logo header linksboven">
+        <span>Leadwise Marketing</span>
+      </a>
+      
+      <nav class="nav-menu">
+        <a href="#home" class="nav-link">Home</a>
+        <a href="#features" class="nav-link">About</a>
+        <a href="#course" class="nav-link">Product</a>
+        <a href="#instructor" class="nav-link">Our Team</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+        <a href="#contact1" class="nav-link">Contact</a>
+      </nav>
+      
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
 
-<script>
-// ================================================================
-// DATA
-// ================================================================
-const PRODUCTEN = {
-  spouw: [
-    { id: "eps_spouw", naam: "EPS parels", prijs: 37.5, rd: 1.76, dikte: "6 cm", type: "Inblaas", min: 50 },
-    { id: "ifoam", naam: "iFoam", prijs: 37.5, rd: 1.87, dikte: "6 cm", type: "Schuim", min: 50 },
-    { id: "insucore", naam: "Insucore (biobased)", prijs: 47.5, rd: 1.77, dikte: "6 cm", type: "Schuim", min: 50 }
-  ],
-  vloer: [
-    { id: "purfect", naam: "PUR gesloten cel (Purfect)", prijs: 55, rd: 4.0, dikte: "10 cm", type: "Gesloten cel", min: 35 },
-    { id: "pif40", naam: "PIF 40 + folie", prijs: 65, rd: 3.5, dikte: "12 cm", type: "Reflectie folie", min: 35 }
-  ],
-  dak: [
-    { id: "pcc", naam: "PCC open cell schuim", prijs: 65, rd: 4.0, dikte: "14 cm", type: "Open cell", min: 35 },
-    { id: "easycell", naam: "Easycell biobased", prijs: 65, rd: 5.0, dikte: "14 cm", type: "Biobased injectie", min: 35 },
-    { id: "isovlas", naam: "Isovlas + folie", prijs: 100, rd: 3.67, dikte: "12 cm", type: "Biobased", min: 35 }
-  ],
-  bodem: [
-    { id: "eps_bodem", naam: "EPS parels", prijs: 42.5, rd: 4.92, dikte: "20 cm", type: "Losse isolatie", min: 35 }
-  ],
-  overig: [
-    { id: "gevel", naam: "Gevel impregneren", prijs: 30, rd: null, dikte: "-", type: "Impregnatie", min: 0 }
-  ]
-};
 
-const MEERWERK = [
-  { id: "edna", naam: "Edna onderzoek", prijs: 500, e: "stuk" },
-  { id: "natuurlijk", naam: "Natuurlijk vriendelijk isoleren", prijs: 500, e: "stuk" },
-  { id: "dakombouw", naam: "Dakombouw", prijs: 260, e: "stuk" },
-  { id: "dakdoorvoer", naam: "Dakdoorvoer", prijs: 70, e: "stuk" },
-  { id: "klimaatfolie", naam: "Klimaatfolie", prijs: 25, e: "stuk" },
-  { id: "verw_opr", naam: "Isolatie verwijderen (opruimen)", prijs: 170, e: "m²" },
-  { id: "verw_uitz", naam: "Isolatie verwijderen (uitzuigen)", prijs: 195, e: "m²" },
-  { id: "hoogwerker", naam: "Hoogwerker", prijs: 550, e: "stuk" },
-  { id: "stijger", naam: "Stijger", prijs: 550, e: "stuk" },
-  { id: "afwerking", naam: "Afwerking", prijs: 180, e: "m²" },
-  { id: "isovlas_afw", naam: "Isovlas + afwerking", prijs: 260, e: "m²" },
-  { id: "koof", naam: "Koof", prijs: 200, e: "stuk" },
-  { id: "knieschot", naam: "Knieschot", prijs: 100, e: "stuk" },
-  { id: "folie", naam: "Folie", prijs: 22, e: "stuk" },
-  { id: "mangat", naam: "Mangat", prijs: 300, e: "stuk" }
-];
-
-const ISDE = {
-  spouw_1: 5.25, spouw_2: 10.5,
-  vloer_1: 5.5, vloer_2: 11,
-  dak_1: 16.25, dak_2: 32.5,
-  bodem_1: 3, bodem_2: 6
-};
-
-const BTW = 1.13;
-const STORAGE_KEY = "leadwise_crm_data";
-const DEFAULT_PIN = "1234";
-
-const STATUS = {
-  nieuw: { label: "Nieuw", color: "#3b82f6", icon: "●" },
-  terugbellen: { label: "Terugbellen", color: "#f59e0b", icon: "📞" },
-  getekend: { label: "Getekend", color: "#8b5cf6", icon: "✓" },
-  in_uitvoering: { label: "In uitvoering", color: "#10b981", icon: "⚡" },
-  afgewezen: { label: "Afgewezen", color: "#ef4444", icon: "✕" }
-};
-
-// ================================================================
-// HELPERS
-// ================================================================
-function formatPrice(v) {
-  const n = parseFloat(v);
-  return isNaN(n) ? "–" : "€" + n.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
-
-function generateId() {
-  return Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
-}
-
-function getToday() {
-  return new Date().toISOString().slice(0, 10);
-}
-
-function findProduct(id) {
-  for (const cat of Object.values(PRODUCTEN)) {
-    const p = cat.find(x => x.id === id);
-    if (p) return p;
-  }
-  return null;
-}
-
-function findMeerwerk(id) {
-  return MEERWERK.find(m => m.id === id);
-}
-
-function emptyLead() {
-  return {
-    id: generateId(),
-    naam: "",
-    straat: "",
-    postcode: "",
-    woonplaats: "",
-    telefoon: "",
-    email: "",
-    offerteDatum: getToday(),
-    typeWoning: "",
-    vloeroppervlakte: "",
-    wozVoldoet: false,
-    energielabelVoldoet: false,
-    offerteItems: [],
-    meerwerkItems: [],
-    gemeentelijkeSubsidie: "",
-    isdeMultiple: false,
-    totaalExBTW: "0",
-    totaalInclBTW: "0",
-    isdeSubsidie: "0",
-    totaalSubsidie: "0",
-    eigenBijdrage: "0",
-    fotos: [],
-    status: "nieuw",
-    terugbelDatum: "",
-    terugbelTijd: "",
-    opmerkingen: "",
-    verkoper: "",
-    verkoperTelefoon: "",
-    aangemaakt: new Date().toISOString()
-  };
-}
-
-function recalc(lead) {
-  let total = 0;
-  
-  lead.offerteItems.forEach(item => {
-    const m2 = parseFloat(item.m2) || 0;
-    const price = parseFloat(item.prijsPerM2) || 0;
-    item.totaal = m2 * price;
-    total += item.totaal;
-  });
-  
-  lead.meerwerkItems.forEach(item => {
-    const aantal = parseFloat(item.aantal) || 0;
-    const price = parseFloat(item.prijsPer) || 0;
-    item.totaal = aantal * price;
-    total += item.totaal;
-  });
-  
-  lead.totaalExBTW = total.toFixed(2);
-  lead.totaalInclBTW = (total * BTW).toFixed(2);
-  
-  let isdeTotal = 0;
-  const uniqueCats = new Set(lead.offerteItems.filter(i => i.productId !== "gevel").map(i => i.categorie));
-  const hasMultiple = uniqueCats.size >= 2 || lead.isdeMultiple;
-  
-  lead.offerteItems.forEach(item => {
-    const m2 = parseFloat(item.m2) || 0;
-    let key = "";
-    if (item.categorie === "spouw") key = hasMultiple ? "spouw_2" : "spouw_1";
-    else if (item.categorie === "vloer") key = hasMultiple ? "vloer_2" : "vloer_1";
-    else if (item.categorie === "dak") key = hasMultiple ? "dak_2" : "dak_1";
-    else if (item.categorie === "bodem") key = hasMultiple ? "bodem_2" : "bodem_1";
     
-    if (key && ISDE[key]) isdeTotal += m2 * ISDE[key];
-  });
-  
-  lead.isdeSubsidie = isdeTotal.toFixed(2);
-  const gemeente = parseFloat(lead.gemeentelijkeSubsidie) || 0;
-  lead.totaalSubsidie = (isdeTotal + gemeente).toFixed(2);
-  lead.eigenBijdrage = (parseFloat(lead.totaalInclBTW) - parseFloat(lead.totaalSubsidie)).toFixed(2);
-  
-  return { ...lead };
-}
+  </header>
 
-// ================================================================
-// STORAGE
-// ================================================================
-function loadLeads() {
-  try {
-    const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
-  } catch (e) {
-    console.error("Load error:", e);
-    return [];
-  }
-}
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text fade-in">
+          <h1>Business Leads for Companies of All Industries</h1>
+          <p>We are the world’s first lead generation company to use ArcGIS, an advanced geospatial data platform trusted by the world’s largest companies and institutions. This technology enables us to ensure relevance, reliability, and strong alignment with your campaign or project goals.</p>
+          <div class="hero-buttons">
+   
+            <a href="#contact1" class="nav-link" target="_blank" class="btn btn-secondary">
+              <i class="fas fa-eye"></i> Contact Us for a Free Test Batch
+            </a>
 
-function saveLeads(leads) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(leads));
-    return true;
-  } catch (e) {
-    console.error("Save error:", e);
-    return false;
-  }
-}
+                        
+          </div>
+        </div>
+       
+        <div class="hero-image fade-in delay-1">
+          <img src="https://raw.githubusercontent.com/leadwisemarketing/ldwsmkt/refs/heads/main/customer-service-rep-on-headset.jpg" alt="eerste grote 3d afbeelding">
+        </div>
+    </a>
 
-// ================================================================
-// REACT COMPONENTS
-// ================================================================
-const { useState, useEffect, useRef } = React;
+      
+      </div>
+    </div>
+  </section>
 
-function App() {
-  const [leads, setLeads] = useState([]);
-  const [view, setView] = useState("dashboard");
-  const [editLead, setEditLead] = useState(null);
-  const [selectedLead, setSelectedLead] = useState(null);
-  const [filter, setFilter] = useState("alle");
-  const [search, setSearch] = useState("");
-  const [tab, setTab] = useState("klant");
-  const [toast, setToast] = useState("");
-  const [showLogin, setShowLogin] = useState(true);
-  const [pinInput, setPinInput] = useState("");
-  const [loginError, setLoginError] = useState("");
+
+</style>
+
   
-  useEffect(() => {
-    const loggedIn = localStorage.getItem("leadwise_logged_in");
-    if (loggedIn === "true") {
-      setShowLogin(false);
-      setLeads(loadLeads());
-    }
-  }, []);
+  <!-- Features Section -->
+  <section id="features" class="section features">
+    <div class="container">
+      <div class="section-title">
+        <h2>About</h2>
+        <p>Why Our Leads Make a Difference</p>
+      </div>
+      
+      <div class="features-grid">
+        <div class="feature-card fade-in">
+          <div class="feature-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h3>Smart Lead Matching</h3>
+          <p>Our self-learning software delivers the best-matched leads for every project, driving higher conversions.</p>
+        </div>
+        
+        <div class="feature-card fade-in delay-1">
+          <div class="feature-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <h3>Reliable Contacts</h3>
+          <p>All leads include verified, up-to-date information, including direct and current phone numbers for key decision-makers.</p>
+        </div>
+        
+        <div class="feature-card fade-in delay-2">
+          <div class="feature-icon">
+            <i class="fas fa-medal"></i>
+          </div>
+          <h3>Long-Term Partnerships</h3>
+          <p>We aim for long-term collaborations and are always open to feedback, adapting our services to meet each client’s needs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Course Info Section -->
+  <section id="course" class="section course-info">
+    <div class="container">
+      <div class="info-container">
+        
+        <div class="info-image fade-in">
+          <img src="https://raw.githubusercontent.com/leadwisemarketing/ldwsmkt/refs/heads/main/software-development-planning-session.jpg" alt="Course Ratings">
+          <div class="info-badge">4.9/5 Rating</div>
+        </div>
+        </a>
+        
+        <div class="info-content fade-in delay-1">
+          <h2>What You'll Get</h2>
+          <ul class="info-list">
+            <li>Lead Matching Based on Campaign or Project</li>
+            <li>Company name, Industry, Size, Location, and Website</li>
+            <li>Name, Position, and Department of Decision-makers</li>
+            <li>Phone number and Email address</li>
+            <li>Custom Segmentation: Lead Matching Based on Campaign or Project</li>
+            <li>Easy import into your CRM</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Instructor Section -->
+  <section id="instructor" class="section instructor">
+    <div class="container">
+      <div class="section-title">
+        <h2>Meet the Team</h2>
+      </div>
+      
+      <div class="instructor-container">
+        <div class="instructor-image fade-in">
+          <img src="https://raw.githubusercontent.com/leadwisemarketing/ldwsmkt/refs/heads/main/developer-team-coding-javascript.jpg" alt="Daniel Buchar">
+          <div class="instructor-badge">We love to tell you what we do!</div>
+        </div>
+        
+        <div class="instructor-bio fade-in delay-1">
+          
+          <p>We generate high-quality business leads using ArcGIS, an advanced geospatial data platform trusted by the world’s largest companies and institutions. This technology allows us to analyze markets, identify ideal target companies, and select leads with a high level of accuracy. By leveraging ArcGIS, we go beyond basic databases and create data-driven lead lists based on real-world insights, ensuring relevance, reliability, and strong alignment with your campaign or project goals.</p>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+
+ <!-- FAQ Section -->
+<section id="faq" class="section faq">
+  <div class="container">
+    <div class="section-title">
+      <h2>Frequently Asked Questions</h2>
+      <p>Find answers to common questions about our services</p>
+    </div>
+    
+    <div class="faq-container">
+      <div class="faq-item fade-in">
+        <div class="faq-question">
+          <span>Do you only sell leads?</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>No, we do more than just sell leads. In addition to providing qualified business leads, we also create custom marketing campaigns to help your company generate more customers. This way, you combine direct leads with targeted marketing for the best results.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item fade-in delay-1">
+        <div class="faq-question">
+          <span>What are business leads and how can they help my company?</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>Business leads are contact details of potential customers interested in products or services like yours. We provide qualified leads, allowing your sales team to quickly reach people who are genuinely interested, increasing your chances of closing sales and growing revenue.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item fade-in delay-1">
+        <div class="faq-question">
+          <span>Can I choose which leads I receive?</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>Yes! We work with you to define your ideal customer profile. This ensures you receive only leads that match your products, services, and region, saving time and maximizing your sales efforts.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item fade-in delay-1">
+        <div class="faq-question">
+          <span>How do you ensure the leads are reliable?</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>All leads are verified for contact information and interest. We only deliver prospects who have interest in products or services like yours, ensuring your sales process is more effective.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item fade-in delay-1">
+        <div class="faq-question">
+          <span>How many leads can I expect and how often?</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>The number of leads depends on your target audience and industry. Together, we determine a lead volume and frequencythat matches your follow-up capacity, ensuring you consistently receive high-quality leads without being overwhelmed.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item fade-in delay-1">
+        <div class="faq-question">
+          <span>What is the difference between your leads and standard lead lists?</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>Standard lists often contain random contacts. Our leads are carefully selected based on interest and relevance, saving you time and significantly increasing the likelihood of conversion.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section pricing-table section__heading-alignment--left" id="pricing">
+
   
-  useEffect(() => {
-    if (!showLogin) {
-      saveLeads(leads);
-    }
-  }, [leads, showLogin]);
-  
-  const showToast = (msg) => {
-    setToast(msg);
-    setTimeout(() => setToast(""), 3000);
-  };
-  
-  const handleLogin = () => {
-    if (pinInput === DEFAULT_PIN) {
-      localStorage.setItem("leadwise_logged_in", "true");
-      setShowLogin(false);
-      setLoginError("");
-      setLeads(loadLeads());
-      showToast("✅ Ingelogd!");
-    } else {
-      setLoginError("Ongeldige pincode");
-    }
-  };
-  
-  const handleLogout = () => {
-    localStorage.removeItem("leadwise_logged_in");
-    setShowLogin(true);
-    setLeads([]);
-    setView("dashboard");
-    showToast("🔒 Uitgelogd");
-  };
-  
-  const saveLead = (lead) => {
-    const updated = recalc(lead);
-    setLeads(prev => {
-      const index = prev.findIndex(l => l.id === updated.id);
-      if (index >= 0) {
-        const newLeads = [...prev];
-        newLeads[index] = updated;
-        return newLeads;
-      }
-      return [updated, ...prev];
+
+
+
+
+
+
+  </section>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact1">
+    <div class="container">
+      <div class="footer-container">
+        <div class="footer-about">
+          <a href="#" class="footer-logo">
+            <img src="https://raw.githubusercontent.com/leadwisemarketing/ldwsmkt/refs/heads/main/logo%20linksboven%20header%20goeie%20wit.png" alt="Leadwise Marketing">
+            <span>Leadwise Marketing</span>
+          </a>
+          <p>"Smartly aimed, success is claimed."</p>
+        </div>
+        
+        <div class="footer-contact">
+          <h3>Contact Us</h3>
+          <p><i class="fas fa-envelope"></i> info@leadwisemarketing.io</p>
+          <p><i class="fas fa-phone"></i> +31 6 84848383</p>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>© 2026 Leadwise Marketing. All rights reserved.</p>
+        <p>ArcGIS is a trademark of Esri and/or its subsidiaries.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      mobileMenuBtn.innerHTML = navMenu.classList.contains('active') 
+        ? '<i class="fas fa-times"></i>' 
+        : '<i class="fas fa-bars"></i>';
     });
-    setView("list");
-    showToast("✅ Lead opgeslagen!");
-  };
-  
-  const deleteLead = (id) => {
-    if (confirm("Weet je zeker dat je deze lead wilt verwijderen?")) {
-      setLeads(prev => prev.filter(l => l.id !== id));
-      showToast("🗑️ Lead verwijderd");
-    }
-  };
-  
-  const updateStatus = (lead, newStatus) => {
-    const updated = { ...lead, status: newStatus };
-    if (newStatus !== "terugbellen") {
-      updated.terugbelDatum = "";
-      updated.terugbelTijd = "";
-    }
-    setLeads(prev => prev.map(l => l.id === updated.id ? updated : l));
-    setSelectedLead(updated);
-    showToast(`Status gewijzigd naar ${STATUS[newStatus].label}`);
-  };
-  
-  const exportData = () => {
-    const blob = new Blob([JSON.stringify({ leads, exportDate: new Date().toISOString() }, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `leadwise-backup-${getToday()}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast("📥 Backup gedownload!");
-  };
-  
-  const importData = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
     
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      try {
-        const data = JSON.parse(ev.target.result);
-        const importedLeads = data.leads || data;
-        if (Array.isArray(importedLeads)) {
-          setLeads(prev => {
-            const merged = [...prev];
-            importedLeads.forEach(lead => {
-              if (!lead.id) lead.id = generateId();
-              const existingIndex = merged.findIndex(l => l.id === lead.id);
-              if (existingIndex >= 0) {
-                merged[existingIndex] = lead;
-              } else {
-                merged.push(lead);
-              }
-            });
-            return merged;
+    // FAQ accordion
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      
+      question.addEventListener('click', () => {
+        item.classList.toggle('active');
+      });
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
           });
-          showToast(`📤 ${importedLeads.length} leads geïmporteerd!`);
-        } else {
-          throw new Error("Invalid format");
+          
+          // Close mobile menu if open
+          if (navMenu.classList.contains('active')) {
+            navMenu.classList.remove('active');
+            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+          }
         }
-      } catch (err) {
-        showToast("❌ Ongeldig bestand");
-      }
-    };
-    reader.readAsText(file);
-    e.target.value = "";
-  };
-  
-  const filteredLeads = leads.filter(lead => {
-    if (filter !== "alle" && lead.status !== filter) return false;
-    if (search) {
-      const searchLower = search.toLowerCase();
-      return [lead.naam, lead.straat, lead.woonplaats, lead.telefoon, lead.email].some(
-        f => (f || "").toLowerCase().includes(searchLower)
-      );
-    }
-    return true;
-  });
-  
-  // Login screen
-  if (showLogin) {
-    return (
-      <div className="login-container">
-        <div className="login-box">
-          <div style={{ fontSize: 48, marginBottom: 16 }}>◆</div>
-          <h1 style={{ fontSize: 24, marginBottom: 8 }}>LeadWise CRM</h1>
-          <p style={{ color: "#666", marginBottom: 24 }}>Isolatie CRM — Brabant</p>
-          <input
-            type="password"
-            className="login-input"
-            placeholder="Voer pincode in"
-            value={pinInput}
-            onChange={e => setPinInput(e.target.value)}
-            onKeyPress={e => e.key === "Enter" && handleLogin()}
-            autoFocus
-          />
-          {loginError && <p style={{ color: "#ef4444", fontSize: 14, marginBottom: 16 }}>{loginError}</p>}
-          <button className="btn-primary" style={{ width: "100%" }} onClick={handleLogin}>
-            Inloggen
-          </button>
-          <p style={{ fontSize: 12, color: "#999", marginTop: 20 }}>Demo pincode: 1234</p>
-        </div>
-      </div>
-    );
-  }
-  
-  // Main app
-  return (
-    <div>
-      {toast && <div className="toast">{toast}</div>}
-      
-      <div className="header">
-        <div className="header-content">
-          <div className="logo">
-            <span className="logo-icon">◆</span>
-            <div>
-              <div className="logo-title">LeadWise CRM</div>
-              <div className="logo-sub">BRABANT</div>
-            </div>
-          </div>
-          
-          <div className="nav">
-            <button className={`nav-btn ${view === "dashboard" ? "active" : ""}`} onClick={() => setView("dashboard")}>
-              ◫ Dashboard
-            </button>
-            <button className={`nav-btn ${view === "list" ? "active" : ""}`} onClick={() => setView("list")}>
-              ☰ Leads
-            </button>
-            <button className={`nav-btn ${view === "agenda" ? "active" : ""}`} onClick={() => setView("agenda")}>
-              📅 Agenda
-            </button>
-          </div>
-          
-          <div className="action-btns">
-            <button className="action-btn" onClick={exportData} title="Export">📥</button>
-            <input type="file" id="import-file" accept=".json" style={{ display: "none" }} onChange={importData} />
-            <button className="action-btn" onClick={() => document.getElementById("import-file").click()} title="Import">📤</button>
-            <button className="action-btn" onClick={handleLogout} title="Uitloggen" style={{ fontSize: 14 }}>🔒</button>
-            <button className="new-btn" onClick={() => {
-              setEditLead(emptyLead());
-              setTab("klant");
-              setView("form");
-            }}>
-              + Nieuwe Lead
-            </button>
-          </div>
-        </div>
-      </div>
-      
-      <div className="main">
-        {view === "dashboard" && (
-          <DashboardView leads={leads} onSelectLead={lead => { setSelectedLead(lead); setView("detail"); }} setFilter={setFilter} setView={setView} />
-        )}
-        
-        {view === "list" && (
-          <ListView 
-            leads={filteredLeads} 
-            filter={filter} 
-            setFilter={setFilter} 
-            search={search} 
-            setSearch={setSearch} 
-            onSelectLead={lead => { setSelectedLead(lead); setView("detail"); }}
-            onNew={() => { setEditLead(emptyLead()); setTab("klant"); setView("form"); }}
-          />
-        )}
-        
-        {view === "form" && editLead && (
-          <FormView 
-            lead={editLead} 
-            setLead={setEditLead} 
-            tab={tab} 
-            setTab={setTab} 
-            onSave={saveLead} 
-            onCancel={() => setView("list")} 
-          />
-        )}
-        
-        {view === "detail" && selectedLead && (
-          <DetailView 
-            lead={selectedLead} 
-            onEdit={() => { setEditLead(JSON.parse(JSON.stringify(selectedLead))); setTab("klant"); setView("form"); }}
-            onDelete={() => deleteLead(selectedLead.id)}
-            onBack={() => setView("list")}
-            onStatusChange={s => updateStatus(selectedLead, s)}
-          />
-        )}
-        
-        {view === "agenda" && (
-          <AgendaView leads={leads} onSelectLead={lead => { setSelectedLead(lead); setView("detail"); }} />
-        )}
-      </div>
-    </div>
-  );
-}
+      });
+    });
+  </script>
 
-function DashboardView({ leads, onSelectLead, setFilter, setView }) {
-  const counts = {};
-  Object.keys(STATUS).forEach(k => counts[k] = leads.filter(l => l.status === k).length);
-  
-  const today = getToday();
-  const callbacksToday = leads.filter(l => l.status === "terugbellen" && l.terugbelDatum === today);
-  const recentLeads = [...leads].sort((a, b) => new Date(b.aangemaakt) - new Date(a.aangemaakt)).slice(0, 5);
-  const signedValue = leads.filter(l => ["getekend", "in_uitvoering"].includes(l.status)).reduce((sum, l) => sum + (parseFloat(l.totaalInclBTW) || 0), 0);
-  
-  return (
-    <div>
-      <h2 style={{ fontSize: 26, fontWeight: 700, marginBottom: 20 }}>📊 Dashboard</h2>
-      
-      <div className="stats-grid">
-        <div className="stat-card" style={{ borderLeft: "3px solid #3b82f6" }}>
-          <div className="stat-value">{leads.length}</div>
-          <div className="stat-label">Totaal Leads</div>
-        </div>
-        <div className="stat-card" style={{ borderLeft: "3px solid #f59e0b" }}>
-          <div className="stat-value">{callbacksToday.length}</div>
-          <div className="stat-label">Terugbellen vandaag</div>
-        </div>
-        <div className="stat-card" style={{ borderLeft: "3px solid #10b981" }}>
-          <div className="stat-value">{formatPrice(signedValue)}</div>
-          <div className="stat-label">Getekende waarde</div>
-        </div>
-      </div>
-      
-      <div className="filters">
-        {Object.entries(STATUS).map(([key, config]) => (
-          <button key={key} className="filter-btn" style={{ background: config.color + "18", color: config.color, border: `1px solid ${config.color}33` }} onClick={() => { setFilter(key); setView("list"); }}>
-            <span>{config.icon}</span>
-            <b>{counts[key]}</b>
-            <span>{config.label}</span>
-          </button>
-        ))}
-      </div>
-      
-      {callbacksToday.length > 0 && (
-        <div style={{ marginBottom: 28 }}>
-          <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 12 }}>📞 Vandaag terugbellen</h3>
-          {callbacksToday.map(lead => (
-            <div key={lead.id} className="lead-card" style={{ borderLeft: "3px solid #f59e0b" }} onClick={() => onSelectLead(lead)}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <div>
-                  <div style={{ fontWeight: 600 }}>{lead.naam || "Onbekend"}</div>
-                  <div style={{ fontSize: 13, color: "#888" }}>{lead.telefoon}</div>
-                </div>
-                <div style={{ textAlign: "right" }}>
-                  <div style={{ fontWeight: 600, color: "#f59e0b" }}>{lead.terugbelTijd || "—"}</div>
-                  <a href={`tel:${lead.telefoon}`} onClick={e => e.stopPropagation()} style={{ color: "#3b82f6", fontSize: 13 }}>📞 Bellen</a>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-      
-      <div>
-        <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 12 }}>📋 Recente leads</h3>
-        {recentLeads.map(lead => {
-          const config = STATUS[lead.status];
-          return (
-            <div key={lead.id} className="lead-card" onClick={() => onSelectLead(lead)}>
-              <div className="lead-header">
-                <span className="status-badge" style={{ background: config?.color }}>{config?.icon} {config?.label}</span>
-              </div>
-              <div className="lead-name">{lead.naam || "Onbekend"}</div>
-              <div className="lead-address">{lead.woonplaats || lead.straat || "Geen adres"}</div>
-              <div className="lead-footer">
-                <span className="lead-price">{formatPrice(lead.totaalInclBTW)}</span>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
 
-function ListView({ leads, filter, setFilter, search, setSearch, onSelectLead, onNew }) {
-  return (
-    <div>
-      <input className="form-input" style={{ marginBottom: 16 }} placeholder="🔍 Zoek op naam, adres, telefoon..." value={search} onChange={e => setSearch(e.target.value)} />
-      
-      <div className="filters">
-        <button className="filter-btn" style={{ background: filter === "alle" ? "#1a1a1a" : "#fff", color: filter === "alle" ? "#fff" : "#666" }} onClick={() => setFilter("alle")}>
-          Alle ({leads.length})
-        </button>
-        {Object.entries(STATUS).map(([key, config]) => (
-          <button key={key} className="filter-btn" style={{ background: filter === key ? config.color : "#fff", color: filter === key ? "#fff" : "#666" }} onClick={() => setFilter(key)}>
-            {config.icon} {config.label}
-          </button>
-        ))}
-      </div>
-      
-      {leads.map(lead => {
-        const config = STATUS[lead.status];
-        return (
-          <div key={lead.id} className="lead-card" onClick={() => onSelectLead(lead)}>
-            <div className="lead-header">
-              <span className="status-badge" style={{ background: config?.color }}>{config?.icon} {config?.label}</span>
-              {lead.status === "terugbellen" && lead.terugbelDatum && (
-                <span style={{ fontSize: 12, color: "#f59e0b", fontWeight: 600 }}>📞 {lead.terugbelDatum}</span>
-              )}
-            </div>
-            <div className="lead-name">{lead.naam || "Onbekende klant"}</div>
-            <div className="lead-address">{lead.straat && `${lead.straat}, `}{lead.postcode} {lead.woonplaats}</div>
-            <div className="lead-footer">
-              <span className="lead-phone">{lead.telefoon || "Geen telefoon"}</span>
-              <span className="lead-price">{formatPrice(lead.totaalInclBTW)}</span>
-            </div>
-          </div>
-        );
-      })}
-      
-      {leads.length === 0 && (
-        <div style={{ textAlign: "center", padding: 60 }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>🏠</div>
-          <div style={{ fontWeight: 600, marginBottom: 8 }}>Geen leads gevonden</div>
-          <button className="btn-primary" onClick={onNew}>+ Nieuwe Lead</button>
-        </div>
-      )}
-    </div>
-  );
-}
 
-function FormView({ lead, setLead, tab, setTab, onSave, onCancel }) {
-  const updateField = (field, value) => {
-    setLead(prev => recalc({ ...prev, [field]: value }));
-  };
-  
-  const toggleProduct = (category, productId, isChecked) => {
-    let items = [...lead.offerteItems];
-    if (isChecked) {
-      const product = PRODUCTEN[category]?.find(p => p.id === productId);
-      if (product) {
-        items.push({
-          categorie: category,
-          productId: productId,
-          m2: "",
-          prijsPerM2: product.prijs,
-          totaal: 0
-        });
-      }
-    } else {
-      items = items.filter(i => i.productId !== productId);
-    }
-    setLead(prev => recalc({ ...prev, offerteItems: items }));
-  };
-  
-  const updateOfferItem = (productId, field, value) => {
-    const items = lead.offerteItems.map(i => i.productId === productId ? { ...i, [field]: value } : i);
-    setLead(prev => recalc({ ...prev, offerteItems: items }));
-  };
-  
-  const tabs = [
-    ["klant", "👤 Klant"],
-    ["woning", "🏠 Woning"],
-    ["offerte", "📄 Offerte"],
-    ["meerwerk", "🔧 Meerwerk"],
-    ["subsidie", "💰 Subsidie"],
-    ["status", "⚙️ Status"]
-  ];
-  
-  return (
-    <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-        <button className="btn-secondary" style={{ padding: "8px 16px" }} onClick={onCancel}>← Terug</button>
-        <div style={{ fontSize: 20, fontWeight: 700 }}>{lead.naam ? `✏️ ${lead.naam}` : "➕ Nieuwe Lead"}</div>
-      </div>
-      
-      <div style={{ display: "flex", gap: 4, marginBottom: 20, overflowX: "auto" }}>
-        {tabs.map(([key, label]) => (
-          <button key={key} onClick={() => setTab(key)} style={{
-            padding: "10px 18px",
-            borderRadius: 10,
-            border: "1.5px solid #e0ddd8",
-            whiteSpace: "nowrap",
-            background: tab === key ? "#1a1a1a" : "#fff",
-            color: tab === key ? "#fff" : "#666",
-            fontSize: 14,
-            fontWeight: 500,
-            cursor: "pointer"
-          }}>
-            {label}
-          </button>
-        ))}
-      </div>
-      
-      <div className="form-container">
-        {tab === "klant" && (
-          <>
-            <div className="form-group">
-              <label className="form-label">Naam klant</label>
-              <input className="form-input" value={lead.naam} onChange={e => updateField("naam", e.target.value)} />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Straat + huisnummer</label>
-              <input className="form-input" value={lead.straat} onChange={e => updateField("straat", e.target.value)} />
-            </div>
-            <div className="form-row">
-              <div className="form-group">
-                <label className="form-label">Postcode</label>
-                <input className="form-input" value={lead.postcode} onChange={e => updateField("postcode", e.target.value)} />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Woonplaats</label>
-                <input className="form-input" value={lead.woonplaats} onChange={e => updateField("woonplaats", e.target.value)} />
-              </div>
-            </div>
-            <div className="form-group">
-              <label className="form-label">Telefoon</label>
-              <input className="form-input" type="tel" value={lead.telefoon} onChange={e => updateField("telefoon", e.target.value)} />
-            </div>
-            <div className="form-group">
-              <label className="form-label">E-mail</label>
-              <input className="form-input" type="email" value={lead.email} onChange={e => updateField("email", e.target.value)} />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Offertedatum</label>
-              <input className="form-input" type="date" value={lead.offerteDatum} onChange={e => updateField("offerteDatum", e.target.value)} />
-            </div>
-            <div className="form-row">
-              <div className="form-group">
-                <label className="form-label">Verkoper</label>
-                <input className="form-input" value={lead.verkoper} onChange={e => updateField("verkoper", e.target.value)} />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Verkoper telefoon</label>
-                <input className="form-input" type="tel" value={lead.verkoperTelefoon} onChange={e => updateField("verkoperTelefoon", e.target.value)} />
-              </div>
-            </div>
-          </>
-        )}
-        
-        {tab === "woning" && (
-          <>
-            <div className="form-group">
-              <label className="form-label">Type woning</label>
-              <select className="form-input" value={lead.typeWoning} onChange={e => updateField("typeWoning", e.target.value)}>
-                <option value="">-- Selecteer --</option>
-                {["Vrijstaand", "Hoekwoning", "Tussenwoning", "2-onder-1-kap", "Appartement", "Bovenwoning", "Bungalow"].map(t => <option key={t}>{t}</option>)}
-              </select>
-            </div>
-            <div className="form-group">
-              <label className="form-label">Vloeroppervlakte (m²)</label>
-              <input className="form-input" type="number" value={lead.vloeroppervlakte} onChange={e => updateField("vloeroppervlakte", e.target.value)} />
-            </div>
-            <label style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14, cursor: "pointer" }}>
-              <input type="checkbox" checked={lead.wozVoldoet} onChange={e => updateField("wozVoldoet", e.target.checked)} style={{ width: 18, height: 18 }} />
-              WOZ-waarde voldoet aan voorwaarden
-            </label>
-            <label style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14, cursor: "pointer" }}>
-              <input type="checkbox" checked={lead.energielabelVoldoet} onChange={e => updateField("energielabelVoldoet", e.target.checked)} style={{ width: 18, height: 18 }} />
-              Energielabel voldoet aan voorwaarden
-            </label>
-          </>
-        )}
-        
-        {tab === "offerte" && (
-          <div>
-            <p style={{ marginBottom: 16, fontSize: 14, color: "#666" }}>Selecteer producten en vul het aantal m² in.</p>
-            {Object.entries(PRODUCTEN).map(([category, products]) => (
-              <div key={category} style={{ marginBottom: 24, paddingBottom: 20, borderBottom: "1px solid #eee" }}>
-                <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 12, color: "#2d5a27" }}>
-                  {category === "spouw" && "🏠 Spouwmuur"}
-                  {category === "vloer" && "⬇️ Vloerisolatie"}
-                  {category === "dak" && "🏔️ Dakisolatie"}
-                  {category === "bodem" && "🌍 Bodemisolatie"}
-                  {category === "overig" && "🔧 Overige werkzaamheden"}
-                </div>
-                {products.map(product => {
-                  const existing = lead.offerteItems.find(i => i.productId === product.id);
-                  return (
-                    <div key={product.id} style={{
-                      background: existing ? "#f0fdf4" : "#faf9f7",
-                      border: `1.5px solid ${existing ? "#2d5a27" : "#e0ddd8"}`,
-                      borderRadius: 12,
-                      padding: 14,
-                      marginBottom: 12
-                    }}>
-                      <label style={{ display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer", marginBottom: 6 }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                          <input type="checkbox" checked={!!existing} onChange={e => toggleProduct(category, product.id, e.target.checked)} style={{ width: 20, height: 20 }} />
-                          <b>{product.naam}</b>
-                        </div>
-                        <span style={{ fontFamily: "monospace", fontWeight: 700, color: "#2d5a27" }}>{formatPrice(product.prijs)}/m²</span>
-                      </label>
-                      <div style={{ fontSize: 13, color: "#888" }}>
-                        {product.dikte} · RD {product.rd || "-"} · {product.type}
-                        {product.min ? ` · Min. ${product.min}m²` : ""}
-                      </div>
-                      {existing && (
-                        <>
-                          <div className="form-row" style={{ marginTop: 12 }}>
-                            <div className="form-group">
-                              <label className="form-label">m²</label>
-                              <input className="form-input" type="number" value={existing.m2} onChange={e => updateOfferItem(product.id, "m2", e.target.value)} />
-                            </div>
-                            <div className="form-group">
-                              <label className="form-label">Prijs per m²</label>
-                              <input className="form-input" type="number" value={existing.prijsPerM2} onChange={e => updateOfferItem(product.id, "prijsPerM2", e.target.value)} />
-                            </div>
-                          </div>
-                          <div style={{ fontSize: 13, fontWeight: 700, color: "#2d5a27", marginTop: 8 }}>Subtotaal: {formatPrice(existing.totaal)}</div>
-                        </>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
-          </div>
-        )}
-        
-        {tab === "meerwerk" && (
-          <div>
-            <div className="form-group">
-              <label className="form-label">Meerwerk toevoegen</label>
-              <select className="form-input" value="" onChange={e => {
-                if (!e.target.value) return;
-                const meerwerk = MEERWERK.find(m => m.id === e.target.value);
-                if (meerwerk) {
-                  setLead(prev => recalc({
-                    ...prev,
-                    meerwerkItems: [...prev.meerwerkItems, {
-                      meerwerkId: meerwerk.id,
-                      aantal: 1,
-                      prijsPer: meerwerk.prijs,
-                      totaal: meerwerk.prijs
-                    }]
-                  }));
-                }
-                e.target.value = "";
-              }}>
-                <option value="">-- Selecteer meerwerk --</option>
-                {MEERWERK.map(m => <option key={m.id} value={m.id}>{m.naam} — {formatPrice(m.prijs)}/{m.e}</option>)}
-              </select>
-            </div>
-            
-            {lead.meerwerkItems.map((item, idx) => {
-              const meerwerk = findMeerwerk(item.meerwerkId);
-              return (
-                <div key={idx} style={{ background: "#f0fdf4", border: "1.5px solid #2d5a27", borderRadius: 12, padding: 14, marginBottom: 12 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                    <b>{meerwerk?.naam}</b>
-                    <button style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer", fontSize: 18 }} onClick={() => {
-                      setLead(prev => recalc({
-                        ...prev,
-                        meerwerkItems: prev.meerwerkItems.filter((_, i) => i !== idx)
-                      }));
-                    }}>✕</button>
-                  </div>
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label className="form-label">Aantal</label>
-                      <input className="form-input" type="number" value={item.aantal} onChange={e => {
-                        const newItems = [...lead.meerwerkItems];
-                        newItems[idx] = { ...newItems[idx], aantal: e.target.value };
-                        setLead(prev => recalc({ ...prev, meerwerkItems: newItems }));
-                      }} />
-                    </div>
-                    <div>
-                      <label className="form-label">Subtotaal</label>
-                      <div style={{ padding: "12px 14px", fontWeight: 700, color: "#2d5a27", background: "#fff", borderRadius: 10 }}>{formatPrice(item.totaal)}</div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-        
-        {tab === "subsidie" && (
-          <div>
-            <div className="form-group">
-              <label className="form-label">Gemeentelijke subsidie (extra)</label>
-              <input className="form-input" type="number" value={lead.gemeentelijkeSubsidie} onChange={e => updateField("gemeentelijkeSubsidie", e.target.value)} />
-            </div>
-            <label style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20, cursor: "pointer" }}>
-              <input type="checkbox" checked={lead.isdeMultiple} onChange={e => updateField("isdeMultiple", e.target.checked)} style={{ width: 18, height: 18 }} />
-              <span>2 of meer maatregelen → <strong>dubbele ISDE subsidie</strong></span>
-            </label>
-            
-            <div style={{ background: "#f5f3f0", borderRadius: 12, padding: 16, marginTop: 8 }}>
-              <div style={{ fontWeight: 700, fontSize: 13, color: "#2d5a27", marginBottom: 12 }}>💰 PRIJSBEROEKENING</div>
-              {lead.offerteItems.map(i => {
-                const p = findProduct(i.productId);
-                return <div key={i.productId} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", fontSize: 14, borderBottom: "1px solid #e0ddd8" }}>
-                  <span>{p?.naam} · {i.m2 || 0}m²</span><span>{formatPrice(i.totaal)}</span>
-                </div>;
-              })}
-              {lead.meerwerkItems.map((i, idx) => {
-                const m = findMeerwerk(i.meerwerkId);
-                return <div key={idx} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", fontSize: 14, borderBottom: "1px solid #e0ddd8" }}>
-                  <span>{m?.naam}</span><span>{formatPrice(i.totaal)}</span>
-                </div>;
-              })}
-              <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: 16, borderTop: "2px solid #2d5a27", paddingTop: 12, marginTop: 8 }}>
-                <span>Excl. BTW</span><span>{formatPrice(lead.totaalExBTW)}</span>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: 16, paddingTop: 4 }}>
-                <span>Incl. BTW (13%)</span><span>{formatPrice(lead.totaalInclBTW)}</span>
-              </div>
-            </div>
-            
-            <div style={{ background: "#f5f3f0", borderRadius: 12, padding: 16, marginTop: 12 }}>
-              <div style={{ fontWeight: 700, fontSize: 13, color: "#2d5a27", marginBottom: 12 }}>🎯 SUBSIDIES</div>
-              <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", fontSize: 14 }}>
-                <span>ISDE subsidie</span><span style={{ color: "#10b981" }}>- {formatPrice(lead.isdeSubsidie)}</span>
-              </div>
-              {parseFloat(lead.gemeentelijkeSubsidie) > 0 && (
-                <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", fontSize: 14 }}>
-                  <span>Gemeentelijk</span><span style={{ color: "#10b981" }}>- {formatPrice(lead.gemeentelijkeSubsidie)}</span>
-                </div>
-              )}
-              <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: 20, borderTop: "2px solid #2d5a27", paddingTop: 12, marginTop: 8 }}>
-                <span>Eigen bijdrage</span><span>{formatPrice(lead.eigenBijdrage)}</span>
-              </div>
-            </div>
-          </div>
-        )}
-        
-        {tab === "status" && (
-          <div>
-            <div className="form-group">
-              <label className="form-label">Status</label>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {Object.entries(STATUS).map(([key, config]) => (
-                  <button key={key} onClick={() => updateField("status", key)} style={{
-                    padding: "12px 18px",
-                    borderRadius: 10,
-                    fontSize: 14,
-                    fontWeight: 600,
-                    cursor: "pointer",
-                    textAlign: "left",
-                    border: `2px solid ${config.color}`,
-                    background: lead.status === key ? config.color : "transparent",
-                    color: lead.status === key ? "#fff" : config.color
-                  }}>
-                    {config.icon} {config.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-            
-            {lead.status === "terugbellen" && (
-              <div className="form-row" style={{ marginBottom: 20 }}>
-                <div className="form-group">
-                  <label className="form-label">Terugbel datum</label>
-                  <input className="form-input" type="date" value={lead.terugbelDatum} onChange={e => updateField("terugbelDatum", e.target.value)} />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Terugbel tijd</label>
-                  <input className="form-input" type="time" value={lead.terugbelTijd} onChange={e => updateField("terugbelTijd", e.target.value)} />
-                </div>
-              </div>
-            )}
-            
-            <div className="form-group">
-              <label className="form-label">Opmerkingen / notities</label>
-              <textarea className="form-input" rows="4" value={lead.opmerkingen || ""} onChange={e => updateField("opmerkingen", e.target.value)} />
-            </div>
-          </div>
-        )}
-      </div>
-      
-      <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
-        <button className="btn-secondary" style={{ flex: 1 }} onClick={onCancel}>Annuleren</button>
-        <button className="btn-primary" style={{ flex: 2 }} onClick={() => onSave(lead)}>💾 Opslaan</button>
-      </div>
-    </div>
-  );
-}
 
-function DetailView({ lead, onEdit, onDelete, onBack, onStatusChange }) {
-  const config = STATUS[lead.status];
-  
-  return (
-    <div>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
-        <button className="btn-secondary" style={{ padding: "8px 16px" }} onClick={onBack}>← Terug naar overzicht</button>
-        <div style={{ display: "flex", gap: 8 }}>
-          <button className="btn-secondary" style={{ padding: "8px 16px" }} onClick={onEdit}>✏️ Bewerken</button>
-          <button className="btn-secondary" style={{ border: "1.5px solid #fca5a5", color: "#ef4444" }} onClick={onDelete}>🗑️ Verwijderen</button>
-        </div>
-      </div>
-      
-      <div className="form-container">
-        <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 20 }}>
-          <div>
-            <div style={{ fontSize: 24, fontWeight: 700 }}>{lead.naam || "Onbekende klant"}</div>
-            <div style={{ fontSize: 14, color: "#888", marginTop: 4 }}>{lead.straat && `${lead.straat}, `}{lead.postcode} {lead.woonplaats}</div>
-          </div>
-          <span className="status-badge" style={{ background: config?.color, fontSize: 13, padding: "6px 16px" }}>
-            {config?.icon} {config?.label}
-          </span>
-        </div>
-        
-        <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", marginBottom: 24, paddingBottom: 20, borderBottom: "1px solid #eee" }}>
-          <span style={{ fontSize: 12, color: "#888", marginRight: 8 }}>Snel wijzigen:</span>
-          {Object.entries(STATUS).map(([key, cfg]) => key !== lead.status && (
-            <button key={key} onClick={() => onStatusChange(key)} style={{
-              background: "none",
-              border: `1.5px solid ${cfg.color}66`,
-              borderRadius: 8,
-              padding: "4px 12px",
-              fontSize: 12,
-              fontWeight: 600,
-              cursor: "pointer",
-              color: cfg.color
-            }}>
-              {cfg.icon} {cfg.label}
-            </button>
-          ))}
-        </div>
-        
-        <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "#2d5a27", marginBottom: 12 }}>📞 CONTACTGEGEVENS</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(220px,1fr))", gap: 12 }}>
-            {lead.telefoon && <div><div style={{ fontSize: 11, color: "#999" }}>Telefoon</div><a href={`tel:${lead.telefoon}`} style={{ color: "#3b82f6", fontWeight: 500 }}>{lead.telefoon}</a></div>}
-            {lead.email && <div><div style={{ fontSize: 11, color: "#999" }}>E-mail</div><a href={`mailto:${lead.email}`} style={{ color: "#3b82f6", fontWeight: 500 }}>{lead.email}</a></div>}
-            {lead.offerteDatum && <div><div style={{ fontSize: 11, color: "#999" }}>Offertedatum</div><div>{lead.offerteDatum}</div></div>}
-            {lead.typeWoning && <div><div style={{ fontSize: 11, color: "#999" }}>Type woning</div><div>{lead.typeWoning}</div></div>}
-            {lead.vloeroppervlakte && <div><div style={{ fontSize: 11, color: "#999" }}>Vloeroppervlakte</div><div>{lead.vloeroppervlakte} m²</div></div>}
-          </div>
-        </div>
-        
-        {lead.offerteItems?.length > 0 && (
-          <div style={{ marginBottom: 24 }}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "#2d5a27", marginBottom: 12 }}>📋 OFFERTE DETAILS</div>
-            {lead.offerteItems.map(item => {
-              const p = findProduct(item.productId);
-              return <div key={item.productId} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", fontSize: 14, borderBottom: "1px solid #f0f0f0" }}>
-                <span>{p?.naam} · {item.m2}m² × {formatPrice(item.prijsPerM2)}</span>
-                <span>{formatPrice(item.totaal)}</span>
-              </div>;
-            })}
-            {lead.meerwerkItems?.map((item, idx) => {
-              const m = findMeerwerk(item.meerwerkId);
-              return <div key={idx} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", fontSize: 14, borderBottom: "1px solid #f0f0f0" }}>
-                <span>{m?.naam}</span>
-                <span>{formatPrice(item.totaal)}</span>
-              </div>;
-            })}
-            <div style={{ borderTop: "2px solid #eee", margin: "8px 0" }} />
-            <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, padding: "6px 0" }}>
-              <span>Excl. BTW</span><span>{formatPrice(lead.totaalExBTW)}</span>
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, padding: "6px 0" }}>
-              <span>Incl. BTW (13%)</span><span>{formatPrice(lead.totaalInclBTW)}</span>
-            </div>
-          </div>
-        )}
-        
-        {parseFloat(lead.totaalSubsidie) > 0 && (
-          <div style={{ marginBottom: 24 }}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "#2d5a27", marginBottom: 12 }}>💰 SUBSIDIES</div>
-            <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", fontSize: 14 }}>
-              <span>ISDE</span><span style={{ color: "#10b981" }}>- {formatPrice(lead.isdeSubsidie)}</span>
-            </div>
-            {parseFloat(lead.gemeentelijkeSubsidie) > 0 && (
-              <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", fontSize: 14 }}>
-                <span>Gemeentelijk</span><span style={{ color: "#10b981" }}>- {formatPrice(lead.gemeentelijkeSubsidie)}</span>
-              </div>
-            )}
-            <div style={{ borderTop: "2px solid #eee", margin: "8px 0" }} />
-            <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: 18, padding: "6px 0" }}>
-              <span>Eigen bijdrage</span><span>{formatPrice(lead.eigenBijdrage)}</span>
-            </div>
-          </div>
-        )}
-        
-        {lead.status === "terugbellen" && lead.terugbelDatum && (
-          <div style={{ background: "#fef3c7", borderRadius: 10, padding: 16, marginBottom: 24 }}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "#2d5a27", marginBottom: 8 }}>📞 TERUGBELLEN</div>
-            <div style={{ fontSize: 18, fontWeight: 700 }}>{lead.terugbelDatum} {lead.terugbelTijd && `om ${lead.terugbelTijd}`}</div>
-            {lead.telefoon && <a href={`tel:${lead.telefoon}`} style={{ display: "inline-block", marginTop: 10, background: "#2d5a27", color: "#fff", padding: "8px 16px", borderRadius: 8, textDecoration: "none" }}>📞 Nu bellen</a>}
-          </div>
-        )}
-        
-        {lead.opmerkingen && (
-          <div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "#2d5a27", marginBottom: 12 }}>📝 NOTITIES</div>
-            <div style={{ whiteSpace: "pre-wrap", color: "#555", background: "#faf9f7", padding: 12, borderRadius: 10 }}>{lead.opmerkingen}</div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
 
-function AgendaView({ leads, onSelectLead }) {
-  const callbacks = leads
-    .filter(l => l.status === "terugbellen" && l.terugbelDatum)
-    .sort((a, b) => (a.terugbelDatum + (a.terugbelTijd || "99:99")).localeCompare(b.terugbelDatum + (b.terugbelTijd || "99:99")));
-  
-  const grouped = {};
-  callbacks.forEach(lead => {
-    if (!grouped[lead.terugbelDatum]) grouped[lead.terugbelDatum] = [];
-    grouped[lead.terugbelDatum].push(lead);
-  });
-  
-  const today = getToday();
-  const formatDate = (dateStr) => {
-    if (dateStr === today) return "📅 Vandaag";
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    if (dateStr === tomorrow.toISOString().slice(0, 10)) return "📅 Morgen";
-    return new Date(dateStr).toLocaleDateString("nl-NL", { weekday: "long", day: "numeric", month: "long" });
-  };
-  
-  return (
-    <div>
-      <h2 style={{ fontSize: 26, fontWeight: 700, marginBottom: 20 }}>📅 Terugbel agenda</h2>
-      
-      {Object.entries(grouped).map(([date, items]) => (
-        <div key={date} style={{ marginBottom: 28 }}>
-          <div style={{
-            fontSize: 16,
-            fontWeight: 700,
-            marginBottom: 10,
-            color: date === today ? "#f59e0b" : date < today ? "#ef4444" : "#333",
-            paddingBottom: 6,
-            borderBottom: "2px solid #e0ddd8"
-          }}>
-            {formatDate(date)} {date < today && <span style={{ fontSize: 11, marginLeft: 8, color: "#ef4444" }}>(VERLOPEN)</span>}
-            <span style={{ fontSize: 13, fontWeight: "normal", marginLeft: 8, color: "#888" }}>{items.length} belmoment(en)</span>
-          </div>
-          
-          {items.map(lead => (
-            <div key={lead.id} className="lead-card" onClick={() => onSelectLead(lead)}>
-              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                <div style={{ fontWeight: 700, fontFamily: "monospace", fontSize: 15, minWidth: 60, color: "#f59e0b" }}>
-                  {lead.terugbelTijd || "—:—"}
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 600 }}>{lead.naam || "Onbekend"}</div>
-                  <div style={{ fontSize: 13, color: "#888" }}>{lead.telefoon || "Geen telefoon"}</div>
-                </div>
-                <a href={`tel:${lead.telefoon}`} onClick={e => e.stopPropagation()} style={{
-                  fontSize: 22,
-                  padding: "8px 12px",
-                  borderRadius: 10,
-                  background: "#f0fdf4",
-                  textDecoration: "none"
-                }}>📞</a>
-              </div>
-            </div>
-          ))}
-        </div>
-      ))}
-      
-      {callbacks.length === 0 && (
-        <div style={{ textAlign: "center", padding: 60 }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>📅</div>
-          <div style={{ fontWeight: 600 }}>Geen terugbelafspraken</div>
-          <div style={{ fontSize: 14, color: "#888", marginTop: 8 }}>Wijzig de status van een lead naar "Terugbellen" om hier afspraken te zien.</div>
-        </div>
-      )}
-    </div>
-  );
-}
 
-// ================================================================
-// RENDER
-// ================================================================
-window.onload = function() {
-  ReactDOM.render(React.createElement(App), document.getElementById("root"));
-};
-</script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
+  
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
