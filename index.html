@@ -22,6 +22,8 @@
       --light: #F6F8F6;
       --gray: #7C8C81;
       --success: #10b981;
+      --warn: #C2703A;
+      --warn-soft: #F3E3D6;
 
       --gradient-primary: linear-gradient(135deg, #0B4C2C, #1F7A4D);
       --gradient-accent: linear-gradient(135deg, #4CAF7D, #1F7A4D);
@@ -696,6 +698,169 @@
     .delay-1 { animation-delay: 0.2s; }
     .delay-2 { animation-delay: 0.4s; }
     .delay-3 { animation-delay: 0.6s; }
+
+    /* ============================================================
+       Saldering-uitleg: verticaal staafdiagram + rekenvoorbeeld
+    ============================================================ */
+    .saldering { background: white; }
+
+    .sal-chart-card {
+      background: var(--light);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 2.5rem 2rem 2rem;
+    }
+
+    .sal-chart {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 5rem;
+      height: 280px;
+      padding: 0 1rem;
+      position: relative;
+    }
+
+    .sal-chart::before {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 2px;
+      background: rgba(0,0,0,.12);
+    }
+
+    .sal-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 140px;
+    }
+
+    .sal-col-amount {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: .6rem;
+      font-variant-numeric: tabular-nums;
+      transition: var(--transition);
+    }
+    .sal-col.is-now .sal-col-amount { color: var(--secondary); }
+    .sal-col.is-future .sal-col-amount { color: var(--warn); }
+
+    .sal-bar-vertical {
+      width: 84px;
+      border-radius: 8px 8px 4px 4px;
+      height: 0;
+      transition: height 1.1s cubic-bezier(.16,1,.3,1);
+      position: relative;
+      box-shadow: var(--shadow-sm);
+    }
+    .sal-col.is-now .sal-bar-vertical { background: linear-gradient(180deg, var(--accent), var(--secondary)); }
+    .sal-col.is-future .sal-bar-vertical { background: linear-gradient(180deg, #E39A66, var(--warn)); }
+
+    .sal-chart.animate .sal-col.is-now .sal-bar-vertical { height: 62px; }
+    .sal-chart.animate .sal-col.is-future .sal-bar-vertical { height: 258px; }
+
+    .sal-col-label {
+      margin-top: .9rem;
+      font-weight: 700;
+      font-size: .95rem;
+      text-align: center;
+    }
+    .sal-col-sub {
+      font-size: .78rem;
+      color: var(--gray);
+      text-align: center;
+      margin-top: .15rem;
+    }
+
+    .sal-delta {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(0,0,0,.08);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--warn);
+    }
+    .sal-delta span.small {
+      display:block; margin-top:.25rem;
+      font-size: .85rem; font-weight: 500; color: var(--gray);
+    }
+
+    .sal-example-card {
+      background: var(--light);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 2rem 2rem 1.5rem;
+      margin-top: 1.75rem;
+    }
+
+    .sal-example-title { font-size: 1.3rem; font-weight: 700; margin-bottom: .3rem; }
+    .sal-example-sub { color: var(--gray); font-size: .92rem; margin-bottom: 1.75rem; }
+
+    .sal-table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+    .sal-table thead th {
+      text-align: right;
+      font-size: .82rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: var(--gray);
+      padding-bottom: .9rem;
+      border-bottom: 2px solid rgba(0,0,0,.08);
+    }
+    .sal-table thead th:first-child { text-align: left; }
+    .sal-table thead th.col-now { color: var(--secondary); }
+    .sal-table thead th.col-future { color: var(--warn); }
+
+    .sal-table td {
+      padding: .95rem 0;
+      border-bottom: 1px dashed rgba(0,0,0,.08);
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    .sal-table td:first-child { text-align: left; color: var(--dark); font-weight: 500; }
+    .sal-table tr.sal-total-row td {
+      border-bottom: none;
+      border-top: 2px solid rgba(0,0,0,.1);
+      padding-top: 1.3rem;
+      font-size: 1.35rem;
+      font-weight: 800;
+    }
+    .sal-table tr.sal-total-row td:first-child { font-size: 1rem; font-weight: 700; }
+    .sal-table tr.sal-total-row td.col-now { color: var(--secondary); }
+    .sal-table tr.sal-total-row td.col-future { color: var(--warn); }
+
+    .sal-tag {
+      display: inline-block;
+      margin-top: .5rem;
+      padding: .3rem .7rem;
+      border-radius: 999px;
+      background: #F3E3D6;
+      color: var(--warn);
+      font-size: .78rem;
+      font-weight: 700;
+    }
+
+    .sal-disclaimer {
+      text-align:center; font-size: .82rem; color: var(--gray);
+      margin-top: 1.5rem; max-width: 640px; margin-left:auto; margin-right:auto;
+    }
+
+    @media (max-width: 700px) {
+      .sal-chart { gap: 2.5rem; height: 220px; }
+      .sal-chart.animate .sal-col.is-now .sal-bar-vertical { height: 48px; }
+      .sal-chart.animate .sal-col.is-future .sal-bar-vertical { height: 200px; }
+      .sal-table { font-size: .85rem; }
+      .sal-table tr.sal-total-row td { font-size: 1.1rem; }
+      .sal-example-card, .sal-chart-card { padding: 1.5rem 1.1rem; }
+    }
+
+    /* Uitklapbare structuur voor de saldering-uitleg, hergebruikt de FAQ-look */
+    .sal-faq-container { max-width: 900px; }
+    .sal-faq-item .faq-question { font-size: 1.05rem; }
+    .sal-faq-item .faq-answer { font-size: 1rem; }
+    .sal-accordion-content { padding-top: .5rem; }
+    .sal-faq-item.active .faq-answer { max-height: 2600px; }
   </style>
 </head>
 <body>
@@ -711,6 +876,7 @@
       </a>
 
       <nav class="nav-menu">
+        <a href="#saldering-uitleg" class="nav-link">Salderingsregeling</a>
         <a href="#warmtepompen" class="nav-link">Warmtepomp</a>
         <a href="#thuisbatterijen" class="nav-link">Thuisbatterij</a>
         <a href="#airco" class="nav-link">Airco</a>
@@ -742,6 +908,321 @@
             <i class="fas fa-eye"></i> Bekijk onze diensten
           </a>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Saldering-uitleg Section -->
+  <section id="saldering-uitleg" class="section saldering">
+    <div class="container">
+      <div class="section-title">
+        <h2>Wat betekent het einde van de salderingsregeling?</h2>
+        <p>Vanaf 1 januari 2027 verandert de manier waarop teruggeleverde zonnestroom wordt afgerekend</p>
+      </div>
+
+      <div class="faq-container sal-faq-container">
+        <div class="faq-item sal-faq-item">
+          <div class="faq-question">
+            <span>Bekijk wat dit voor uw energiekosten betekent</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="sal-accordion-content">
+
+              <div class="sal-chart-card">
+                <div class="sal-chart" id="salChart">
+                  <div class="sal-col is-now">
+                    <div class="sal-col-amount">€ 150</div>
+                    <div class="sal-bar-vertical"></div>
+                    <div class="sal-col-label">Nu — t/m 2026</div>
+                    <div class="sal-col-sub">met salderen</div>
+                  </div>
+                  <div class="sal-col is-future">
+                    <div class="sal-col-amount">€ 870</div>
+                    <div class="sal-bar-vertical"></div>
+                    <div class="sal-col-label">Vanaf 2027</div>
+                    <div class="sal-col-sub">zonder salderen</div>
+                  </div>
+                </div>
+
+                <div class="sal-delta">
+                  + € 720 per jaar — bijna 6x zo hoog
+                  <span class="small">Bij een woning met zonnepanelen die het grootste deel van het jaarverbruik teruglevert, zoals in het rekenvoorbeeld hieronder.</span>
+                </div>
+              </div>
+
+              <div class="sal-example-card">
+                <div class="sal-example-title">Rekenvoorbeeld</div>
+                <div class="sal-example-sub">Woning met zonnepanelen — jaarverbruik 3.500 kWh, jaarlijkse teruglevering 3.000 kWh</div>
+
+                <table class="sal-table">
+                  <thead>
+                    <tr>
+                      <th>Onderdeel</th>
+                      <th class="col-now">Nu (t/m 2026)</th>
+                      <th class="col-future">Vanaf 2027</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Jaarverbruik</td>
+                      <td class="col-now">3.500 kWh</td>
+                      <td class="col-future">3.500 kWh</td>
+                    </tr>
+                    <tr>
+                      <td>Teruggeleverde zonnestroom</td>
+                      <td class="col-now">3.000 kWh</td>
+                      <td class="col-future">3.000 kWh</td>
+                    </tr>
+                    <tr>
+                      <td>Weggestreept tegen verbruik (salderen)</td>
+                      <td class="col-now">3.000 kWh</td>
+                      <td class="col-future">niet meer mogelijk</td>
+                    </tr>
+                    <tr>
+                      <td>Waarover u het volledige tarief betaalt</td>
+                      <td class="col-now">500 kWh</td>
+                      <td class="col-future">3.500 kWh</td>
+                    </tr>
+                    <tr>
+                      <td>Terugleververgoeding (≈ 50% kaal tarief)*</td>
+                      <td class="col-now">n.v.t.</td>
+                      <td class="col-future">− € 180</td>
+                    </tr>
+                    <tr class="sal-total-row">
+                      <td>Geschatte jaarkosten stroom*</td>
+                      <td class="col-now">€ 150</td>
+                      <td class="col-future">€ 870</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div style="text-align:center;">
+                  <span class="sal-tag">+ € 720 per jaar zonder saldering</span>
+                </div>
+              </div>
+
+              <p class="sal-disclaimer">* Vereenvoudigd, illustratief voorbeeld bij een all-in leveringstarief van € 0,30 per kWh en een terugleververgoeding op basis van 50% van een kaal leveringstarief van € 0,12 per kWh. Uw eigen verbruik, opwek, leverancier en tarieven bepalen het werkelijke bedrag.</p>
+
+              <div style="text-align:center;margin-top:2rem;">
+                <a href="#thuisbatterijen" class="btn btn-primary"><i class="fas fa-battery-full"></i> Ontdek hoe een thuisbatterij dit verschil verkleint</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2: Warmtepomp -->
+        <div class="faq-item sal-faq-item">
+          <div class="faq-question">
+            <span>Waarom een warmtepomp een goede oplossing is</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="sal-accordion-content">
+
+              <p style="max-width:none;">Nu saldering wegvalt, wordt het slim afstemmen van uw stroomverbruik op de momenten dat de zon schijnt veel waardevoller. Een warmtepomp leent zich daar goed voor: een groot deel van het jaarlijkse verwarmingsverbruik kan overdag worden ingepland, wanneer uw zonnepanelen stroom leveren — in plaats van 's avonds, wanneer u alles tegen het volledige tarief inkoopt.</p>
+
+              <div class="sal-example-card">
+                <div class="sal-example-title">Rekenvoorbeeld</div>
+                <div class="sal-example-sub">Extra stroomverbruik door de warmtepomp: 2.500 kWh per jaar — situatie vanaf 2027</div>
+
+                <table class="sal-table">
+                  <thead>
+                    <tr>
+                      <th>Onderdeel</th>
+                      <th class="col-now">'s Avonds verwarmen</th>
+                      <th class="col-future">Overdag, op zonnestroom</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Jaarlijks stroomverbruik warmtepomp</td>
+                      <td class="col-now">2.500 kWh</td>
+                      <td class="col-future">2.500 kWh</td>
+                    </tr>
+                    <tr>
+                      <td>Gedekt door eigen zonnestroom</td>
+                      <td class="col-now">0 kWh</td>
+                      <td class="col-future">1.500 kWh</td>
+                    </tr>
+                    <tr>
+                      <td>Ingekocht tegen volledig tarief</td>
+                      <td class="col-now">2.500 kWh</td>
+                      <td class="col-future">1.000 kWh</td>
+                    </tr>
+                    <tr>
+                      <td>Gemiste terugleververgoeding op zelf gebruikte stroom*</td>
+                      <td class="col-now">n.v.t.</td>
+                      <td class="col-future">− € 90</td>
+                    </tr>
+                    <tr class="sal-total-row">
+                      <td>Geschatte jaarkosten verwarmen*</td>
+                      <td class="col-now">€ 750</td>
+                      <td class="col-future">€ 390</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div style="text-align:center;">
+                  <span class="sal-tag">€ 360 per jaar besparing door slim af te stemmen op de zon</span>
+                </div>
+              </div>
+
+              <p class="sal-disclaimer">* Vereenvoudigd, illustratief voorbeeld bij een all-in leveringstarief van € 0,30 per kWh en een terugleververgoeding op basis van 50% van een kaal leveringstarief van € 0,12 per kWh. Wattveld regelt de instellingen zodat uw warmtepomp zoveel mogelijk op eigen zonnestroom draait.</p>
+
+              <div style="text-align:center;margin-top:2rem;">
+                <a href="#warmtepompen" class="btn btn-primary"><i class="fas fa-gauge-high"></i> Vraag advies over een warmtepomp aan</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3: Thuisbatterij -->
+        <div class="faq-item sal-faq-item">
+          <div class="faq-question">
+            <span>Waarom een thuisbatterij een goede oplossing is</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="sal-accordion-content">
+
+              <p style="max-width:none;">Zonder saldering levert teruggeleverde stroom nog maar een fractie op van wat u ervoor betaalt bij inkoop. Een thuisbatterij vangt dat verschil op: overtollige zonnestroom die u anders voor een laag tarief zou terugleveren, slaat u zelf op voor gebruik 's avonds en 's nachts, tegen het volledige tarief dat u anders had betaald.</p>
+
+              <div class="sal-example-card">
+                <div class="sal-example-title">Rekenvoorbeeld</div>
+                <div class="sal-example-sub">Zelfde woning als hierboven — jaarverbruik 3.500 kWh, jaarlijkse teruglevering 3.000 kWh, situatie vanaf 2027</div>
+
+                <table class="sal-table">
+                  <thead>
+                    <tr>
+                      <th>Onderdeel</th>
+                      <th class="col-now">Zonder thuisbatterij</th>
+                      <th class="col-future">Met thuisbatterij</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Jaarverbruik</td>
+                      <td class="col-now">3.500 kWh</td>
+                      <td class="col-future">3.500 kWh</td>
+                    </tr>
+                    <tr>
+                      <td>Teruggeleverde zonnestroom</td>
+                      <td class="col-now">3.000 kWh</td>
+                      <td class="col-future">3.000 kWh</td>
+                    </tr>
+                    <tr>
+                      <td>Opgeslagen &amp; zelf gebruikt via de batterij</td>
+                      <td class="col-now">0 kWh</td>
+                      <td class="col-future">1.800 kWh</td>
+                    </tr>
+                    <tr>
+                      <td>Ingekocht tegen volledig tarief</td>
+                      <td class="col-now">3.500 kWh</td>
+                      <td class="col-future">1.700 kWh</td>
+                    </tr>
+                    <tr>
+                      <td>Teruggeleverd tegen verlaagd tarief*</td>
+                      <td class="col-now">3.000 kWh</td>
+                      <td class="col-future">1.200 kWh</td>
+                    </tr>
+                    <tr class="sal-total-row">
+                      <td>Geschatte jaarkosten stroom*</td>
+                      <td class="col-now">€ 870</td>
+                      <td class="col-future">€ 438</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div style="text-align:center;">
+                  <span class="sal-tag">€ 432 per jaar besparing met een thuisbatterij</span>
+                </div>
+              </div>
+
+              <p class="sal-disclaimer">* Vereenvoudigd, illustratief voorbeeld bij een all-in leveringstarief van € 0,30 per kWh en een terugleververgoeding op basis van 50% van een kaal leveringstarief van € 0,12 per kWh. De daadwerkelijke besparing hangt af van het vermogen van uw batterij en uw eigen verbruikspatroon.</p>
+
+              <div style="text-align:center;margin-top:2rem;">
+                <a href="#thuisbatterijen" class="btn btn-primary"><i class="fas fa-battery-full"></i> Vraag advies over een thuisbatterij aan</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4: Warmtepomp + thuisbatterij combinatie -->
+        <div class="faq-item sal-faq-item">
+          <div class="faq-question">
+            <span>Waarom de combinatie van warmtepomp én thuisbatterij het meeste oplevert</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="sal-accordion-content">
+
+              <p style="max-width:none;">De grootste besparing ontstaat wanneer u beide combineert: de warmtepomp verbruikt overdag zoveel mogelijk rechtstreeks zonnestroom, en de thuisbatterij vangt de rest van de overproductie op voor gebruik 's avonds en 's nachts. Zo benut u vrijwel al uw eigen opgewekte stroom zelf, in plaats van die voor een laag tarief terug te leveren.</p>
+
+              <div class="sal-example-card">
+                <div class="sal-example-title">Rekenvoorbeeld</div>
+                <div class="sal-example-sub">Woning met zonnepanelen én warmtepomp — jaarverbruik 6.000 kWh, jaarlijkse teruglevering 3.000 kWh, situatie vanaf 2027</div>
+
+                <table class="sal-table">
+                  <thead>
+                    <tr>
+                      <th>Onderdeel</th>
+                      <th class="col-now">Zonder batterij, zonder afstemming</th>
+                      <th class="col-future">Met batterij &amp; warmtepomp-afstemming</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Jaarverbruik (incl. warmtepomp)</td>
+                      <td class="col-now">6.000 kWh</td>
+                      <td class="col-future">6.000 kWh</td>
+                    </tr>
+                    <tr>
+                      <td>Teruggeleverde zonnestroom</td>
+                      <td class="col-now">3.000 kWh</td>
+                      <td class="col-future">3.000 kWh</td>
+                    </tr>
+                    <tr>
+                      <td>Zelf gebruikt (direct + via batterij)</td>
+                      <td class="col-now">0 kWh</td>
+                      <td class="col-future">2.700 kWh</td>
+                    </tr>
+                    <tr>
+                      <td>Ingekocht tegen volledig tarief</td>
+                      <td class="col-now">6.000 kWh</td>
+                      <td class="col-future">3.300 kWh</td>
+                    </tr>
+                    <tr>
+                      <td>Teruggeleverd tegen verlaagd tarief*</td>
+                      <td class="col-now">3.000 kWh</td>
+                      <td class="col-future">300 kWh</td>
+                    </tr>
+                    <tr class="sal-total-row">
+                      <td>Geschatte jaarkosten stroom*</td>
+                      <td class="col-now">€ 1.620</td>
+                      <td class="col-future">€ 972</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div style="text-align:center;">
+                  <span class="sal-tag">€ 648 per jaar besparing met de combinatie</span>
+                </div>
+              </div>
+
+              <p class="sal-disclaimer">* Vereenvoudigd, illustratief voorbeeld bij een all-in leveringstarief van € 0,30 per kWh en een terugleververgoeding op basis van 50% van een kaal leveringstarief van € 0,12 per kWh. Wattveld stemt de instellingen van batterij en warmtepomp op elkaar af voor een zo hoog mogelijk eigen verbruik.</p>
+
+              <div style="text-align:center;margin-top:2rem;">
+                <a href="#contact1" class="btn btn-primary"><i class="fas fa-envelope"></i> Vraag een gecombineerd advies aan</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -1119,13 +1600,19 @@
         : '<i class="fas fa-bars"></i>';
     });
 
-    // FAQ accordion
+    // FAQ accordion (ook gebruikt door de salderingsregeling-uitleg)
     const faqItems = document.querySelectorAll('.faq-item');
+    const salChart = document.getElementById('salChart');
 
     faqItems.forEach(item => {
       const question = item.querySelector('.faq-question');
       question.addEventListener('click', () => {
         item.classList.toggle('active');
+
+        // Als dit het salderingsregeling-item is en het klapt open: laat de balken groeien
+        if (salChart && item.classList.contains('sal-faq-item') && item.classList.contains('active')) {
+          requestAnimationFrame(() => salChart.classList.add('animate'));
+        }
       });
     });
 
