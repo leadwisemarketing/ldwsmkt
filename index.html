@@ -245,7 +245,7 @@
     .site-nav {
       display: flex;
       align-items: center;
-      gap: 1.35rem;
+      gap: 1.6rem;
     }
 
     .site-nav a:not(.btn) {
@@ -463,8 +463,6 @@
       border-radius: var(--radius-sm);
       padding: 1.25rem;
     }
-
-    .section.alt .material { background: #fff; }
 
     .material-head {
       display: flex;
@@ -1208,6 +1206,170 @@
       html { scroll-behavior: auto; }
       *, *::before, *::after { animation: none !important; transition: none !important; }
     }
+
+    /* ============================================================
+       Uitklapmenu Isolatie
+    ============================================================ */
+    .nav-dropdown { position: relative; }
+
+    .nav-dropdown-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: none;
+      border: 0;
+      font: inherit;
+      font-weight: 500;
+      font-size: .9rem;
+      color: var(--text);
+      cursor: pointer;
+      padding: .3rem 0;
+    }
+
+    .nav-dropdown-toggle:hover { color: var(--green-dark); }
+
+    .nav-dropdown-toggle i {
+      font-size: .7rem;
+      transition: transform .25s var(--ease);
+    }
+
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 16px);
+      left: 50%;
+      width: 310px;
+      display: grid;
+      gap: .15rem;
+      padding: .5rem;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, 8px);
+      transition: opacity .2s var(--ease), transform .2s var(--ease), visibility .2s var(--ease);
+      z-index: 20;
+    }
+
+    /* onzichtbare brug zodat het menu open blijft als de muis naar beneden beweegt */
+    .nav-dropdown-menu::before {
+      content: '';
+      position: absolute;
+      top: -16px;
+      left: 0;
+      right: 0;
+      height: 16px;
+    }
+
+    .nav-dropdown.open .nav-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0);
+    }
+
+    .nav-dropdown.open .nav-dropdown-toggle i { transform: rotate(180deg); }
+
+    @media (min-width: 1181px) {
+      .nav-dropdown:hover .nav-dropdown-menu,
+      .nav-dropdown:focus-within .nav-dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, 0);
+      }
+
+      .nav-dropdown:hover .nav-dropdown-toggle i { transform: rotate(180deg); }
+    }
+
+    .site-nav .nav-dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      padding: .65rem .75rem;
+      border: 0;
+      border-radius: 10px;
+      white-space: normal;
+    }
+
+    .site-nav .nav-dropdown-menu a::after { display: none; }
+
+    .site-nav .nav-dropdown-menu a:hover { background: var(--green-50); }
+
+    .nav-dropdown-menu a > i {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: var(--green-100);
+      color: var(--green-dark);
+      font-size: .9rem;
+      flex-shrink: 0;
+      transition: background .2s var(--ease), color .2s var(--ease);
+    }
+
+    .nav-dropdown-menu a:hover > i { background: var(--green); color: #fff; }
+
+    .nav-dropdown-menu strong {
+      display: block;
+      font-family: var(--font-head);
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .nav-dropdown-menu small {
+      display: block;
+      font-size: .78rem;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .site-nav .nav-dropdown-menu .dropdown-all {
+      justify-content: center;
+      gap: .45rem;
+      margin-top: .25rem;
+      padding: .7rem;
+      border-top: 1px solid var(--line);
+      border-radius: 0 0 10px 10px;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: .85rem;
+      color: var(--green-dark);
+    }
+
+    .site-nav .nav-dropdown-menu .dropdown-all i { font-size: .75rem; }
+
+    /* Mobiel: klapt verticaal open binnen het menu */
+    @media (max-width: 1180px) {
+      .nav-dropdown { border-bottom: 1px solid var(--line); }
+
+      .nav-dropdown-toggle {
+        width: 100%;
+        justify-content: space-between;
+        padding: .85rem .25rem;
+        font-size: 1rem;
+      }
+
+      .nav-dropdown-menu {
+        position: static;
+        width: auto;
+        display: none;
+        padding: 0 0 .75rem;
+        border: 0;
+        box-shadow: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+      }
+
+      .nav-dropdown-menu::before { display: none; }
+
+      .nav-dropdown.open .nav-dropdown-menu {
+        display: grid;
+        transform: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1226,11 +1388,34 @@
       </a>
 
       <nav class="site-nav" id="site-nav" aria-label="Hoofdmenu">
-        <a href="#dakisolatie">Dakisolatie</a>
-        <a href="#spouwmuurisolatie">Spouwmuurisolatie</a>
-        <a href="#bodemisolatie">Bodemisolatie</a>
-        <a href="#vloerisolatie">Vloerisolatie</a>
-        <a href="#isolatieglas">Isolatieglas</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-controls="isolatie-menu">
+            Isolatie <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="nav-dropdown-menu" id="isolatie-menu">
+            <a href="#dakisolatie">
+              <i class="fas fa-house-chimney"></i>
+              <span><strong>Dakisolatie</strong><small>Quadfoam, PIF en cellulose</small></span>
+            </a>
+            <a href="#spouwmuurisolatie">
+              <i class="fas fa-layer-group"></i>
+              <span><strong>Spouwmuurisolatie</strong><small>Knauf inblaaswol en EPS-parels</small></span>
+            </a>
+            <a href="#bodemisolatie">
+              <i class="fas fa-mound"></i>
+              <span><strong>Bodemisolatie</strong><small>EPS-parels en EPS-isolatiechips</small></span>
+            </a>
+            <a href="#vloerisolatie">
+              <i class="fas fa-grip-lines"></i>
+              <span><strong>Vloerisolatie</strong><small>Quadfoam en PIF</small></span>
+            </a>
+            <a href="#isolatieglas">
+              <i class="fas fa-window-maximize"></i>
+              <span><strong>Isolatieglas</strong><small>HR++ en triple glas</small></span>
+            </a>
+            <a href="#diensten" class="dropdown-all">Bekijk alle isolatie <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
         <a href="#thuisbatterij">Thuisbatterij</a>
         <a href="#over-ons">Over ons</a>
         <a href="#contact" class="btn btn-primary btn-sm"><i class="fas fa-calendar-check"></i> Gratis advies</a>
@@ -2088,6 +2273,30 @@
 
     toggle.addEventListener('click', () => setMenu(!nav.classList.contains('open')));
     nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+
+    // Uitklapmenu Isolatie
+    const dropdown = document.querySelector('.nav-dropdown');
+    const dropdownToggle = dropdown.querySelector('.nav-dropdown-toggle');
+
+    function setDropdown(open) {
+      dropdown.classList.toggle('open', open);
+      dropdownToggle.setAttribute('aria-expanded', open);
+    }
+
+    dropdownToggle.addEventListener('click', e => {
+      e.stopPropagation();
+      setDropdown(!dropdown.classList.contains('open'));
+    });
+
+    dropdown.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setDropdown(false)));
+
+    document.addEventListener('click', e => {
+      if (!dropdown.contains(e.target)) setDropdown(false);
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') setDropdown(false);
+    });
 
     // Subsidiecalculator
     const rows = Array.from(document.querySelectorAll('.calc-row'));
