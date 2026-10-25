@@ -39,6 +39,8 @@
 
       --font-head: 'Montserrat', system-ui, sans-serif;
       --font-body: 'Inter', system-ui, sans-serif;
+
+      --header-h: 104px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -54,7 +56,7 @@
       overflow-x: hidden;
     }
 
-    section[id] { scroll-margin-top: 84px; }
+    section[id] { scroll-margin-top: calc(var(--header-h) + 8px); }
 
     h1, h2, h3, h4 {
       font-family: var(--font-head);
@@ -152,13 +154,6 @@
       transform: translateY(-2px);
     }
 
-    .btn-white {
-      background: #fff;
-      color: var(--green-dark);
-    }
-
-    .btn-white:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-
     .btn-sm { padding: .6rem 1.1rem; font-size: .85rem; }
 
     .link-arrow {
@@ -181,7 +176,7 @@
       position: fixed;
       inset: 0 0 auto 0;
       z-index: 1000;
-      background: rgba(255, 255, 255, .92);
+      background: rgba(255, 255, 255, .95);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid transparent;
@@ -194,64 +189,39 @@
     }
 
     .header-inner {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      justify-content: space-between;
       gap: 1.5rem;
-      height: 76px;
+      height: var(--header-h);
     }
 
     .brand {
+      justify-self: start;
       display: flex;
       align-items: center;
-      gap: .7rem;
-      flex-shrink: 0;
     }
 
-    .brand img { height: 44px; width: auto; }
-
-    .brand-text { display: flex; flex-direction: column; line-height: 1.05; }
-
-    .brand-name {
-      font-family: var(--font-head);
-      font-weight: 800;
-      font-size: 1.35rem;
-      letter-spacing: .06em;
-      color: var(--green);
-      text-transform: uppercase;
-    }
-
-    .brand-sub {
-      display: flex;
-      align-items: center;
-      gap: .35rem;
-      font-family: var(--font-head);
-      font-weight: 700;
-      font-size: .55rem;
-      letter-spacing: .14em;
-      color: var(--green);
-      text-transform: uppercase;
-      margin-top: .2rem;
-    }
-
-    .brand-sub::before,
-    .brand-sub::after {
-      content: '';
-      width: 10px;
-      height: 1.5px;
-      background: var(--green);
+    /* Logo: snijdt de witte randen van het vierkante logobestand automatisch weg */
+    .brand-logo {
+      width: 170px;
+      height: 94px;
+      object-fit: cover;
+      object-position: 50% 42%;
+      mix-blend-mode: multiply;
     }
 
     .site-nav {
+      justify-self: center;
       display: flex;
       align-items: center;
-      gap: 1.6rem;
+      gap: 2.5rem;
     }
 
     .site-nav a:not(.btn) {
       position: relative;
-      font-weight: 500;
-      font-size: .9rem;
+      font-weight: 600;
+      font-size: 1rem;
       color: var(--text);
       white-space: nowrap;
       padding: .3rem 0;
@@ -272,10 +242,19 @@
     .site-nav a:not(.btn):hover { color: var(--green-dark); }
     .site-nav a:not(.btn):hover::after { width: 100%; }
 
+    .nav-cta-mobile { display: none; }
+
+    .header-actions {
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+
     .nav-toggle {
       display: none;
-      width: 44px;
-      height: 44px;
+      width: 46px;
+      height: 46px;
       border-radius: 12px;
       border: 1px solid var(--line);
       background: #fff;
@@ -285,11 +264,145 @@
     }
 
     /* ============================================================
+       Uitklapmenu Isolatie
+    ============================================================ */
+    .nav-dropdown { position: relative; }
+
+    .nav-dropdown-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      background: none;
+      border: 0;
+      font: inherit;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text);
+      cursor: pointer;
+      padding: .3rem 0;
+    }
+
+    .nav-dropdown-toggle:hover { color: var(--green-dark); }
+
+    .nav-dropdown-toggle i {
+      font-size: .72rem;
+      transition: transform .25s var(--ease);
+    }
+
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 22px);
+      left: 50%;
+      width: 320px;
+      display: grid;
+      gap: .15rem;
+      padding: .5rem;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, 8px);
+      transition: opacity .2s var(--ease), transform .2s var(--ease), visibility .2s var(--ease);
+      z-index: 20;
+    }
+
+    /* onzichtbare brug zodat het menu open blijft als de muis naar beneden beweegt */
+    .nav-dropdown-menu::before {
+      content: '';
+      position: absolute;
+      top: -22px;
+      left: 0;
+      right: 0;
+      height: 22px;
+    }
+
+    .nav-dropdown.open .nav-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0);
+    }
+
+    .nav-dropdown.open .nav-dropdown-toggle i { transform: rotate(180deg); }
+
+    .site-nav .nav-dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      padding: .65rem .75rem;
+      border: 0;
+      border-radius: 10px;
+      white-space: normal;
+    }
+
+    .site-nav .nav-dropdown-menu a::after { display: none; }
+
+    .site-nav .nav-dropdown-menu a:hover { background: var(--green-50); }
+
+    .nav-dropdown-menu a > i {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: var(--green-100);
+      color: var(--green-dark);
+      font-size: .9rem;
+      flex-shrink: 0;
+      transition: background .2s var(--ease), color .2s var(--ease);
+    }
+
+    .nav-dropdown-menu a:hover > i { background: var(--green); color: #fff; }
+
+    .nav-dropdown-menu strong {
+      display: block;
+      font-family: var(--font-head);
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .nav-dropdown-menu small {
+      display: block;
+      font-size: .78rem;
+      font-weight: 400;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .site-nav .nav-dropdown-menu .dropdown-all {
+      justify-content: center;
+      gap: .45rem;
+      margin-top: .25rem;
+      padding: .7rem;
+      border-top: 1px solid var(--line);
+      border-radius: 0 0 10px 10px;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: .85rem;
+      color: var(--green-dark);
+    }
+
+    .site-nav .nav-dropdown-menu .dropdown-all i { font-size: .75rem; }
+
+    @media (min-width: 861px) {
+      .nav-dropdown:hover .nav-dropdown-menu,
+      .nav-dropdown:focus-within .nav-dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, 0);
+      }
+
+      .nav-dropdown:hover .nav-dropdown-toggle i { transform: rotate(180deg); }
+    }
+
+    /* ============================================================
        Hero
     ============================================================ */
     .hero {
       position: relative;
-      padding: 9.5rem 0 5rem;
+      padding: calc(var(--header-h) + 3.5rem) 0 5rem;
       background:
         radial-gradient(800px 400px at 85% 10%, rgba(67, 160, 71, .10), transparent 70%),
         radial-gradient(600px 300px at 0% 100%, rgba(67, 160, 71, .07), transparent 70%),
@@ -510,7 +623,7 @@
 
     .service-aside {
       position: sticky;
-      top: 100px;
+      top: calc(var(--header-h) + 20px);
       background: #fff;
       border: 1px solid var(--line);
       border-radius: 20px;
@@ -806,7 +919,7 @@
     .conditions li { display: flex; gap: .55rem; }
     .conditions i { color: var(--green); margin-top: .3rem; font-size: .75rem; }
 
-    .calc-card { position: sticky; top: 100px; }
+    .calc-card { position: sticky; top: calc(var(--header-h) + 20px); }
 
     .calc-row {
       display: grid;
@@ -1118,51 +1231,17 @@
     /* ============================================================
        Responsief
     ============================================================ */
-    @media (max-width: 1180px) {
-      .nav-toggle { display: grid; place-items: center; }
-
-      .site-nav {
-        position: fixed;
-        top: 76px;
-        left: 0;
-        right: 0;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0;
-        background: #fff;
-        border-bottom: 1px solid var(--line);
-        box-shadow: var(--shadow-md);
-        padding: .75rem 1.25rem 1.25rem;
-        transform: translateY(-12px);
-        opacity: 0;
-        visibility: hidden;
-        transition: all .25s var(--ease);
-        max-height: calc(100vh - 76px);
-        overflow-y: auto;
-      }
-
-      .site-nav.open { transform: none; opacity: 1; visibility: visible; }
-
-      .site-nav a:not(.btn) {
-        padding: .85rem .25rem;
-        border-bottom: 1px solid var(--line);
-        font-size: 1rem;
-      }
-
-      .site-nav a:not(.btn)::after { display: none; }
-
-      .site-nav .btn { margin-top: 1rem; }
-    }
-
     @media (max-width: 1024px) {
       .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2.5rem; }
       .finance-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .footer-grid { grid-template-columns: 1fr 1fr; }
+      .site-nav { gap: 1.75rem; }
     }
 
     @media (max-width: 900px) {
-      .hero { padding-top: 7.5rem; }
+      .hero { padding-top: calc(var(--header-h) + 2.5rem); }
+
       .hero-grid,
       .service-grid,
       .service-grid.reverse,
@@ -1182,173 +1261,51 @@
       .contact-info { padding: 2.25rem 1.5rem; }
     }
 
-    @media (max-width: 600px) {
-      .section { padding: 4rem 0; }
-      .services-grid,
-      .steps,
-      .finance-grid,
-      .values,
-      .form-grid,
-      .hero-trust,
-      .footer-grid { grid-template-columns: 1fr; }
+    /* Mobiel menu */
+    @media (max-width: 860px) {
+      :root { --header-h: 84px; }
 
-      .hero-actions .btn,
-      .service-actions .btn { width: 100%; }
+      .header-inner { grid-template-columns: 1fr auto; }
 
-      .brand img { height: 38px; }
-      .brand-name { font-size: 1.15rem; }
+      .brand-logo { width: 136px; height: 75px; }
 
-      .calc-row { grid-template-columns: 1fr 104px; }
-      .facts { grid-template-columns: 1fr; }
-    }
+      .nav-toggle { display: grid; place-items: center; }
 
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after { animation: none !important; transition: none !important; }
-    }
-
-    /* ============================================================
-       Uitklapmenu Isolatie
-    ============================================================ */
-    .nav-dropdown { position: relative; }
-
-    .nav-dropdown-toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: .4rem;
-      background: none;
-      border: 0;
-      font: inherit;
-      font-weight: 500;
-      font-size: .9rem;
-      color: var(--text);
-      cursor: pointer;
-      padding: .3rem 0;
-    }
-
-    .nav-dropdown-toggle:hover { color: var(--green-dark); }
-
-    .nav-dropdown-toggle i {
-      font-size: .7rem;
-      transition: transform .25s var(--ease);
-    }
-
-    .nav-dropdown-menu {
-      position: absolute;
-      top: calc(100% + 16px);
-      left: 50%;
-      width: 310px;
-      display: grid;
-      gap: .15rem;
-      padding: .5rem;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      box-shadow: var(--shadow-lg);
-      opacity: 0;
-      visibility: hidden;
-      transform: translate(-50%, 8px);
-      transition: opacity .2s var(--ease), transform .2s var(--ease), visibility .2s var(--ease);
-      z-index: 20;
-    }
-
-    /* onzichtbare brug zodat het menu open blijft als de muis naar beneden beweegt */
-    .nav-dropdown-menu::before {
-      content: '';
-      position: absolute;
-      top: -16px;
-      left: 0;
-      right: 0;
-      height: 16px;
-    }
-
-    .nav-dropdown.open .nav-dropdown-menu {
-      opacity: 1;
-      visibility: visible;
-      transform: translate(-50%, 0);
-    }
-
-    .nav-dropdown.open .nav-dropdown-toggle i { transform: rotate(180deg); }
-
-    @media (min-width: 1181px) {
-      .nav-dropdown:hover .nav-dropdown-menu,
-      .nav-dropdown:focus-within .nav-dropdown-menu {
-        opacity: 1;
-        visibility: visible;
-        transform: translate(-50%, 0);
+      .site-nav {
+        position: fixed;
+        top: var(--header-h);
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+        box-shadow: var(--shadow-md);
+        padding: .75rem 1.25rem 1.25rem;
+        transform: translateY(-12px);
+        opacity: 0;
+        visibility: hidden;
+        transition: all .25s var(--ease);
+        max-height: calc(100vh - var(--header-h));
+        overflow-y: auto;
       }
 
-      .nav-dropdown:hover .nav-dropdown-toggle i { transform: rotate(180deg); }
-    }
+      .site-nav.open { transform: none; opacity: 1; visibility: visible; }
 
-    .site-nav .nav-dropdown-menu a {
-      display: flex;
-      align-items: center;
-      gap: .8rem;
-      padding: .65rem .75rem;
-      border: 0;
-      border-radius: 10px;
-      white-space: normal;
-    }
+      .site-nav a:not(.btn) {
+        padding: .85rem .25rem;
+        border-bottom: 1px solid var(--line);
+      }
 
-    .site-nav .nav-dropdown-menu a::after { display: none; }
+      .site-nav a:not(.btn)::after { display: none; }
 
-    .site-nav .nav-dropdown-menu a:hover { background: var(--green-50); }
-
-    .nav-dropdown-menu a > i {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      background: var(--green-100);
-      color: var(--green-dark);
-      font-size: .9rem;
-      flex-shrink: 0;
-      transition: background .2s var(--ease), color .2s var(--ease);
-    }
-
-    .nav-dropdown-menu a:hover > i { background: var(--green); color: #fff; }
-
-    .nav-dropdown-menu strong {
-      display: block;
-      font-family: var(--font-head);
-      font-size: .9rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .nav-dropdown-menu small {
-      display: block;
-      font-size: .78rem;
-      color: var(--muted);
-      line-height: 1.35;
-    }
-
-    .site-nav .nav-dropdown-menu .dropdown-all {
-      justify-content: center;
-      gap: .45rem;
-      margin-top: .25rem;
-      padding: .7rem;
-      border-top: 1px solid var(--line);
-      border-radius: 0 0 10px 10px;
-      font-family: var(--font-head);
-      font-weight: 700;
-      font-size: .85rem;
-      color: var(--green-dark);
-    }
-
-    .site-nav .nav-dropdown-menu .dropdown-all i { font-size: .75rem; }
-
-    /* Mobiel: klapt verticaal open binnen het menu */
-    @media (max-width: 1180px) {
       .nav-dropdown { border-bottom: 1px solid var(--line); }
 
       .nav-dropdown-toggle {
         width: 100%;
         justify-content: space-between;
         padding: .85rem .25rem;
-        font-size: 1rem;
       }
 
       .nav-dropdown-menu {
@@ -1370,6 +1327,32 @@
         transform: none;
       }
     }
+
+    @media (max-width: 600px) {
+      .section { padding: 4rem 0; }
+
+      .services-grid,
+      .steps,
+      .finance-grid,
+      .values,
+      .form-grid,
+      .hero-trust,
+      .footer-grid { grid-template-columns: 1fr; }
+
+      .hero-actions .btn,
+      .service-actions .btn { width: 100%; }
+
+      .header-cta { display: none; }
+      .nav-cta-mobile { display: inline-flex; margin-top: 1rem; }
+
+      .calc-row { grid-template-columns: 1fr 104px; }
+      .facts { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -1379,12 +1362,8 @@
   ============================================================ -->
   <header class="site-header" id="top">
     <div class="container header-inner">
-      <a href="#top" class="brand" aria-label="Wattveld, naar boven">
-        <img src="images/logo-icoon.png" alt="">
-        <span class="brand-text">
-          <span class="brand-name">Wattveld</span>
-          <span class="brand-sub">Verduurzamingstechniek</span>
-        </span>
+      <a href="#top" class="brand" aria-label="Wattveld Verduurzamingstechniek, naar boven">
+        <img class="brand-logo" src="images/logo-wattveld.png" alt="Wattveld Verduurzamingstechniek">
       </a>
 
       <nav class="site-nav" id="site-nav" aria-label="Hoofdmenu">
@@ -1418,12 +1397,15 @@
         </div>
         <a href="#thuisbatterij">Thuisbatterij</a>
         <a href="#over-ons">Over ons</a>
-        <a href="#contact" class="btn btn-primary btn-sm"><i class="fas fa-calendar-check"></i> Gratis advies</a>
+        <a href="#contact" class="btn btn-primary nav-cta-mobile"><i class="fas fa-calendar-check"></i> Gratis advies</a>
       </nav>
 
-      <button class="nav-toggle" aria-label="Menu openen" aria-expanded="false" aria-controls="site-nav">
-        <i class="fas fa-bars"></i>
-      </button>
+      <div class="header-actions">
+        <a href="#contact" class="btn btn-primary header-cta"><i class="fas fa-calendar-check"></i> Gratis advies</a>
+        <button class="nav-toggle" aria-label="Menu openen" aria-expanded="false" aria-controls="site-nav">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -2204,12 +2186,8 @@
     <div class="container">
       <div class="footer-grid">
         <div>
-          <a href="#top" class="brand" aria-label="Wattveld, naar boven">
-            <img src="images/logo-icoon.png" alt="">
-            <span class="brand-text">
-              <span class="brand-name">Wattveld</span>
-              <span class="brand-sub">Verduurzamingstechniek</span>
-            </span>
+          <a href="#top" class="brand" aria-label="Wattveld Verduurzamingstechniek, naar boven">
+            <img class="brand-logo" src="images/logo-wattveld.png" alt="Wattveld Verduurzamingstechniek">
           </a>
           <p>Isolatie van dak tot kruipruimte, uitgevoerd door ons eigen team. Eerlijk advies, vakkundig werk en hulp bij uw subsidie.</p>
         </div>
