@@ -1,1488 +1,2164 @@
-Hieronder de volledige code. Nieuw ten opzichte van de vorige versie:
-
-- **Navigatiebalk:** Dakisolatie, Spouwmuurisolatie, Bodemisolatie, Vloerisolatie, Isolatieglas, Thuisbatterij en Over ons. Elke isolatieterm springt direct naar het eigen blok binnen de isolatiesectie.
-- **Isolatieglas:** er bestond nog geen sectie voor, dus ik heb een blok toegevoegd met HR++ glas en triple glas (HR+++). Pas de glassoorten aan als jullie iets anders leveren.
-- **Over ons:** de sectie "Ons team" heet nu "Over ons", en de navigatie verwijst ernaar.
-- **Airco en Meer informatie** staan niet meer in de navigatiebalk, maar wel nog op de pagina en in de footer.
-- **Mobiel menu:** met zeven langere items past de balk niet meer naast het logo op kleinere schermen. Het hamburgermenu verschijnt daarom nu al onder 1080 px breed, in plaats van onder 768 px.
-
-```html
 <!DOCTYPE html>
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wattveld Verduurzamingstechniek — Isolatie, Isolatieglas &amp; Thuisbatterijen</title>
-  <meta name="description" content="Wattveld verzorgt dak-, spouwmuur-, vloer- en bodemisolatie, isolatieglas, thuisbatterijen en airco's voor woningeigenaren, met een eigen vakkundig team van energiescan tot installatie.">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>Wattveld Verduurzamingstechniek — Dak-, spouwmuur-, vloer- en bodemisolatie</title>
+  <meta name="description" content="Wattveld isoleert uw woning van dak tot kruipruimte: dakisolatie, spouwmuurisolatie, vloerisolatie, bodemisolatie en isolatieglas. Met eigen monteurs, subsidiehulp en 9% btw op arbeid.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="images/logo-icoon.png">
   <link rel="apple-touch-icon" href="images/logo-icoon.png">
 
   <style>
+    /* ============================================================
+       Basis
+    ============================================================ */
     :root {
-      --primary: #0B4C2C;
-      --primary-dark: #072E1B;
-      --secondary: #1F7A4D;
-      --accent: #4CAF7D;
-      --dark: #1C2B23;
-      --darker: #0F1A14;
-      --light: #F6F8F6;
-      --gray: #7C8C81;
-      --success: #10b981;
+      --green: #43A047;
+      --green-dark: #2E7D32;
+      --green-deep: #1B5E20;
+      --green-50: #F3FAF3;
+      --green-100: #E3F2E3;
+      --green-200: #C8E6C9;
 
-      --gradient-primary: linear-gradient(135deg, #0B4C2C, #1F7A4D);
-      --gradient-accent: linear-gradient(135deg, #4CAF7D, #1F7A4D);
-      --gradient-card: linear-gradient(135deg, #ffffff, #eef5f0);
+      --text: #1E2A22;
+      --muted: #5E6E63;
+      --line: #E3EAE4;
+      --bg: #FFFFFF;
+      --bg-alt: #F6FAF6;
 
-      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --radius: 14px;
+      --radius-sm: 10px;
+      --shadow-sm: 0 1px 2px rgba(20, 50, 30, .06), 0 2px 8px rgba(20, 50, 30, .05);
+      --shadow-md: 0 6px 24px rgba(20, 60, 30, .09);
+      --shadow-lg: 0 18px 48px rgba(20, 60, 30, .14);
+      --ease: cubic-bezier(.4, 0, .2, 1);
 
-      --radius: 10px;
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-head: 'Montserrat', system-ui, sans-serif;
+      --font-body: 'Inter', system-ui, sans-serif;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', sans-serif;
-      color: var(--dark);
-      background-color: var(--light);
-      line-height: 1.5;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
       overflow-x: hidden;
-      font-size: 0.95rem;
     }
 
-    h1, h2, h3, h4, h5, h6 {
-      font-weight: 700;
+    section[id] { scroll-margin-top: 84px; }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-head);
       line-height: 1.2;
-      margin-bottom: 0.875rem;
+      color: var(--text);
     }
 
-    h1 { font-size: 2.5rem; }
-    h2 { font-size: 2rem; }
-    h3 { font-size: 1.5rem; }
+    h1 { font-size: clamp(2rem, 4.2vw, 3.1rem); font-weight: 800; letter-spacing: -.02em; }
+    h2 { font-size: clamp(1.6rem, 3vw, 2.25rem); font-weight: 800; letter-spacing: -.01em; }
+    h3 { font-size: 1.15rem; font-weight: 700; }
 
-    p {
-      margin-bottom: 1.25rem;
-      font-size: 0.95rem;
-    }
+    p { color: var(--muted); }
 
-    a {
-      color: var(--primary);
-      text-decoration: none;
-      transition: var(--transition);
-    }
+    a { color: var(--green-dark); text-decoration: none; transition: color .2s var(--ease); }
 
     img { max-width: 100%; display: block; }
 
     .container {
-      max-width: 1100px;
+      width: 100%;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 0 1.25rem;
     }
 
+    .section { padding: 5.5rem 0; }
+    .section.alt { background: var(--bg-alt); }
+
+    .section-head {
+      max-width: 720px;
+      margin: 0 auto 3rem;
+      text-align: center;
+    }
+
+    .section-head p { font-size: 1.08rem; margin-top: .9rem; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-family: var(--font-head);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--green-dark);
+      background: var(--green-100);
+      padding: .4rem .85rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+
+    /* ============================================================
+       Knoppen
+    ============================================================ */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.75rem 1.5rem;
-      border-radius: var(--radius);
-      font-weight: 600;
-      transition: var(--transition);
-      border: none;
+      gap: .55rem;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: .95rem;
+      padding: .9rem 1.5rem;
+      border-radius: 999px;
+      border: 2px solid transparent;
       cursor: pointer;
-      gap: 0.5rem;
-      font-size: 0.9rem;
+      transition: transform .2s var(--ease), box-shadow .2s var(--ease), background .2s var(--ease), color .2s var(--ease), border-color .2s var(--ease);
+      white-space: nowrap;
     }
 
+    .btn:focus-visible { outline: 3px solid var(--green-200); outline-offset: 2px; }
+
     .btn-primary {
-      background: var(--gradient-primary);
-      color: white;
-      box-shadow: var(--shadow-md);
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 6px 18px rgba(67, 160, 71, .35);
     }
 
     .btn-primary:hover {
+      background: var(--green-dark);
+      color: #fff;
       transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
+      box-shadow: 0 10px 24px rgba(46, 125, 50, .35);
     }
 
-    .btn-secondary {
-      background: transparent;
-      color: var(--primary);
-      border: 2px solid var(--primary);
+    .btn-outline {
+      background: #fff;
+      color: var(--green-dark);
+      border-color: var(--green-200);
     }
 
-    .btn-secondary:hover {
-      background: var(--primary);
-      color: white;
+    .btn-outline:hover {
+      border-color: var(--green);
+      background: var(--green-50);
+      transform: translateY(-2px);
     }
 
-    .btn-accent {
-      background: var(--gradient-accent);
-      color: white;
+    .btn-white {
+      background: #fff;
+      color: var(--green-dark);
     }
 
-    .section { padding: 3.5rem 0; }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
 
-    .section-title {
-      text-align: center;
-      margin-bottom: 2.5rem;
+    .btn-sm { padding: .6rem 1.1rem; font-size: .85rem; }
+
+    .link-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: .9rem;
+      color: var(--green-dark);
     }
 
-    .section-title h2 {
-      position: relative;
-      display: inline-block;
-      margin-bottom: 1.25rem;
-    }
+    .link-arrow i { transition: transform .2s var(--ease); }
+    .link-arrow:hover i { transform: translateX(4px); }
 
-    .section-title h2::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 50px;
-      height: 3px;
-      background: var(--gradient-primary);
-      border-radius: 2px;
-    }
-
-    /* Header */
-    header {
+    /* ============================================================
+       Header
+    ============================================================ */
+    .site-header {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
+      inset: 0 0 auto 0;
       z-index: 1000;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
+    }
+
+    .site-header.scrolled {
+      border-color: var(--line);
       box-shadow: var(--shadow-sm);
-      padding: 0.875rem 0;
     }
 
-    .header-container {
+    .header-inner {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
+      gap: 1.5rem;
+      height: 76px;
     }
 
-    .logo {
+    .brand {
       display: flex;
       align-items: center;
-      gap: 0.625rem;
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: var(--darker);
+      gap: .7rem;
+      flex-shrink: 0;
     }
 
-    .logo img { height: 40px; width: auto; }
+    .brand img { height: 44px; width: auto; }
 
-    .logo-text {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      line-height: 1.15;
-    }
+    .brand-text { display: flex; flex-direction: column; line-height: 1.05; }
 
-    .logo-title {
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: var(--darker);
-      text-align: left;
-    }
-
-    .logo-subtitle {
-      font-weight: 600;
-      font-size: 0.62rem;
-      letter-spacing: 0.06em;
+    .brand-name {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1.35rem;
+      letter-spacing: .06em;
+      color: var(--green);
       text-transform: uppercase;
-      color: var(--secondary);
-      text-align: left;
-      white-space: nowrap;
     }
 
-    .nav-menu {
+    .brand-sub {
       display: flex;
-      gap: 1.15rem;
+      align-items: center;
+      gap: .35rem;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: .55rem;
+      letter-spacing: .14em;
+      color: var(--green);
+      text-transform: uppercase;
+      margin-top: .2rem;
     }
 
-    .nav-link {
-      font-weight: 500;
-      color: var(--dark);
+    .brand-sub::before,
+    .brand-sub::after {
+      content: '';
+      width: 10px;
+      height: 1.5px;
+      background: var(--green);
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 1.35rem;
+    }
+
+    .site-nav a:not(.btn) {
       position: relative;
-      font-size: 0.88rem;
+      font-weight: 500;
+      font-size: .9rem;
+      color: var(--text);
       white-space: nowrap;
+      padding: .3rem 0;
     }
 
-    .nav-link::after {
+    .site-nav a:not(.btn)::after {
       content: '';
       position: absolute;
-      bottom: -5px;
       left: 0;
+      bottom: -2px;
       width: 0;
       height: 2px;
-      background: var(--gradient-primary);
-      transition: var(--transition);
+      border-radius: 2px;
+      background: var(--green);
+      transition: width .25s var(--ease);
     }
 
-    .nav-link:hover::after { width: 100%; }
+    .site-nav a:not(.btn):hover { color: var(--green-dark); }
+    .site-nav a:not(.btn):hover::after { width: 100%; }
 
-    .mobile-menu-btn {
+    .nav-toggle {
       display: none;
-      background: none;
-      border: none;
-      font-size: 1.25rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      font-size: 1.15rem;
       cursor: pointer;
-      color: var(--dark);
     }
 
-    /* Hero Section */
+    /* ============================================================
+       Hero
+    ============================================================ */
     .hero {
-      padding: 0 0 4rem;
-      background: linear-gradient(135deg, rgba(11, 76, 44, 0.05) 0%, rgba(76, 175, 125, 0.05) 100%);
       position: relative;
+      padding: 9.5rem 0 5rem;
+      background:
+        radial-gradient(800px 400px at 85% 10%, rgba(67, 160, 71, .10), transparent 70%),
+        radial-gradient(600px 300px at 0% 100%, rgba(67, 160, 71, .07), transparent 70%),
+        var(--bg);
       overflow: hidden;
     }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -80px;
-      right: -80px;
-      width: 300px;
-      height: 300px;
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .hero h1 span { color: var(--green); }
+
+    .hero-lead {
+      font-size: 1.15rem;
+      margin: 1.25rem 0 2rem;
+      max-width: 560px;
+    }
+
+    .hero-actions { display: flex; flex-wrap: wrap; gap: .85rem; }
+
+    .hero-trust {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .85rem 1.5rem;
+      margin-top: 2.5rem;
+      max-width: 520px;
+    }
+
+    .hero-trust div {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .93rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .hero-trust i {
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      background: var(--gradient-primary);
-      opacity: 0.1;
-      filter: blur(60px);
+      display: grid;
+      place-items: center;
+      background: var(--green-100);
+      color: var(--green-dark);
+      font-size: .8rem;
+      flex-shrink: 0;
     }
 
-    .hero-banner {
-      width: 100%;
-      margin-top: 78px;
+    .hero-visual {
+      position: relative;
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: var(--shadow-lg);
+      padding: 1rem;
     }
 
-    .hero-banner img {
-      width: 100%;
-      height: auto;
-      display: block;
+    .hero-visual-caption {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .85rem;
+      color: var(--muted);
+      padding: .75rem .5rem .25rem;
     }
 
-    .hero > .container { padding-top: 2.75rem; }
+    .hero-visual-caption i { color: var(--green); }
 
-    .hero-text { max-width: 700px; }
+    .house-svg { width: 100%; height: auto; display: block; }
 
-    .hero-text h1 {
-      font-size: 2.5rem;
+    .hotspot { cursor: pointer; }
+    .hotspot .dot { fill: var(--green); stroke: #fff; stroke-width: 3; }
+
+    .hotspot .pulse {
+      fill: var(--green);
+      opacity: .35;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: pulse 2.2s infinite;
+    }
+
+    .hotspot .pill { fill: var(--green-dark); transition: fill .2s var(--ease); }
+    .hotspot:hover .pill,
+    .hotspot:focus .pill { fill: var(--green-deep); }
+
+    .hotspot text {
+      fill: #fff;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: .45; }
+      70% { transform: scale(2.2); opacity: 0; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    /* ============================================================
+       Diensten-overzicht
+    ============================================================ */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+
+    .service-tile {
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease);
+    }
+
+    .service-tile:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--green-200);
+    }
+
+    .tile-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: var(--green-100);
+      color: var(--green-dark);
+      font-size: 1.35rem;
       margin-bottom: 1.25rem;
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      transition: background .25s var(--ease), color .25s var(--ease);
     }
 
-    .hero-text p {
-      font-size: 1.1rem;
-      color: var(--gray);
+    .service-tile:hover .tile-icon { background: var(--green); color: #fff; }
+
+    .service-tile p { font-size: .95rem; margin: .5rem 0 1.25rem; flex-grow: 1; }
+
+    /* ============================================================
+       Dienst-secties
+    ============================================================ */
+    .service-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .service-grid.reverse { grid-template-columns: 1fr 1.4fr; }
+    .service-grid.reverse .service-text { order: 2; }
+    .service-grid.reverse .service-aside { order: 1; }
+
+    .service-text .lead { font-size: 1.08rem; margin: 1rem 0 2rem; }
+
+    .materials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1rem;
       margin-bottom: 2rem;
     }
 
-    .hero-buttons {
-      display: flex;
-      gap: 0.875rem;
-      flex-wrap: wrap;
-    }
-
-    /* Features */
-    .features { background: white; }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.75rem;
-    }
-
-    .feature-card {
-      background: var(--gradient-card);
-      padding: 1.75rem;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
-      text-align: center;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .feature-icon {
-      width: 55px;
-      height: 55px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 1.25rem;
-      border-radius: 50%;
-      background: var(--gradient-primary);
-      color: white;
-      font-size: 1.5rem;
-    }
-
-    /* Diensten */
-    .diensten { background: linear-gradient(135deg, rgba(11, 76, 44, 0.05) 0%, rgba(76, 175, 125, 0.05) 100%); }
-
-    .diensten-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 1.75rem;
-    }
-
-    .dienst-card {
-      background: white;
-      padding: 1.75rem;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
-    }
-
-    .dienst-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .dienst-card .feature-icon { margin: 0 0 1.25rem; }
-
-    .dienst-card h3 { font-size: 1.2rem; }
-
-    .dienst-card p { font-size: 0.9rem; margin-bottom: 0.75rem; }
-
-    .dienst-link {
-      font-weight: 600;
-      font-size: 0.85rem;
-      color: var(--secondary);
-    }
-
-    /* Course Info */
-    .course-info { background: white; }
-
-    .info-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3.5rem;
-      align-items: center;
-    }
-
-    .info-image { position: relative; }
-
-    .info-image img {
-      width: 100%;
-      max-width: 450px;
-      height: auto;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-lg);
-      aspect-ratio: 4/5;
-      object-fit: cover;
-    }
-
-    .info-badge {
-      position: absolute;
-      top: -12px;
-      right: -12px;
-      background: var(--gradient-primary);
-      color: white;
-      padding: 0.625rem 1.25rem;
-      border-radius: 25px;
-      font-weight: 600;
-      box-shadow: var(--shadow-md);
-      font-size: 0.85rem;
-    }
-
-    .info-content h2 { margin-bottom: 1.25rem; }
-
-    .info-list { list-style: none; margin-bottom: 1.75rem; }
-
-    .info-list li {
-      margin-bottom: 0.625rem;
-      display: flex;
-      align-items: center;
-      gap: 0.625rem;
-      font-size: 0.95rem;
-    }
-
-    .info-list li::before {
-      content: '✓';
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 20px;
-      height: 20px;
-      background: var(--success);
-      color: white;
-      border-radius: 50%;
-      font-size: 0.7rem;
-      flex-shrink: 0;
-    }
-
-    /* Over ons */
-    .instructor { background: linear-gradient(135deg, rgba(11, 76, 44, 0.05) 0%, rgba(76, 175, 125, 0.05) 100%); }
-
-    .instructor-container {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 3.5rem;
-      align-items: center;
-    }
-
-    .instructor-image { position: relative; }
-
-    .instructor-image img {
-      width: 100%;
-      max-width: 1000px;
-      height: auto;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .instructor-badge {
-      position: absolute;
-      bottom: -12px;
-      left: -12px;
-      background: var(--gradient-primary);
-      color: white;
-      padding: 0.625rem 1.25rem;
-      border-radius: 25px;
-      font-weight: 600;
-      box-shadow: var(--shadow-md);
-      font-size: 0.85rem;
-    }
-
-    .instructor-bio h2 { margin-bottom: 1.25rem; }
-
-    /* FAQ */
-    .faq { background: white; }
-
-    .faq-container { max-width: 750px; margin: 0 auto; }
-
-    .faq-item {
-      margin-bottom: 1.25rem;
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
-      background: var(--light);
-    }
-
-    .faq-question {
+    .material {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
       padding: 1.25rem;
+    }
+
+    .section.alt .material { background: #fff; }
+
+    .material-head {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      font-weight: 600;
-      transition: var(--transition);
-      font-size: 0.95rem;
-    }
-
-    .faq-question:hover { color: var(--primary); }
-
-    .faq-question i { transition: var(--transition); }
-
-    .faq-answer {
-      padding: 0 1.25rem;
-      max-height: 0;
-      overflow: hidden;
-      transition: var(--transition);
-      font-size: 0.9rem;
-    }
-
-    .faq-item.active .faq-question i { transform: rotate(180deg); }
-
-    .faq-item.active .faq-answer {
-      padding: 0 1.25rem 1.25rem;
-      max-height: 500px;
-    }
-
-    /* CTA */
-    .cta {
-      background: var(--gradient-primary);
-      color: white;
-      text-align: center;
-      padding: 5rem 0;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta::before {
-      content: '';
-      position: absolute;
-      top: -80px;
-      left: -80px;
-      width: 250px;
-      height: 250px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .cta::after {
-      content: '';
-      position: absolute;
-      bottom: -80px;
-      right: -80px;
-      width: 250px;
-      height: 250px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .cta h2 { margin-bottom: 1.25rem; }
-
-    .cta p { max-width: 550px; margin: 0 auto 2rem; opacity: 0.9; }
-
-    /* Footer */
-    footer {
-      background: var(--primary);
-      color: white;
-      padding: 4rem 0 1.75rem;
-    }
-
-    .footer-container {
-      display: grid;
-      grid-template-columns: 1.3fr 1fr 1fr;
-      gap: 2.5rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.625rem;
-      margin-bottom: 1.25rem;
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: white;
-    }
-
-    .footer-logo img {
-      height: 32px;
-      width: auto;
-      filter: brightness(0) invert(1);
-    }
-
-    .footer-about p {
-      color: white;
-      margin-bottom: 1.25rem;
-      font-size: 0.9rem;
-      opacity: 0.85;
-    }
-
-    .footer-links h3,
-    .footer-contact h3 {
-      margin-bottom: 1.25rem;
-      position: relative;
-      display: inline-block;
-      font-size: 1.1rem;
-      color: white;
-    }
-
-    .footer-links h3::after,
-    .footer-contact h3::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 0;
-      width: 25px;
-      height: 2px;
-      background: var(--accent);
-      border-radius: 2px;
-    }
-
-    .footer-links ul { list-style: none; }
-
-    .footer-links li { margin-bottom: 0.625rem; }
-
-    .footer-links a {
-      color: white;
-      opacity: 0.85;
-      transition: var(--transition);
-      font-size: 0.9rem;
-    }
-
-    .footer-links a:hover {
-      color: var(--accent);
-      opacity: 1;
-      padding-left: 5px;
-    }
-
-    .footer-contact p {
-      margin-bottom: 0.875rem;
-      display: flex;
-      align-items: center;
-      gap: 0.625rem;
-      color: white;
-      font-size: 0.9rem;
-      opacity: 0.85;
-    }
-
-    .footer-contact a { color: white; }
-    .footer-contact a:hover { color: var(--accent); }
-
-    .footer-bottom {
-      text-align: center;
-      padding-top: 1.75rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-      color: white;
-      font-size: 0.85rem;
-      opacity: 0.75;
-    }
-
-    /* Responsive */
-    @media (max-width: 1080px) {
-      .nav-menu {
-        position: fixed;
-        top: 70px;
-        left: 0;
-        width: 100%;
-        flex-direction: column;
-        gap: 1.1rem;
-        background: white;
-        padding: 1.75rem;
-        box-shadow: var(--shadow-md);
-        transform: translateY(-100%);
-        opacity: 0;
-        visibility: hidden;
-        transition: var(--transition);
-      }
-
-      .nav-menu.active {
-        transform: translateY(0);
-        opacity: 1;
-        visibility: visible;
-      }
-
-      .nav-link { font-size: 0.95rem; }
-
-      .mobile-menu-btn { display: block; }
-    }
-
-    @media (max-width: 992px) {
-      h1 { font-size: 2.25rem; }
-      h2 { font-size: 1.75rem; }
-
-      .info-container,
-      .instructor-container {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-      }
-
-      .hero-text { text-align: center; margin: 0 auto; }
-      .hero-buttons { justify-content: center; }
-
-      .footer-container { grid-template-columns: 1fr 1fr; }
-    }
-
-    @media (max-width: 768px) {
-      .logo-subtitle { font-size: 0.52rem; letter-spacing: 0.03em; }
-
-      .hero { padding: 6rem 0 2.5rem; }
-      .hero-text h1 { font-size: 2rem; }
-    }
-
-    @media (max-width: 576px) {
-      .section { padding: 2.5rem 0; }
-      .hero-text h1 { font-size: 1.75rem; }
-      .btn { width: 100%; justify-content: center; }
-      .hero-buttons { flex-direction: column; }
-      .footer-container { grid-template-columns: 1fr; }
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .fade-in { animation: fadeIn 1s ease forwards; }
-    .delay-1 { animation-delay: 0.2s; }
-    .delay-2 { animation-delay: 0.4s; }
-    .delay-3 { animation-delay: 0.6s; }
-
-    /* ============================================================
-       Isolatie: uitgebreide sectie met blokken per isolatietype
-    ============================================================ */
-    .iso-intro {
-      max-width: 760px;
-      margin: 0 auto 1.75rem;
-      text-align: center;
-    }
-
-    .iso-jump {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .6rem;
-      justify-content: center;
-      margin-bottom: 2.5rem;
-    }
-
-    .iso-jump a {
-      display: inline-flex;
-      align-items: center;
-      gap: .45rem;
-      background: white;
-      border: 1px solid rgba(11, 76, 44, .15);
-      padding: .45rem 1rem;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: .85rem;
-      color: var(--primary);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .iso-jump a:hover {
-      background: var(--primary);
-      color: white;
-    }
-
-    .iso-block {
-      background: white;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-sm);
-      padding: 2rem;
-      margin-bottom: 1.75rem;
-    }
-
-    .iso-block-head {
-      display: flex;
-      gap: 1.25rem;
-      align-items: flex-start;
-      margin-bottom: 1.5rem;
-    }
-
-    .iso-block-head .feature-icon {
-      margin: 0;
-      flex-shrink: 0;
-    }
-
-    .iso-block-head h3 { margin-bottom: .4rem; }
-
-    .iso-block-head p { margin-bottom: .8rem; }
-
-    .iso-tags {
-      display: flex;
-      flex-wrap: wrap;
       gap: .5rem;
-    }
-
-    .iso-tags span {
-      font-size: .78rem;
-      font-weight: 600;
-      color: var(--secondary);
-      background: rgba(76, 175, 125, .12);
-      padding: .25rem .7rem;
-      border-radius: 999px;
-    }
-
-    .iso-materials {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .iso-material {
-      display: flex;
-      flex-direction: column;
-      background: var(--gradient-card);
-      border: 1px solid rgba(11, 76, 44, .08);
-      border-radius: var(--radius);
-      padding: 1.4rem;
-      transition: var(--transition);
-    }
-
-    .iso-material:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .iso-badge {
-      align-self: flex-start;
-      font-size: .7rem;
-      font-weight: 700;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-      color: white;
-      background: var(--secondary);
-      padding: .2rem .6rem;
-      border-radius: 999px;
-      margin-bottom: .75rem;
-    }
-
-    .iso-badge.is-biobased { background: #8A6A3A; }
-
-    .iso-material h4 {
-      font-size: 1.1rem;
       margin-bottom: .5rem;
     }
 
-    .iso-material p {
-      font-size: .88rem;
-      margin-bottom: .9rem;
+    .material h3 { font-size: 1.02rem; }
+
+    .material p { font-size: .9rem; }
+
+    .chip {
+      font-family: var(--font-head);
+      font-size: .66rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--green-dark);
+      background: var(--green-100);
+      padding: .25rem .55rem;
+      border-radius: 999px;
+      white-space: nowrap;
     }
 
-    .iso-pros {
-      list-style: none;
-      margin-top: auto;
-    }
+    .chip.bio { color: #6D4C1F; background: #F3E9D7; }
 
-    .iso-pros li {
+    .service-actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+
+    .tip {
       display: flex;
+      gap: .75rem;
       align-items: flex-start;
-      gap: .5rem;
-      font-size: .85rem;
-      margin-bottom: .4rem;
+      background: var(--green-50);
+      border: 1px dashed var(--green-200);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.15rem;
+      margin-bottom: 2rem;
+      font-size: .92rem;
+      color: var(--text);
     }
 
-    .iso-pros li i {
-      color: var(--success);
-      font-size: .75rem;
-      margin-top: .25rem;
+    .tip i { color: var(--green); margin-top: .2rem; }
+
+    .service-aside {
+      position: sticky;
+      top: 100px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
     }
 
-    .iso-subsidie {
+    .aside-top {
       display: flex;
       align-items: center;
-      gap: 1.25rem;
-      background: var(--gradient-primary);
-      color: white;
-      border-radius: var(--radius);
-      padding: 1.75rem 2rem;
-      margin-top: .5rem;
+      gap: 1rem;
+      padding: 1.5rem 1.5rem 1.25rem;
+      border-bottom: 1px solid var(--line);
     }
 
-    .iso-subsidie .feature-icon {
-      margin: 0;
+    .aside-top .tile-icon { margin: 0; }
+
+    .aside-top h3 { font-size: 1.05rem; }
+
+    .aside-top span { font-size: .85rem; color: var(--muted); }
+
+    .check-list {
+      list-style: none;
+      padding: 1.25rem 1.5rem;
+      display: grid;
+      gap: .7rem;
+    }
+
+    .check-list li {
+      display: flex;
+      gap: .65rem;
+      align-items: flex-start;
+      font-size: .94rem;
+    }
+
+    .check-list li::before {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      font-size: .65rem;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--green);
+      color: #fff;
       flex-shrink: 0;
-      background: rgba(255, 255, 255, .15);
+      margin-top: .15rem;
     }
 
-    .iso-subsidie h3 {
-      color: white;
-      font-size: 1.2rem;
-      margin-bottom: .35rem;
+    .subsidy-box {
+      margin: 0 1.5rem;
+      background: linear-gradient(135deg, var(--green-50), var(--green-100));
+      border-radius: var(--radius-sm);
+      padding: 1.1rem 1.25rem;
     }
 
-    .iso-subsidie p {
-      margin: 0;
+    .subsidy-box .label {
+      font-family: var(--font-head);
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--green-dark);
+    }
+
+    .subsidy-box strong {
+      display: block;
+      font-family: var(--font-head);
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--green-deep);
+      margin: .15rem 0;
+    }
+
+    .subsidy-box small { display: block; font-size: .82rem; color: var(--muted); }
+
+    .subsidy-box + .subsidy-box { margin-top: .75rem; }
+
+    .facts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      padding: 1.25rem 1.5rem 1.5rem;
+    }
+
+    .facts dt { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    .facts dd { font-weight: 600; font-size: .92rem; }
+
+    /* ============================================================
+       Werkwijze
+    ============================================================ */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.5rem;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 2rem 1.5rem 1.5rem;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      top: -18px;
+      left: 1.5rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-head);
+      font-weight: 800;
+      color: #fff;
+      background: var(--green);
+      box-shadow: 0 6px 14px rgba(67, 160, 71, .35);
+    }
+
+    .step h3 { margin-bottom: .5rem; }
+    .step p { font-size: .93rem; }
+
+    /* ============================================================
+       Thuisbatterij & Over ons (beeld + tekst)
+    ============================================================ */
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .split-media { position: relative; }
+
+    .split-media img {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: var(--shadow-lg);
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+
+    .media-badge {
+      position: absolute;
+      bottom: -18px;
+      right: 24px;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      background: #fff;
+      border-radius: 999px;
+      padding: .7rem 1.15rem;
+      box-shadow: var(--shadow-md);
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: .88rem;
+    }
+
+    .media-badge i { color: var(--green); }
+
+    .split-text p { margin: 1rem 0 1.5rem; font-size: 1.05rem; }
+
+    .split-text .check-list { padding: 0; margin-bottom: 2rem; }
+
+    .values {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .value {
+      display: flex;
+      gap: .75rem;
+      align-items: flex-start;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+    }
+
+    .value i {
+      color: var(--green);
+      font-size: 1.1rem;
+      margin-top: .2rem;
+    }
+
+    .value h3 { font-size: .95rem; margin-bottom: .2rem; }
+    .value p { font-size: .85rem; margin: 0; }
+
+    /* ============================================================
+       Subsidies
+    ============================================================ */
+    .finance-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 3rem;
+    }
+
+    .finance-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.6rem;
+    }
+
+    .finance-card .tile-icon { width: 46px; height: 46px; font-size: 1.1rem; border-radius: 14px; }
+
+    .finance-card h3 { margin-bottom: .5rem; }
+    .finance-card p { font-size: .92rem; }
+
+    .finance-card .highlight {
+      display: inline-block;
+      margin-top: .9rem;
+      font-family: var(--font-head);
+      font-weight: 800;
+      color: var(--green-deep);
+      background: var(--green-100);
+      padding: .3rem .7rem;
+      border-radius: 8px;
+      font-size: .9rem;
+    }
+
+    .subsidy-layout {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .table-card,
+    .calc-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .table-card h3,
+    .calc-card h3 { font-size: 1.2rem; margin-bottom: .35rem; }
+
+    .card-sub { font-size: .9rem; margin-bottom: 1.25rem; }
+
+    .table-wrap { overflow-x: auto; }
+
+    .subsidy-table {
+      width: 100%;
+      border-collapse: collapse;
       font-size: .92rem;
-      opacity: .9;
+      min-width: 480px;
     }
 
-    @media (max-width: 576px) {
-      .iso-block { padding: 1.4rem 1.1rem; }
-      .iso-block-head { flex-direction: column; gap: .9rem; }
-      .iso-subsidie { flex-direction: column; text-align: center; padding: 1.5rem 1.1rem; }
+    .subsidy-table th {
+      text-align: left;
+      font-family: var(--font-head);
+      font-size: .72rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 .5rem .75rem;
+      border-bottom: 2px solid var(--line);
+    }
+
+    .subsidy-table td {
+      padding: .85rem .5rem;
+      border-bottom: 1px solid var(--line);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .subsidy-table td:first-child { font-weight: 600; }
+    .subsidy-table td.num { white-space: nowrap; }
+    .subsidy-table td.strong { color: var(--green-deep); font-weight: 700; }
+    .subsidy-table tr:last-child td { border-bottom: none; }
+
+    .conditions {
+      list-style: none;
+      display: grid;
+      gap: .5rem;
+      margin-top: 1.25rem;
+      font-size: .88rem;
+      color: var(--muted);
+    }
+
+    .conditions li { display: flex; gap: .55rem; }
+    .conditions i { color: var(--green); margin-top: .3rem; font-size: .75rem; }
+
+    .calc-card { position: sticky; top: 100px; }
+
+    .calc-row {
+      display: grid;
+      grid-template-columns: 1fr 120px;
+      gap: .75rem;
+      align-items: center;
+      padding: .7rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .calc-row label {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      font-weight: 500;
+      font-size: .93rem;
+      cursor: pointer;
+    }
+
+    .calc-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+
+    .m2-input { position: relative; }
+
+    .m2-input input {
+      width: 100%;
+      padding: .55rem 2.3rem .55rem .7rem;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font: inherit;
+      font-size: .92rem;
+      text-align: right;
+      background: #fff;
+    }
+
+    .m2-input input:disabled { background: var(--bg-alt); color: #A3AFA6; }
+    .m2-input input:focus { outline: 2px solid var(--green-200); border-color: var(--green); }
+
+    .m2-input span {
+      position: absolute;
+      right: .7rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    .calc-note {
+      grid-column: 1 / -1;
+      font-size: .78rem;
+      color: #B26A00;
+    }
+
+    .calc-note:empty { display: none; }
+
+    .calc-result {
+      margin-top: 1.25rem;
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      color: #fff;
+      border-radius: 16px;
+      padding: 1.35rem 1.5rem;
+    }
+
+    .calc-result span { font-size: .85rem; opacity: .9; }
+
+    .calc-result strong {
+      display: block;
+      font-family: var(--font-head);
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin: .2rem 0 .35rem;
+    }
+
+    .calc-result small { display: block; font-size: .85rem; opacity: .95; }
+
+    .calc-disclaimer { font-size: .78rem; margin-top: .9rem; }
+
+    /* ============================================================
+       FAQ
+    ============================================================ */
+    .faq-list { max-width: 820px; margin: 0 auto; display: grid; gap: .85rem; }
+
+    .faq-list details {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
+    }
+
+    .faq-list details[open] { border-color: var(--green-200); box-shadow: var(--shadow-sm); }
+
+    .faq-list summary {
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.15rem 1.35rem;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .faq-list summary::-webkit-details-marker { display: none; }
+
+    .faq-list summary::after {
+      content: '\2b';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      font-size: .8rem;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--green-100);
+      color: var(--green-dark);
+      flex-shrink: 0;
+      transition: transform .25s var(--ease), background .25s var(--ease), color .25s var(--ease);
+    }
+
+    .faq-list details[open] summary::after {
+      transform: rotate(45deg);
+      background: var(--green);
+      color: #fff;
+    }
+
+    .faq-list details p { padding: 0 1.35rem 1.25rem; font-size: .95rem; }
+
+    /* ============================================================
+       Contact
+    ============================================================ */
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      gap: 2.5rem;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .contact-info {
+      background: linear-gradient(160deg, var(--green), var(--green-dark));
+      color: #fff;
+      padding: 2.75rem 2.25rem;
+    }
+
+    .contact-info h2 { color: #fff; }
+    .contact-info p { color: rgba(255, 255, 255, .9); margin: 1rem 0 2rem; }
+
+    .contact-line {
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+      color: #fff;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .contact-line i {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, .16);
+    }
+
+    .contact-line:hover { color: #fff; opacity: .9; }
+
+    .contact-promise {
+      list-style: none;
+      margin-top: 2rem;
+      display: grid;
+      gap: .6rem;
+      font-size: .92rem;
+    }
+
+    .contact-promise li { display: flex; gap: .6rem; }
+    .contact-promise i { margin-top: .3rem; font-size: .75rem; }
+
+    .contact-form { padding: 2.75rem 2.25rem 2.5rem 0; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .field { display: flex; flex-direction: column; gap: .35rem; }
+    .field.full { grid-column: 1 / -1; }
+
+    .field label { font-weight: 600; font-size: .88rem; }
+
+    .field input,
+    .field textarea {
+      font: inherit;
+      font-size: .95rem;
+      padding: .75rem .9rem;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--bg-alt);
+      transition: border-color .2s var(--ease), background .2s var(--ease);
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      outline: none;
+      border-color: var(--green);
+      background: #fff;
+    }
+
+    .field textarea { min-height: 110px; resize: vertical; }
+
+    .interest-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+
+    .interest-group label {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .interest-group input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .interest-group span {
+      display: inline-block;
+      padding: .45rem .85rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: .85rem;
+      font-weight: 500;
+      background: #fff;
+      transition: all .2s var(--ease);
+    }
+
+    .interest-group input:checked + span {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+
+    .interest-group input:focus-visible + span { outline: 2px solid var(--green-200); }
+
+    .form-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .form-footer small { color: var(--muted); max-width: 320px; }
+
+    /* ============================================================
+       Footer
+    ============================================================ */
+    .site-footer {
+      background: var(--bg-alt);
+      border-top: 1px solid var(--line);
+      padding: 4rem 0 2rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 2.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-grid p { font-size: .92rem; margin-top: 1rem; max-width: 300px; }
+
+    .footer-grid h4 {
+      font-size: .9rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-grid ul { list-style: none; display: grid; gap: .55rem; }
+
+    .footer-grid ul a { color: var(--muted); font-size: .92rem; }
+    .footer-grid ul a:hover { color: var(--green-dark); }
+
+    .footer-bottom {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--line);
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    /* ============================================================
+       Responsief
+    ============================================================ */
+    @media (max-width: 1180px) {
+      .nav-toggle { display: grid; place-items: center; }
+
+      .site-nav {
+        position: fixed;
+        top: 76px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+        box-shadow: var(--shadow-md);
+        padding: .75rem 1.25rem 1.25rem;
+        transform: translateY(-12px);
+        opacity: 0;
+        visibility: hidden;
+        transition: all .25s var(--ease);
+        max-height: calc(100vh - 76px);
+        overflow-y: auto;
+      }
+
+      .site-nav.open { transform: none; opacity: 1; visibility: visible; }
+
+      .site-nav a:not(.btn) {
+        padding: .85rem .25rem;
+        border-bottom: 1px solid var(--line);
+        font-size: 1rem;
+      }
+
+      .site-nav a:not(.btn)::after { display: none; }
+
+      .site-nav .btn { margin-top: 1rem; }
+    }
+
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2.5rem; }
+      .finance-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 900px) {
+      .hero { padding-top: 7.5rem; }
+      .hero-grid,
+      .service-grid,
+      .service-grid.reverse,
+      .split,
+      .subsidy-layout,
+      .contact-wrap { grid-template-columns: 1fr; }
+
+      .service-grid.reverse .service-text,
+      .service-grid.reverse .service-aside { order: initial; }
+
+      .service-aside,
+      .calc-card { position: static; }
+
+      .split { gap: 3rem; }
+
+      .contact-form { padding: 0 1.5rem 2rem; }
+      .contact-info { padding: 2.25rem 1.5rem; }
+    }
+
+    @media (max-width: 600px) {
+      .section { padding: 4rem 0; }
+      .services-grid,
+      .steps,
+      .finance-grid,
+      .values,
+      .form-grid,
+      .hero-trust,
+      .footer-grid { grid-template-columns: 1fr; }
+
+      .hero-actions .btn,
+      .service-actions .btn { width: 100%; }
+
+      .brand img { height: 38px; }
+      .brand-name { font-size: 1.15rem; }
+
+      .calc-row { grid-template-columns: 1fr 104px; }
+      .facts { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="container header-container">
-      <a href="#home" class="logo">
-        <img src="images/logo-icoon.png" alt="Wattveld logo">
-        <span class="logo-text">
-          <span class="logo-title">Wattveld</span>
-          <span class="logo-subtitle">Verduurzamingstechniek</span>
+
+  <!-- ============================================================
+       Header
+  ============================================================ -->
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a href="#top" class="brand" aria-label="Wattveld, naar boven">
+        <img src="images/logo-icoon.png" alt="">
+        <span class="brand-text">
+          <span class="brand-name">Wattveld</span>
+          <span class="brand-sub">Verduurzamingstechniek</span>
         </span>
       </a>
 
-      <nav class="nav-menu">
-        <a href="#iso-dak" class="nav-link">Dakisolatie</a>
-        <a href="#iso-spouw" class="nav-link">Spouwmuurisolatie</a>
-        <a href="#iso-bodem" class="nav-link">Bodemisolatie</a>
-        <a href="#iso-vloer" class="nav-link">Vloerisolatie</a>
-        <a href="#iso-glas" class="nav-link">Isolatieglas</a>
-        <a href="#thuisbatterijen" class="nav-link">Thuisbatterij</a>
-        <a href="#over-ons" class="nav-link">Over ons</a>
+      <nav class="site-nav" id="site-nav" aria-label="Hoofdmenu">
+        <a href="#dakisolatie">Dakisolatie</a>
+        <a href="#spouwmuurisolatie">Spouwmuurisolatie</a>
+        <a href="#bodemisolatie">Bodemisolatie</a>
+        <a href="#vloerisolatie">Vloerisolatie</a>
+        <a href="#isolatieglas">Isolatieglas</a>
+        <a href="#thuisbatterij">Thuisbatterij</a>
+        <a href="#over-ons">Over ons</a>
+        <a href="#contact" class="btn btn-primary btn-sm"><i class="fas fa-calendar-check"></i> Gratis advies</a>
       </nav>
 
-      <button class="mobile-menu-btn" aria-label="Menu openen">
+      <button class="nav-toggle" aria-label="Menu openen" aria-expanded="false" aria-controls="site-nav">
         <i class="fas fa-bars"></i>
       </button>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section id="home" class="hero">
-    <div class="hero-banner fade-in">
-      <img src="images/vrachtwagen-monteur.png" alt="Wattveld-vrachtwagens en monteur op locatie">
-    </div>
-    <div class="container">
-      <div class="hero-text fade-in delay-1">
-        <h1>Verduurzaming voor uw woning, van A tot Z geregeld</h1>
-        <p>Wattveld verzorgt isolatie, isolatieglas, thuisbatterijen en airco's voor woningeigenaren in heel Nederland: van energiescan en subsidieaanvraag tot installatie door ons eigen team. Eén aanspreekpunt, een plan dat op de euro klopt.</p>
-        <div class="hero-buttons">
-          <a href="#contact1" class="btn btn-primary">
-            <i class="fas fa-envelope"></i> Gratis energiescan aanvragen
-          </a>
-          <a href="#thuisbatterijen" class="btn btn-secondary">
-            <i class="fas fa-eye"></i> Bekijk onze diensten
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
+  <main>
 
-  <!-- Thuisbatterij Section -->
-  <section id="thuisbatterijen" class="section diensten">
-    <div class="container">
-      <div class="info-container">
-        <div class="info-image fade-in">
-          <img src="images/monteur-thuisbatterij.png" alt="Monteur van Wattveld sluit een thuisbatterij en meterkast aan">
-          <div class="info-badge">Meer eigen verbruik</div>
-        </div>
-
-        <div class="info-content fade-in delay-1">
-          <h2>Thuisbatterij</h2>
-          <p>Met een thuisbatterij slaat u de zonne-energie die uw zonnepanelen overdag opwekken zelf op, zodat u hem 's avonds kunt gebruiken, in plaats van tegen een laag teruglevertarief aan het net terug te leveren.</p>
-          <ul class="info-list">
-            <li>Onafhankelijker van dalende teruglevertarieven</li>
-            <li>Meer eigen gebruik van uw zonnestroom</li>
-            <li>Slim laden en ontladen op basis van uw eigen verbruik</li>
-            <li>Aan te sluiten op uw bestaande zonnepanelen</li>
-          </ul>
-          <a href="#contact1" class="btn btn-primary"><i class="fas fa-envelope"></i> Vraag advies over een thuisbatterij aan</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Airco Section -->
-  <section id="airco" class="section features">
-    <div class="container">
-      <div class="section-title">
-        <h2>Airco</h2>
-        <p>Koelen in de zomer, energiezuinig bijverwarmen in de tussenseizoenen</p>
-      </div>
-      <p style="max-width:700px;margin:0 auto 2.5rem;text-align:center;">Een airco koelt uw woning tijdens warme dagen en kan in het voor- en najaar efficiënt bijverwarmen, een prettige aanvulling op uw huidige verwarming, of als zelfstandige oplossing.</p>
-
-      <div class="features-grid">
-        <div class="feature-card fade-in">
-          <div class="feature-icon"><i class="fas fa-snowflake"></i></div>
-          <h3>Koelen én verwarmen</h3>
-          <p>Eén systeem voor verkoeling in de zomer en efficiënte bijverwarming buiten het stookseizoen.</p>
-        </div>
-
-        <div class="feature-card fade-in delay-1">
-          <div class="feature-icon"><i class="fas fa-volume-low"></i></div>
-          <h3>Stil en energiezuinig</h3>
-          <p>Moderne airco's zijn nauwelijks hoorbaar en verbruiken aanzienlijk minder energie dan traditionele verwarming of koeling.</p>
-        </div>
-
-        <div class="feature-card fade-in delay-2">
-          <div class="feature-icon"><i class="fas fa-plug-circle-bolt"></i></div>
-          <h3>Slim gecombineerd</h3>
-          <p>Uitstekend te combineren met een thuisbatterij, zodat u zoveel mogelijk op eigen opgewekte stroom draait.</p>
-        </div>
-      </div>
-
-      <div style="text-align:center;margin-top:2.5rem;">
-        <a href="#contact1" class="btn btn-primary"><i class="fas fa-envelope"></i> Vraag advies over airco aan</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Isolatie Section (uitgebreid) -->
-  <section id="isolatie" class="section diensten">
-    <div class="container">
-      <div class="section-title">
-        <h2>Isolatie</h2>
-        <p>De basis onder elke verduurzaming</p>
-      </div>
-      <p class="iso-intro">Hoe beter uw woning geïsoleerd is, hoe minder energie u kwijt bent aan verwarmen en koelen, en hoe comfortabeler uw woning aanvoelt. Wattveld isoleert van dak tot kruipruimte, inclusief de ramen. Per woning kiezen we het materiaal dat past bij de constructie, de beschikbare ruimte en uw wensen, en ons eigen team brengt het aan.</p>
-
-      <div class="iso-jump">
-        <a href="#iso-dak"><i class="fas fa-house-chimney"></i> Dakisolatie</a>
-        <a href="#iso-spouw"><i class="fas fa-layer-group"></i> Spouwmuurisolatie</a>
-        <a href="#iso-bodem"><i class="fas fa-mound"></i> Bodemisolatie</a>
-        <a href="#iso-vloer"><i class="fas fa-grip-lines"></i> Vloerisolatie</a>
-        <a href="#iso-glas"><i class="fas fa-window-maximize"></i> Isolatieglas</a>
-      </div>
-
-      <!-- Dakisolatie -->
-      <div class="iso-block fade-in" id="iso-dak">
-        <div class="iso-block-head">
-          <div class="feature-icon"><i class="fas fa-house-chimney"></i></div>
-          <div>
-            <h3>Dakisolatie</h3>
-            <p>Via een ongeïsoleerd dak verdwijnt de meeste warmte, dus goede dakisolatie levert vaak het snelst rendement op. We isoleren schuine daken aan de binnenzijde, zonder dat er dakpannen van het dak hoeven. Welk materiaal we kiezen hangt af van de dakopbouw, de ruimte tussen de gordingen en hoe u de zolder gebruikt.</p>
-            <div class="iso-tags">
-              <span>Schuin dak</span>
-              <span>Isoleren vanaf de binnenzijde</span>
-              <span>Warmere zolder, koeler in de zomer</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="iso-materials">
-          <div class="iso-material">
-            <span class="iso-badge">Spuitisolatie</span>
-            <h4>Quadfoam</h4>
-            <p>Isolatieschuim dat ter plekke tegen het dakbeschot en de gordingen wordt gespoten. Het schuim hecht zich aan de ondergrond en vult elke naad en kier, zodat er één naadloze, luchtdichte isolatielaag ontstaat.</p>
-            <ul class="iso-pros">
-              <li><i class="fas fa-check"></i> Naadloos en luchtdicht, geen tocht meer</li>
-              <li><i class="fas fa-check"></i> Ideaal voor lastige hoeken en onregelmatige daken</li>
-              <li><i class="fas fa-check"></i> Snel aangebracht, met weinig overlast</li>
-            </ul>
-          </div>
-
-          <div class="iso-material">
-            <span class="iso-badge">Isolatiefolie</span>
-            <h4>PIF-isolatie</h4>
-            <p>Flexibele isolatie opgebouwd uit luchtkamers en reflecterende folielagen. De folie kaatst warmtestraling terug, de stilstaande lucht in de kamers remt het warmtetransport. Licht van gewicht en dus goed toepasbaar onder een schuin dak.</p>
-            <ul class="iso-pros">
-              <li><i class="fas fa-check"></i> Stofvrij en zonder jeuk verwerkt</li>
-              <li><i class="fas fa-check"></i> Licht, belast de dakconstructie nauwelijks</li>
-              <li><i class="fas fa-check"></i> Strak af te werken met beplating</li>
-            </ul>
-          </div>
-
-          <div class="iso-material">
-            <span class="iso-badge is-biobased">Biobased</span>
-            <h4>Cellulose</h4>
-            <p>Isolatievlokken van gerecycled papier die in een gesloten dakconstructie worden geblazen. Cellulose vult de ruimte volledig op, regelt vocht en houdt in de zomer de warmte langer buiten.</p>
-            <ul class="iso-pros">
-              <li><i class="fas fa-check"></i> Gemaakt van gerecycled papier</li>
-              <li><i class="fas fa-check"></i> Vochtregulerend, voor een prettig binnenklimaat</li>
-              <li><i class="fas fa-check"></i> Goede bescherming tegen zomerhitte</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Spouwmuurisolatie -->
-      <div class="iso-block fade-in" id="iso-spouw">
-        <div class="iso-block-head">
-          <div class="feature-icon"><i class="fas fa-layer-group"></i></div>
-          <div>
-            <h3>Spouwmuurisolatie</h3>
-            <p>Veel woningen hebben een buitenmuur met een holle ruimte (de spouw) die niet of nauwelijks geïsoleerd is. Vooraf controleren we of uw spouw geschikt is. Daarna boren we kleine gaatjes in de voegen, blazen de spouw vol en werken de gaatjes weer af in de kleur van het voegwerk. Binnen in huis merkt u er vrijwel niets van.</p>
-            <div class="iso-tags">
-              <span>Meestal binnen één dag klaar</span>
-              <span>Geen overlast binnen</span>
-              <span>Korte terugverdientijd</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="iso-materials">
-          <div class="iso-material">
-            <span class="iso-badge">Glaswol</span>
-            <h4>Knauf inblaaswol</h4>
-            <p>Waterafstotende glaswolvlokken van Knauf die de spouw volledig en gelijkmatig opvullen. De wol blijft dampopen, zodat vocht uit de muur kan blijven verdampen.</p>
-            <ul class="iso-pros">
-              <li><i class="fas fa-check"></i> Onbrandbaar materiaal</li>
-              <li><i class="fas fa-check"></i> Dempt ook geluid van buiten</li>
-              <li><i class="fas fa-check"></i> Vormvast, zakt niet uit</li>
-            </ul>
-          </div>
-
-          <div class="iso-material">
-            <span class="iso-badge">EPS</span>
-            <h4>EPS-parels</h4>
-            <p>Kleine bolletjes geëxpandeerd polystyreen die samen met een bindmiddel in de spouw worden geblazen. De parels vloeien goed door, ook in smalle of onregelmatige spouwen, en nemen geen water op.</p>
-            <ul class="iso-pros">
-              <li><i class="fas fa-check"></i> Geschikt voor smalle spouwen</li>
-              <li><i class="fas fa-check"></i> Neemt geen vocht op</li>
-              <li><i class="fas fa-check"></i> Blijft op zijn plek door het bindmiddel</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bodemisolatie -->
-      <div class="iso-block fade-in" id="iso-bodem">
-        <div class="iso-block-head">
-          <div class="feature-icon"><i class="fas fa-mound"></i></div>
-          <div>
-            <h3>Bodemisolatie</h3>
-            <p>Is de kruipruimte te laag om onder de vloer te werken? Dan isoleren we de bodem van de kruipruimte. Via het kruipluik blazen we een dikke laag isolatiemateriaal over de hele bodem. Daardoor stijgen er minder kou en vocht op naar de vloer, en wordt de kruipruimte droger.</p>
-            <div class="iso-tags">
-              <span>Ook voor lage kruipruimtes</span>
-              <span>Drogere kruipruimte</span>
-              <span>Snel en zonder breekwerk</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="iso-materials">
-          <div class="iso-material">
-            <span class="iso-badge">EPS</span>
-            <h4>EPS-parels</h4>
-            <p>Fijne EPS-korreltjes die zich als een gesloten deken over de bodem verdelen, ook in hoeken en rondom funderingsbalken. Zo ontstaat een gelijkmatige, aaneengesloten isolatielaag.</p>
-            <ul class="iso-pros">
-              <li><i class="fas fa-check"></i> Bereikt ook de lastige hoeken</li>
-              <li><i class="fas fa-check"></i> Gelijkmatige, aaneengesloten laag</li>
-              <li><i class="fas fa-check"></i> Neemt geen vocht op</li>
-            </ul>
-          </div>
-
-          <div class="iso-material">
-            <span class="iso-badge">EPS</span>
-            <h4>EPS-isolatiechips</h4>
-            <p>Grovere snippers EPS die in een dikke laag op de bodem worden geblazen. Door de grotere korrel ontstaat snel een flinke isolatiedikte, wat deze methode voordelig maakt bij grotere kruipruimtes.</p>
-            <ul class="iso-pros">
-              <li><i class="fas fa-check"></i> Voordelig bij grote oppervlakken</li>
-              <li><i class="fas fa-check"></i> Snel een dikke isolatielaag</li>
-              <li><i class="fas fa-check"></i> Rot en schimmelt niet</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Vloerisolatie -->
-      <div class="iso-block fade-in" id="iso-vloer">
-        <div class="iso-block-head">
-          <div class="feature-icon"><i class="fas fa-grip-lines"></i></div>
-          <div>
-            <h3>Vloerisolatie</h3>
-            <p>We isoleren de onderkant van de begane grondvloer vanuit de kruipruimte. Het resultaat: geen koude voeten meer, minder tocht langs de plinten en een warmere benedenverdieping. Hiervoor moet de kruipruimte voldoende hoog zijn om in te werken. Is dat niet zo, dan is bodemisolatie een goed alternatief.</p>
-            <div class="iso-tags">
-              <span>Houten en betonnen vloeren</span>
-              <span>Via het kruipluik, zonder breekwerk</span>
-              <span>Ook bij vloerverwarming</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="iso-materials">
-          <div class="iso-material">
-            <span class="iso-badge">Spuitisolatie</span>
-            <h4>Quadfoam</h4>
-            <p>Wordt rechtstreeks tegen de onderkant van de vloer gespoten, of die nu van hout of beton is. Het schuim hecht zich aan de vloer en de balken en sluit in één keer alle naden en kieren af.</p>
-            <ul class="iso-pros">
-              <li><i class="fas fa-check"></i> Sluit naden en kieren af</li>
-              <li><i class="fas fa-check"></i> Ook rondom leidingen goed aan te brengen</li>
-              <li><i class="fas fa-check"></i> Geschikt voor hout en beton</li>
-            </ul>
-          </div>
-
-          <div class="iso-material">
-            <span class="iso-badge">Isolatiefolie</span>
-            <h4>PIF-isolatie</h4>
-            <p>Banen PIF-isolatie worden strak onder de vloer bevestigd. De reflecterende lagen houden de warmte in de woning, terwijl het lichte, flexibele materiaal zich goed laat verwerken in de kruipruimte.</p>
-            <ul class="iso-pros">
-              <li><i class="fas fa-check"></i> Schoon en stofvrij aangebracht</li>
-              <li><i class="fas fa-check"></i> Ook geschikt onder vloerverwarming</li>
-              <li><i class="fas fa-check"></i> Licht en flexibel in de kruipruimte</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Isolatieglas -->
-      <div class="iso-block fade-in" id="iso-glas">
-        <div class="iso-block-head">
-          <div class="feature-icon"><i class="fas fa-window-maximize"></i></div>
-          <div>
-            <h3>Isolatieglas</h3>
-            <p>Enkel glas of oud dubbel glas laat veel warmte ontsnappen en zorgt voor koude plekken bij het raam. We vervangen het door hoogwaardig isolatieglas, waar mogelijk in uw bestaande kozijnen. Vooraf controleren we of de kozijnen geschikt zijn voor het nieuwe glas.</p>
-            <div class="iso-tags">
-              <span>Vaak in bestaande kozijnen</span>
-              <span>Minder tocht en koudeval</span>
-              <span>Stiller in huis</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="iso-materials">
-          <div class="iso-material">
-            <span class="iso-badge">Dubbel glas</span>
-            <h4>HR++ glas</h4>
-            <p>Dubbel glas met een warmtereflecterende coating en een spouw gevuld met edelgas. Een flinke stap vooruit ten opzichte van enkel of oud dubbel glas, en past vaak in de bestaande kozijnen.</p>
-            <ul class="iso-pros">
-              <li><i class="fas fa-check"></i> Merkbaar minder warmteverlies</li>
-              <li><i class="fas fa-check"></i> Minder koudeval bij het raam</li>
-              <li><i class="fas fa-check"></i> Vaak te plaatsen in bestaande kozijnen</li>
-            </ul>
-          </div>
-
-          <div class="iso-material">
-            <span class="iso-badge">Triple glas</span>
-            <h4>HR+++ glas</h4>
-            <p>Drie glasbladen met twee met edelgas gevulde spouwen. De hoogste isolatiewaarde, ideaal voor goed geïsoleerde woningen. Het glas is dikker en zwaarder, dus we controleren vooraf of uw kozijnen het aankunnen.</p>
-            <ul class="iso-pros">
-              <li><i class="fas fa-check"></i> Hoogste isolatiewaarde</li>
-              <li><i class="fas fa-check"></i> Nauwelijks condens aan de binnenzijde</li>
-              <li><i class="fas fa-check"></i> Extra geluidsdempend</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Subsidie-tip -->
-      <div class="iso-subsidie fade-in">
-        <div class="feature-icon"><i class="fas fa-piggy-bank"></i></div>
+    <!-- ============================================================
+         Hero
+    ============================================================ -->
+    <section class="hero">
+      <div class="container hero-grid">
         <div>
-          <h3>Twee maatregelen, dubbele subsidie</h3>
-          <p>Combineert u twee isolatiemaatregelen, bijvoorbeeld dak- en spouwmuurisolatie, dan verdubbelt het ISDE-subsidiebedrag per m², mits u binnen 24 maanden na de eerste maatregel aanvraagt. Wij zoeken voor uw situatie uit waar u recht op heeft en verzorgen de aanvraag.</p>
+          <span class="eyebrow"><i class="fas fa-leaf"></i> Isolatiespecialist</span>
+          <h1>Een warm huis begint bij <span>goede isolatie</span></h1>
+          <p class="hero-lead">Wattveld isoleert uw woning van dak tot kruipruimte. Met ons eigen team, eerlijk advies over wat écht rendeert, en hulp bij uw subsidieaanvraag.</p>
+          <div class="hero-actions">
+            <a href="#contact" class="btn btn-primary"><i class="fas fa-calendar-check"></i> Plan een gratis adviesgesprek</a>
+            <a href="#subsidies" class="btn btn-outline"><i class="fas fa-calculator"></i> Bereken uw subsidie</a>
+          </div>
+          <div class="hero-trust">
+            <div><i class="fas fa-user-gear"></i> Eigen monteurs, geen onderaannemers</div>
+            <div><i class="fas fa-piggy-bank"></i> Hulp bij uw ISDE-subsidie</div>
+            <div><i class="fas fa-percent"></i> 9% btw op arbeid</div>
+            <div><i class="fas fa-shield-halved"></i> Garantie op werk en materiaal</div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <svg class="house-svg" viewBox="0 0 520 430" role="img" aria-labelledby="house-title">
+            <title id="house-title">Doorsnede van een woning met de isolatiezones dak, spouwmuur, glas, vloer en bodem</title>
+            <defs>
+              <clipPath id="frame"><rect width="520" height="430" rx="18"/></clipPath>
+              <pattern id="wool" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                <rect width="10" height="10" fill="#C8E6C9"/>
+                <line x1="0" y1="0" x2="0" y2="10" stroke="#81C784" stroke-width="3"/>
+              </pattern>
+              <pattern id="beads" width="8" height="8" patternUnits="userSpaceOnUse">
+                <rect width="8" height="8" fill="#E8F5E9"/>
+                <circle cx="4" cy="4" r="2.4" fill="#81C784"/>
+              </pattern>
+            </defs>
+
+            <g clip-path="url(#frame)">
+              <!-- lucht en grond -->
+              <rect width="520" height="430" fill="#F1F8F1"/>
+              <circle cx="455" cy="62" r="26" fill="#FFF3C4"/>
+              <rect x="0" y="332" width="520" height="98" fill="#EFE6D6"/>
+              <rect x="0" y="326" width="520" height="8" fill="#A5D6A7"/>
+
+              <!-- kruipruimte -->
+              <rect x="96" y="340" width="328" height="58" fill="#F8F2E7"/>
+              <rect x="86" y="318" width="14" height="86" fill="#C9BFAF"/>
+              <rect x="420" y="318" width="14" height="86" fill="#C9BFAF"/>
+
+              <!-- bodemisolatie -->
+              <rect x="100" y="380" width="320" height="18" fill="url(#beads)"/>
+
+              <!-- vloer + vloerisolatie -->
+              <rect x="86" y="318" width="348" height="12" fill="#B9C2BB"/>
+              <rect x="100" y="330" width="320" height="10" fill="url(#wool)"/>
+
+              <!-- schoorsteen -->
+              <rect x="350" y="84" width="26" height="60" fill="#C08A72"/>
+
+              <!-- dak -->
+              <polygon points="60,188 260,58 460,188" fill="#7C8F80"/>
+              <polygon points="92,184 260,76 428,184" fill="url(#wool)"/>
+              <polygon points="116,182 260,92 404,182" fill="#FFFFFF"/>
+
+              <!-- muren: buitenblad, spouw, binnenblad -->
+              <rect x="86" y="182" width="12" height="136" fill="#D9A68C"/>
+              <rect x="98" y="182" width="10" height="136" fill="url(#wool)"/>
+              <rect x="108" y="182" width="8" height="136" fill="#E3E7E4"/>
+              <rect x="404" y="182" width="8" height="136" fill="#E3E7E4"/>
+              <rect x="412" y="182" width="10" height="136" fill="url(#wool)"/>
+              <rect x="422" y="182" width="12" height="136" fill="#D9A68C"/>
+
+              <!-- interieur -->
+              <rect x="116" y="182" width="288" height="136" fill="#FFFFFF"/>
+              <rect x="116" y="176" width="288" height="6" fill="#E3E7E4"/>
+
+              <!-- raam -->
+              <rect x="292" y="212" width="78" height="68" rx="4" fill="#E3F2FD" stroke="#90A4AE" stroke-width="4"/>
+              <line x1="331" y1="214" x2="331" y2="278" stroke="#90A4AE" stroke-width="3"/>
+              <line x1="300" y1="222" x2="318" y2="240" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+
+              <!-- bank en lamp -->
+              <rect x="146" y="286" width="92" height="26" rx="8" fill="#C8E6C9"/>
+              <rect x="140" y="276" width="18" height="36" rx="6" fill="#A5D6A7"/>
+              <rect x="226" y="276" width="18" height="36" rx="6" fill="#A5D6A7"/>
+              <line x1="266" y1="242" x2="266" y2="312" stroke="#B0BEC5" stroke-width="3"/>
+              <path d="M254 242 h24 l-6 -16 h-12 z" fill="#FFE082"/>
+
+              <!-- hotspots -->
+              <a href="#dakisolatie" class="hotspot" aria-label="Dakisolatie">
+                <circle class="pulse" cx="176" cy="150" r="9"/>
+                <circle class="dot" cx="176" cy="150" r="9"/>
+                <rect class="pill" x="192" y="137" width="100" height="26" rx="13"/>
+                <text x="242" y="154" text-anchor="middle">Dakisolatie</text>
+              </a>
+
+              <a href="#spouwmuurisolatie" class="hotspot" aria-label="Spouwmuurisolatie">
+                <circle class="pulse" cx="103" cy="236" r="9"/>
+                <circle class="dot" cx="103" cy="236" r="9"/>
+                <rect class="pill" x="122" y="223" width="146" height="26" rx="13"/>
+                <text x="195" y="240" text-anchor="middle">Spouwmuurisolatie</text>
+              </a>
+
+              <a href="#isolatieglas" class="hotspot" aria-label="Isolatieglas">
+                <circle class="pulse" cx="331" cy="246" r="9"/>
+                <circle class="dot" cx="331" cy="246" r="9"/>
+                <rect class="pill" x="282" y="286" width="100" height="26" rx="13"/>
+                <text x="332" y="303" text-anchor="middle">Isolatieglas</text>
+              </a>
+
+              <a href="#vloerisolatie" class="hotspot" aria-label="Vloerisolatie">
+                <circle class="pulse" cx="300" cy="335" r="9"/>
+                <circle class="dot" cx="300" cy="335" r="9"/>
+                <rect class="pill" x="314" y="345" width="104" height="26" rx="13"/>
+                <text x="366" y="362" text-anchor="middle">Vloerisolatie</text>
+              </a>
+
+              <a href="#bodemisolatie" class="hotspot" aria-label="Bodemisolatie">
+                <circle class="pulse" cx="140" cy="389" r="9"/>
+                <circle class="dot" cx="140" cy="389" r="9"/>
+                <rect class="pill" x="156" y="376" width="110" height="26" rx="13"/>
+                <text x="211" y="393" text-anchor="middle">Bodemisolatie</text>
+              </a>
+            </g>
+          </svg>
+          <div class="hero-visual-caption"><i class="fas fa-hand-pointer"></i> Klik op een zone voor meer informatie</div>
         </div>
       </div>
+    </section>
 
-      <div style="text-align:center;margin-top:2.5rem;">
-        <a href="#contact1" class="btn btn-primary"><i class="fas fa-envelope"></i> Vraag advies over isolatie aan</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Meer informatie: subsidies & financiering -->
-  <section id="meer-informatie" class="section features">
-    <div class="container">
-      <div class="section-title">
-        <h2>Meer informatie</h2>
-        <p>Subsidies en financiering voor uw verduurzaming</p>
-      </div>
-
-      <div class="diensten-grid">
-        <div class="dienst-card fade-in">
-          <div class="feature-icon"><i class="fas fa-piggy-bank"></i></div>
-          <h3>ISDE-subsidie</h3>
-          <p>Subsidie voor isolatiemaatregelen, aan te vragen via de Rijksdienst voor Ondernemend Nederland.</p>
+    <!-- ============================================================
+         Overzicht diensten
+    ============================================================ -->
+    <section class="section alt" id="diensten">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow"><i class="fas fa-house-circle-check"></i> Onze diensten</span>
+          <h2>Isolatie voor elk deel van uw woning</h2>
+          <p>Elke woning is anders. Daarom kijken we eerst wat uw huis nodig heeft en kiezen we pas daarna het materiaal. Zo betaalt u alleen voor maatregelen die echt iets opleveren.</p>
         </div>
 
-        <div class="dienst-card fade-in delay-1">
-          <div class="feature-icon"><i class="fas fa-landmark"></i></div>
-          <h3>Nationaal Warmtefonds</h3>
-          <p>Financier uw verduurzaming met een voordelige lening, ook zonder dat u zelf eigen middelen vooraf nodig heeft.</p>
-        </div>
-
-        <div class="dienst-card fade-in delay-2">
-          <div class="feature-icon"><i class="fas fa-map-location-dot"></i></div>
-          <h3>Gemeentelijke regelingen</h3>
-          <p>Veel gemeenten bieden aanvullende subsidies of leningen; wij checken wat voor uw adres geldt.</p>
-        </div>
-      </div>
-
-      <p style="text-align:center; margin-top: 2rem;">Voorwaarden en bedragen wijzigen regelmatig — vraag ons naar de actuele regelingen voor uw situatie.</p>
-      <div style="text-align:center;">
-        <a href="#contact1" class="btn btn-primary">
-          <i class="fas fa-envelope"></i> Vraag persoonlijk advies aan
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Aanpak Section -->
-  <section id="aanpak" class="section course-info">
-    <div class="container">
-      <div class="info-container">
-        <div class="info-image fade-in">
-          <img src="images/team-samenwerking.jpg" alt="Monteur van Wattveld en een tevreden klant na afronding van de installatie">
-          <div class="info-badge">4.9/5 waardering</div>
-        </div>
-
-        <div class="info-content fade-in delay-1">
-          <h2>Dit krijgt u van ons</h2>
-          <ul class="info-list">
-            <li>Maatregeladvies op maat van uw woning en budget</li>
-            <li>Energiescan met verbruik, isolatiewaarde en de staat van dak, gevel, ramen en kruipruimte</li>
-            <li>Subsidieaanvraag en -begeleiding tot aan de afrekening</li>
-            <li>Installatie door ons eigen, vakkundige team — geen onderaannemers</li>
-            <li>Terugverdienberekening op basis van uw eigen energierekening</li>
-            <li>Garantie op materiaal én werkzaamheden, ook na oplevering</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Over ons Section -->
-  <section id="over-ons" class="section instructor">
-    <div class="container">
-      <div class="section-title">
-        <h2>Over ons</h2>
-      </div>
-
-      <div class="instructor-container">
-        <div class="instructor-image fade-in">
-          <img src="images/vrachtwagen-monteur.png" alt="Wattveld-vrachtwagens en monteur op locatie">
-          <div class="instructor-badge">We vertellen u graag wat we doen!</div>
-        </div>
-
-        <div class="instructor-bio fade-in delay-1">
-          <p>Wattveld helpt woningeigenaren met eerlijk verduurzamingsadvies én de uitvoering ervan. We combineren technische kennis van installaties met actuele kennis van subsidieregelingen, zodat elk voorstel niet alleen op papier klopt maar ook in de praktijk. We blijven betrokken van de eerste scan tot de laatste factuur — met ons eigen team, zodat u altijd weet wie er voor de deur staat.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ Section -->
-  <section id="faq" class="section faq">
-    <div class="container">
-      <div class="section-title">
-        <h2>Veelgestelde vragen</h2>
-        <p>Antwoorden op de meest gestelde vragen over onze dienstverlening</p>
-      </div>
-
-      <div class="faq-container">
-        <div class="faq-item fade-in">
-          <div class="faq-question">
-            <span>Welke diensten bieden jullie aan?</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            <p>We verzorgen dak-, spouwmuur-, vloer- en bodemisolatie, isolatieglas, thuisbatterijen en airco's. Zo krijgt u een compleet verduurzamingstraject in plaats van losse maatregelen.</p>
-          </div>
-        </div>
-
-        <div class="faq-item fade-in delay-1">
-          <div class="faq-question">
-            <span>Wat is een energiescan en wat heb ik eraan?</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            <p>Een energiescan brengt het verbruik en de isolatiewaarde van uw woning in kaart. Op basis daarvan stellen we een stappenplan op zodat u weet welke maatregelen zich het snelst terugverdienen.</p>
-          </div>
-        </div>
-
-        <div class="faq-item fade-in delay-1">
-          <div class="faq-question">
-            <span>Kan ik zelf kiezen welke maatregelen ik neem?</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            <p>Ja! We stellen samen met u vast welk resultaat u wilt bereiken. Zo ontvangt u alleen advies dat past bij uw woning, budget en planning, wat tijd bespaart en het rendement maximaliseert.</p>
-          </div>
-        </div>
-
-        <div class="faq-item fade-in delay-1">
-          <div class="faq-question">
-            <span>Hoe zorgen jullie ervoor dat het advies betrouwbaar is?</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            <p>Elk voorstel wordt onderbouwd met een terugverdienberekening op basis van uw eigen energierekening. We adviseren alleen maatregelen die aantoonbaar renderen voor uw specifieke situatie — en voeren ze zelf uit.</p>
-          </div>
-        </div>
-
-        <div class="faq-item fade-in delay-1">
-          <div class="faq-question">
-            <span>Hoeveel tijd kost een compleet verduurzamingstraject?</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            <p>Dat hangt af van uw doelstellingen en het aantal maatregelen. Samen bepalen we een planning en tempo die past bij uw woning en beschikbare tijd, zodat u gecontroleerd verduurzaamt zonder overhaaste keuzes.</p>
-          </div>
-        </div>
-
-        <div class="faq-item fade-in delay-1">
-          <div class="faq-question">
-            <span>Wat is het verschil tussen jullie advies en een standaard offerte?</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            <p>Een standaard offerte gaat vaak uit van één merk of methode. Ons advies is zorgvuldig afgestemd op relevantie en rendement voor úw woning, en wordt uitgevoerd door ons eigen team van begin tot eind.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta">
-    <div class="container">
-      <h2>Klaar voor de volgende stap?</h2>
-      <p>Vraag een gratis en vrijblijvende energiescan aan — we laten zien wat er mogelijk is voor uw woning.</p>
-      <a href="mailto:info@wattveld.nl" class="btn btn-accent">
-        <i class="fas fa-envelope"></i> info@wattveld.nl
-      </a>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer id="contact1">
-    <div class="container">
-      <div class="footer-container">
-        <div class="footer-about">
-          <a href="#home" class="footer-logo">
-            <img src="images/logo-icoon.png" alt="Wattveld">
-            <span>Wattveld</span>
+        <div class="services-grid">
+          <a href="#dakisolatie" class="service-tile">
+            <div class="tile-icon"><i class="fas fa-house-chimney"></i></div>
+            <h3>Dakisolatie</h3>
+            <p>Een warmere zolder en minder warmteverlies via het dak, met Quadfoam, PIF of cellulose.</p>
+            <span class="link-arrow">Meer over dakisolatie <i class="fas fa-arrow-right"></i></span>
           </a>
-          <p>"Verduurzaming die rendert." Isolatie, isolatieglas, thuisbatterijen en airco — geïnstalleerd door ons eigen team.</p>
+          <a href="#spouwmuurisolatie" class="service-tile">
+            <div class="tile-icon"><i class="fas fa-layer-group"></i></div>
+            <h3>Spouwmuurisolatie</h3>
+            <p>De spouw volgeblazen met Knauf inblaaswol of EPS-parels, zonder werk aan de binnenkant.</p>
+            <span class="link-arrow">Meer over spouwmuurisolatie <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="#bodemisolatie" class="service-tile">
+            <div class="tile-icon"><i class="fas fa-mound"></i></div>
+            <h3>Bodemisolatie</h3>
+            <p>Een droge, warme kruipruimte met een deken van EPS-parels of EPS-isolatiechips.</p>
+            <span class="link-arrow">Meer over bodemisolatie <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="#vloerisolatie" class="service-tile">
+            <div class="tile-icon"><i class="fas fa-grip-lines"></i></div>
+            <h3>Vloerisolatie</h3>
+            <p>Geen koude voeten meer: isolatie direct onder de vloer met Quadfoam of PIF.</p>
+            <span class="link-arrow">Meer over vloerisolatie <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="#isolatieglas" class="service-tile">
+            <div class="tile-icon"><i class="fas fa-window-maximize"></i></div>
+            <h3>Isolatieglas</h3>
+            <p>HR++ of triple glas voor comfort tot aan het raam en minder tocht en condens.</p>
+            <span class="link-arrow">Meer over isolatieglas <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="#thuisbatterij" class="service-tile">
+            <div class="tile-icon"><i class="fas fa-battery-three-quarters"></i></div>
+            <h3>Thuisbatterij</h3>
+            <p>Heeft u zonnepanelen? Sla uw eigen stroom op en gebruik hem wanneer u hem nodig heeft.</p>
+            <span class="link-arrow">Meer over de thuisbatterij <i class="fas fa-arrow-right"></i></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         Dakisolatie
+    ============================================================ -->
+    <section class="section" id="dakisolatie">
+      <div class="container service-grid">
+        <div class="service-text">
+          <span class="eyebrow"><i class="fas fa-house-chimney"></i> Dakisolatie</span>
+          <h2>Een warme zolder en een lagere energierekening</h2>
+          <p class="lead">Warmte stijgt op, dus een ongeïsoleerd dak is een van de grootste bronnen van warmteverlies. Wij isoleren schuine daken aan de binnenzijde, zonder dat de pannen eraf hoeven. Uw zolder wordt zo een comfortabele ruimte: warm in de winter en koeler in de zomer.</p>
+
+          <div class="materials">
+            <article class="material">
+              <div class="material-head"><h3>Quadfoam</h3><span class="chip">Spuitisolatie</span></div>
+              <p>Isolatieschuim dat ter plekke tegen het dakbeschot en de gordingen wordt gespoten. Het vult elke naad en kier en vormt één naadloze, luchtdichte laag.</p>
+            </article>
+            <article class="material">
+              <div class="material-head"><h3>PIF-isolatie</h3><span class="chip">Isolatiefolie</span></div>
+              <p>Lichte, flexibele isolatie van luchtkamers en reflecterende folielagen. Stofvrij te verwerken en strak af te werken met beplating.</p>
+            </article>
+            <article class="material">
+              <div class="material-head"><h3>Cellulose</h3><span class="chip bio">Biobased</span></div>
+              <p>Vlokken van gerecycled papier, ingeblazen in een gesloten dakconstructie. Vochtregulerend en een goede bescherming tegen zomerhitte.</p>
+            </article>
+          </div>
+
+          <div class="service-actions">
+            <a href="#contact" class="btn btn-primary"><i class="fas fa-calendar-check"></i> Advies over dakisolatie</a>
+            <a href="#subsidies" class="btn btn-outline"><i class="fas fa-calculator"></i> Bereken subsidie</a>
+          </div>
         </div>
 
-        <div class="footer-links">
-          <h3>Producten</h3>
+        <aside class="service-aside">
+          <div class="aside-top">
+            <div class="tile-icon"><i class="fas fa-house-chimney"></i></div>
+            <div><h3>Dakisolatie in het kort</h3><span>Schuin dak, vanaf de binnenzijde</span></div>
+          </div>
+          <ul class="check-list">
+            <li>Geen steiger of dakwerk nodig</li>
+            <li>Zolder wordt beter bruikbaar als leefruimte</li>
+            <li>Ook koeler in de zomer</li>
+            <li>Biobased mogelijk met cellulose</li>
+          </ul>
+          <div class="subsidy-box">
+            <span class="label">ISDE-subsidie 2026</span>
+            <strong>€ 16,25 per m²</strong>
+            <small>€ 32,50 per m² bij twee of meer isolatiemaatregelen. Met cellulose + € 5 per m² biobased bonus.</small>
+          </div>
+          <dl class="facts">
+            <div><dt>Subsidie-eis</dt><dd>Rd ≥ 3,5 m²K/W</dd></div>
+            <div><dt>Oppervlak</dt><dd>20 – 200 m²</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         Spouwmuurisolatie
+    ============================================================ -->
+    <section class="section alt" id="spouwmuurisolatie">
+      <div class="container service-grid reverse">
+        <div class="service-text">
+          <span class="eyebrow"><i class="fas fa-layer-group"></i> Spouwmuurisolatie</span>
+          <h2>Veel effect, nauwelijks overlast</h2>
+          <p class="lead">Veel woningen hebben een buitenmuur met een holle ruimte, de spouw, die niet of nauwelijks geïsoleerd is. Wij controleren eerst of uw spouw geschikt is. Daarna boren we kleine gaatjes in de voegen, blazen de spouw vol en werken de gaatjes netjes af in de kleur van uw voegwerk.</p>
+
+          <div class="materials">
+            <article class="material">
+              <div class="material-head"><h3>Knauf inblaaswol</h3><span class="chip">Glaswol</span></div>
+              <p>Waterafstotende glaswolvlokken die de spouw volledig en gelijkmatig opvullen. Dampopen, onbrandbaar en geluiddempend.</p>
+            </article>
+            <article class="material">
+              <div class="material-head"><h3>EPS-parels</h3><span class="chip">EPS</span></div>
+              <p>Kleine bolletjes polystyreen met een bindmiddel. Ze vloeien goed door, ook in smalle of onregelmatige spouwen, en nemen geen water op.</p>
+            </article>
+          </div>
+
+          <div class="service-actions">
+            <a href="#contact" class="btn btn-primary"><i class="fas fa-calendar-check"></i> Advies over spouwmuurisolatie</a>
+            <a href="#subsidies" class="btn btn-outline"><i class="fas fa-calculator"></i> Bereken subsidie</a>
+          </div>
+        </div>
+
+        <aside class="service-aside">
+          <div class="aside-top">
+            <div class="tile-icon"><i class="fas fa-layer-group"></i></div>
+            <div><h3>Spouwmuurisolatie in het kort</h3><span>Ingeblazen via de buitengevel</span></div>
+          </div>
+          <ul class="check-list">
+            <li>Meestal binnen één dag klaar</li>
+            <li>Geen werk aan de binnenkant van uw huis</li>
+            <li>Gaatjes afgewerkt in de kleur van het voegwerk</li>
+            <li>Vooraf controle van de spouw</li>
+          </ul>
+          <div class="subsidy-box">
+            <span class="label">ISDE-subsidie 2026</span>
+            <strong>€ 5,25 per m²</strong>
+            <small>€ 10,50 per m² bij twee of meer isolatiemaatregelen.</small>
+          </div>
+          <dl class="facts">
+            <div><dt>Subsidie-eis</dt><dd>Rd ≥ 1,1 m²K/W</dd></div>
+            <div><dt>Oppervlak</dt><dd>10 – 170 m²</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         Bodemisolatie
+    ============================================================ -->
+    <section class="section" id="bodemisolatie">
+      <div class="container service-grid">
+        <div class="service-text">
+          <span class="eyebrow"><i class="fas fa-mound"></i> Bodemisolatie</span>
+          <h2>Een droge, warme kruipruimte</h2>
+          <p class="lead">Is uw kruipruimte te laag om onder de vloer te werken? Dan isoleren we de bodem. Via het kruipluik blazen we een dikke laag isolatiemateriaal over de hele bodem van de kruipruimte. Daardoor stijgen er minder kou en vocht op naar uw vloer.</p>
+
+          <div class="materials">
+            <article class="material">
+              <div class="material-head"><h3>EPS-parels</h3><span class="chip">EPS</span></div>
+              <p>Fijne korreltjes die zich als een gesloten deken over de bodem verdelen, ook in hoeken en rondom funderingsbalken.</p>
+            </article>
+            <article class="material">
+              <div class="material-head"><h3>EPS-isolatiechips</h3><span class="chip">EPS</span></div>
+              <p>Grovere snippers die snel een flinke isolatiedikte opbouwen. Voordelig bij grotere kruipruimtes. Rot en schimmelt niet.</p>
+            </article>
+          </div>
+
+          <div class="service-actions">
+            <a href="#contact" class="btn btn-primary"><i class="fas fa-calendar-check"></i> Advies over bodemisolatie</a>
+            <a href="#subsidies" class="btn btn-outline"><i class="fas fa-calculator"></i> Bereken subsidie</a>
+          </div>
+        </div>
+
+        <aside class="service-aside">
+          <div class="aside-top">
+            <div class="tile-icon"><i class="fas fa-mound"></i></div>
+            <div><h3>Bodemisolatie in het kort</h3><span>Via het kruipluik, zonder breekwerk</span></div>
+          </div>
+          <ul class="check-list">
+            <li>Ook geschikt voor lage kruipruimtes</li>
+            <li>Minder kou en vocht van onderen</li>
+            <li>Geen breekwerk in huis</li>
+            <li>Vochtbestendig materiaal</li>
+          </ul>
+          <div class="subsidy-box">
+            <span class="label">ISDE-subsidie 2026</span>
+            <strong>€ 3,00 per m²</strong>
+            <small>€ 6,00 per m² bij twee of meer isolatiemaatregelen.</small>
+          </div>
+          <dl class="facts">
+            <div><dt>Subsidie-eis</dt><dd>Rd ≥ 3,5 m²K/W</dd></div>
+            <div><dt>Oppervlak</dt><dd>20 – 130 m²</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         Vloerisolatie
+    ============================================================ -->
+    <section class="section alt" id="vloerisolatie">
+      <div class="container service-grid reverse">
+        <div class="service-text">
+          <span class="eyebrow"><i class="fas fa-grip-lines"></i> Vloerisolatie</span>
+          <h2>Nooit meer koude voeten</h2>
+          <p class="lead">We isoleren de onderkant van uw begane grondvloer vanuit de kruipruimte. Het resultaat: een warmere vloer, minder tocht langs de plinten en een comfortabelere benedenverdieping.</p>
+
+          <div class="materials">
+            <article class="material">
+              <div class="material-head"><h3>Quadfoam</h3><span class="chip">Spuitisolatie</span></div>
+              <p>Rechtstreeks tegen de onderkant van houten of betonnen vloeren gespoten. Sluit in één keer alle naden en kieren af, ook rondom leidingen.</p>
+            </article>
+            <article class="material">
+              <div class="material-head"><h3>PIF-isolatie</h3><span class="chip">Isolatiefolie</span></div>
+              <p>Banen reflecterende isolatie, strak onder de vloer bevestigd. Schoon, stofvrij en licht om mee te werken in de kruipruimte.</p>
+            </article>
+          </div>
+
+          <div class="tip">
+            <i class="fas fa-lightbulb"></i>
+            <span>Is uw kruipruimte te laag om in te werken? Dan is <a href="#bodemisolatie">bodemisolatie</a> een goed alternatief. Tijdens de opname kijken we samen wat het beste past.</span>
+          </div>
+
+          <div class="service-actions">
+            <a href="#contact" class="btn btn-primary"><i class="fas fa-calendar-check"></i> Advies over vloerisolatie</a>
+            <a href="#subsidies" class="btn btn-outline"><i class="fas fa-calculator"></i> Bereken subsidie</a>
+          </div>
+        </div>
+
+        <aside class="service-aside">
+          <div class="aside-top">
+            <div class="tile-icon"><i class="fas fa-grip-lines"></i></div>
+            <div><h3>Vloerisolatie in het kort</h3><span>Onder de vloer, vanuit de kruipruimte</span></div>
+          </div>
+          <ul class="check-list">
+            <li>Voor houten én betonnen vloeren</li>
+            <li>Werk via het kruipluik</li>
+            <li>Minder tocht langs de plinten</li>
+            <li>Ook bij vloerverwarming</li>
+          </ul>
+          <div class="subsidy-box">
+            <span class="label">ISDE-subsidie 2026</span>
+            <strong>€ 5,50 per m²</strong>
+            <small>€ 11,00 per m² bij twee of meer isolatiemaatregelen.</small>
+          </div>
+          <dl class="facts">
+            <div><dt>Subsidie-eis</dt><dd>Rd ≥ 3,5 m²K/W</dd></div>
+            <div><dt>Oppervlak</dt><dd>20 – 130 m²</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         Isolatieglas
+    ============================================================ -->
+    <section class="section" id="isolatieglas">
+      <div class="container service-grid">
+        <div class="service-text">
+          <span class="eyebrow"><i class="fas fa-window-maximize"></i> Isolatieglas</span>
+          <h2>Comfort tot aan het raam</h2>
+          <p class="lead">Enkel glas of oud dubbel glas laat veel warmte ontsnappen en zorgt voor koude plekken en condens bij het raam. Wij vervangen het door hoogwaardig isolatieglas en controleren vooraf of uw kozijnen geschikt zijn.</p>
+
+          <div class="materials">
+            <article class="material">
+              <div class="material-head"><h3>HR++ glas</h3><span class="chip">Dubbel glas</span></div>
+              <p>Dubbel glas met een warmtereflecterende coating en een spouw gevuld met edelgas. Past vaak in uw bestaande kozijnen.</p>
+            </article>
+            <article class="material">
+              <div class="material-head"><h3>Triple glas (HR+++)</h3><span class="chip">Drie lagen</span></div>
+              <p>Drie glasbladen en twee gevulde spouwen voor de hoogste isolatiewaarde. Dikker en zwaarder, daarom vaak in combinatie met een nieuw kozijn.</p>
+            </article>
+          </div>
+
+          <div class="service-actions">
+            <a href="#contact" class="btn btn-primary"><i class="fas fa-calendar-check"></i> Advies over isolatieglas</a>
+            <a href="#subsidies" class="btn btn-outline"><i class="fas fa-calculator"></i> Bereken subsidie</a>
+          </div>
+        </div>
+
+        <aside class="service-aside">
+          <div class="aside-top">
+            <div class="tile-icon"><i class="fas fa-window-maximize"></i></div>
+            <div><h3>Isolatieglas in het kort</h3><span>HR++ of triple glas</span></div>
+          </div>
+          <ul class="check-list">
+            <li>Minder koudeval en tocht bij het raam</li>
+            <li>Minder condens aan de binnenzijde</li>
+            <li>Stiller in huis</li>
+            <li>Vooraf controle van uw kozijnen</li>
+          </ul>
+          <div class="subsidy-box">
+            <span class="label">ISDE-subsidie 2026 · HR++</span>
+            <strong>€ 25 per m²</strong>
+            <small>€ 50 per m² bij twee of meer isolatiemaatregelen.</small>
+          </div>
+          <div class="subsidy-box">
+            <span class="label">ISDE-subsidie 2026 · Triple glas</span>
+            <strong>€ 111 per m²</strong>
+            <small>€ 222 per m² bij twee of meer maatregelen. Alleen in combinatie met een nieuw kozijn.</small>
+          </div>
+          <dl class="facts">
+            <div><dt>Subsidie-eis</dt><dd>HR++ U ≤ 1,2 · triple U ≤ 0,7</dd></div>
+            <div><dt>Oppervlak</dt><dd>3 – 45 m²</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         Werkwijze
+    ============================================================ -->
+    <section class="section alt" id="werkwijze">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow"><i class="fas fa-route"></i> Werkwijze</span>
+          <h2>Zo werken wij, van advies tot oplevering</h2>
+          <p>U heeft één aanspreekpunt en weet vooraf precies wat u krijgt, wat het kost en hoeveel subsidie u terugkrijgt.</p>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <h3>Gratis adviesgesprek</h3>
+            <p>We komen bij u langs en bekijken dak, gevel, vloer, kruipruimte en ramen. U hoort direct wat er mogelijk is.</p>
+          </div>
+          <div class="step">
+            <h3>Voorstel op maat</h3>
+            <p>U ontvangt een duidelijke offerte met de gekozen materialen, de prijs en een berekening van uw subsidie.</p>
+          </div>
+          <div class="step">
+            <h3>Uitvoering door ons team</h3>
+            <p>Onze eigen monteurs voeren het werk netjes en volgens planning uit. Geen onderaannemers.</p>
+          </div>
+          <div class="step">
+            <h3>Subsidie en nazorg</h3>
+            <p>We leveren alle gegevens aan voor uw ISDE-aanvraag en blijven aanspreekbaar na de oplevering.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         Subsidies & financiering
+    ============================================================ -->
+    <section class="section" id="subsidies">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow"><i class="fas fa-piggy-bank"></i> Subsidies &amp; financiering</span>
+          <h2>Isoleren kost minder dan u denkt</h2>
+          <p>Met subsidie, een verlaagd btw-tarief en gunstige leningen wordt isoleren voor veel huiseigenaren goed betaalbaar. Wij helpen u om alles eruit te halen.</p>
+        </div>
+
+        <div class="finance-grid">
+          <div class="finance-card">
+            <div class="tile-icon"><i class="fas fa-landmark"></i></div>
+            <h3>ISDE-subsidie</h3>
+            <p>Een vast bedrag per m² voor elke isolatiemaatregel, aan te vragen bij RVO. Combineert u twee maatregelen binnen 24 maanden, dan verdubbelt het bedrag.</p>
+            <span class="highlight">Tot 2× subsidie</span>
+          </div>
+          <div class="finance-card">
+            <div class="tile-icon"><i class="fas fa-percent"></i></div>
+            <h3>9% btw op arbeid</h3>
+            <p>Is uw woning ouder dan 2 jaar? Dan betaalt u over de arbeidskosten voor isoleren 9% btw in plaats van 21%. Over materialen geldt 21%.</p>
+            <span class="highlight">9% in plaats van 21%</span>
+          </div>
+          <div class="finance-card">
+            <div class="tile-icon"><i class="fas fa-hand-holding-dollar"></i></div>
+            <h3>Energiebespaarlening</h3>
+            <p>Via het Nationaal Warmtefonds leent u voordelig voor isolatie. Bij een verzamelinkomen tot € 60.000 is de rente 0%. U hoeft de subsidie dan niet voor te schieten.</p>
+            <span class="highlight">0% rente mogelijk</span>
+          </div>
+          <div class="finance-card">
+            <div class="tile-icon"><i class="fas fa-map-location-dot"></i></div>
+            <h3>Gemeentelijke regelingen</h3>
+            <p>Veel gemeenten bieden extra subsidie of een duurzaamheidslening. We zoeken graag voor u uit wat er op uw adres mogelijk is.</p>
+            <span class="highlight">Wij checken het voor u</span>
+          </div>
+        </div>
+
+        <div class="subsidy-layout">
+          <div class="table-card">
+            <h3>ISDE-bedragen 2026</h3>
+            <p class="card-sub">Subsidie per m² voor eigenaar-bewoners, bij één maatregel en bij twee of meer maatregelen.</p>
+            <div class="table-wrap">
+              <table class="subsidy-table">
+                <thead>
+                  <tr>
+                    <th>Maatregel</th>
+                    <th>1 maatregel</th>
+                    <th>2+ maatregelen</th>
+                    <th>Oppervlak</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Dakisolatie</td><td class="num">€ 16,25</td><td class="num strong">€ 32,50</td><td class="num">20 – 200 m²</td></tr>
+                  <tr><td>Spouwmuurisolatie</td><td class="num">€ 5,25</td><td class="num strong">€ 10,50</td><td class="num">10 – 170 m²</td></tr>
+                  <tr><td>Vloerisolatie</td><td class="num">€ 5,50</td><td class="num strong">€ 11,00</td><td class="num">20 – 130 m²</td></tr>
+                  <tr><td>Bodemisolatie</td><td class="num">€ 3,00</td><td class="num strong">€ 6,00</td><td class="num">20 – 130 m²</td></tr>
+                  <tr><td>HR++ glas</td><td class="num">€ 25</td><td class="num strong">€ 50</td><td class="num">3 – 45 m²</td></tr>
+                  <tr><td>Triple glas + kozijn</td><td class="num">€ 111</td><td class="num strong">€ 222</td><td class="num">3 – 45 m²</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <ul class="conditions">
+              <li><i class="fas fa-circle-check"></i> U bent eigenaar én bewoner van de woning.</li>
+              <li><i class="fas fa-circle-check"></i> De isolatie wordt aangebracht door een bedrijf, zoals Wattveld.</li>
+              <li><i class="fas fa-circle-check"></i> U vraagt de subsidie aan binnen 24 maanden na uitvoering.</li>
+              <li><i class="fas fa-circle-check"></i> Biobased bonus bovenop de subsidie, bijvoorbeeld + € 5 per m² bij dakisolatie met cellulose.</li>
+            </ul>
+          </div>
+
+          <div class="calc-card" id="subsidiecalculator">
+            <h3>Subsidiecalculator</h3>
+            <p class="card-sub">Vink de maatregelen aan en vul het aantal m² in voor een indicatie.</p>
+
+            <div class="calc-row" data-rate="16.25" data-min="20" data-max="200" data-cat="dak">
+              <label><input type="checkbox"> Dakisolatie</label>
+              <div class="m2-input"><input type="number" min="0" value="45" inputmode="numeric" aria-label="Oppervlak dakisolatie in m²" disabled><span>m²</span></div>
+              <div class="calc-note"></div>
+            </div>
+            <div class="calc-row" data-rate="5.25" data-min="10" data-max="170" data-cat="spouw">
+              <label><input type="checkbox"> Spouwmuurisolatie</label>
+              <div class="m2-input"><input type="number" min="0" value="60" inputmode="numeric" aria-label="Oppervlak spouwmuurisolatie in m²" disabled><span>m²</span></div>
+              <div class="calc-note"></div>
+            </div>
+            <div class="calc-row" data-rate="5.5" data-min="20" data-max="130" data-cat="vloer">
+              <label><input type="checkbox"> Vloerisolatie</label>
+              <div class="m2-input"><input type="number" min="0" value="50" inputmode="numeric" aria-label="Oppervlak vloerisolatie in m²" disabled><span>m²</span></div>
+              <div class="calc-note"></div>
+            </div>
+            <div class="calc-row" data-rate="3" data-min="20" data-max="130" data-cat="bodem">
+              <label><input type="checkbox"> Bodemisolatie</label>
+              <div class="m2-input"><input type="number" min="0" value="50" inputmode="numeric" aria-label="Oppervlak bodemisolatie in m²" disabled><span>m²</span></div>
+              <div class="calc-note"></div>
+            </div>
+            <div class="calc-row" data-rate="25" data-min="3" data-max="45" data-cat="glas">
+              <label><input type="checkbox"> HR++ glas</label>
+              <div class="m2-input"><input type="number" min="0" value="12" inputmode="numeric" aria-label="Oppervlak HR++ glas in m²" disabled><span>m²</span></div>
+              <div class="calc-note"></div>
+            </div>
+            <div class="calc-row" data-rate="111" data-min="3" data-max="45" data-cat="glas">
+              <label><input type="checkbox"> Triple glas + kozijn</label>
+              <div class="m2-input"><input type="number" min="0" value="12" inputmode="numeric" aria-label="Oppervlak triple glas in m²" disabled><span>m²</span></div>
+              <div class="calc-note"></div>
+            </div>
+
+            <div class="calc-result" aria-live="polite">
+              <span>Geschatte ISDE-subsidie</span>
+              <strong id="calc-total">€ 0,00</strong>
+              <small id="calc-status">Selecteer één of meer maatregelen.</small>
+            </div>
+            <p class="calc-disclaimer">Indicatie op basis van de ISDE-bedragen 2026 van RVO. Het werkelijke bedrag hangt af van het gebruikte materiaal, de exacte oppervlakte en de voorwaarden op het moment van aanvragen.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         Thuisbatterij
+    ============================================================ -->
+    <section class="section alt" id="thuisbatterij">
+      <div class="container split">
+        <div class="split-media">
+          <img src="images/monteur-thuisbatterij.png" alt="Monteur van Wattveld sluit een thuisbatterij aan in de meterkast" loading="lazy">
+          <div class="media-badge"><i class="fas fa-solar-panel"></i> Voor huizen met zonnepanelen</div>
+        </div>
+        <div class="split-text">
+          <span class="eyebrow"><i class="fas fa-battery-three-quarters"></i> Thuisbatterij</span>
+          <h2>Gebruik uw eigen zonnestroom, ook 's avonds</h2>
+          <p>Heeft u zonnepanelen? Met een thuisbatterij slaat u de stroom die u overdag opwekt zelf op. Zo gebruikt u hem 's avonds en 's nachts, in plaats van hem voor een lage vergoeding terug te leveren aan het net.</p>
+          <ul class="check-list">
+            <li>Meer eigen gebruik van uw zonnestroom</li>
+            <li>Minder afhankelijk van teruglevertarieven</li>
+            <li>Slim laden en ontladen op basis van uw verbruik</li>
+            <li>Aangesloten op uw bestaande zonnepanelen</li>
+          </ul>
+          <a href="#contact" class="btn btn-primary"><i class="fas fa-calendar-check"></i> Advies over een thuisbatterij</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         Over ons
+    ============================================================ -->
+    <section class="section" id="over-ons">
+      <div class="container split">
+        <div class="split-text">
+          <span class="eyebrow"><i class="fas fa-people-group"></i> Over ons</span>
+          <h2>Vakmensen die zelf uitvoeren wat ze adviseren</h2>
+          <p>Wattveld Verduurzamingstechniek helpt huiseigenaren in heel Nederland aan een comfortabeler en zuiniger huis. We combineren vakkennis van isolatie met actuele kennis van subsidies, zodat elk voorstel niet alleen op papier klopt, maar ook in de praktijk. U weet altijd wie er voor de deur staat: ons eigen team.</p>
+
+          <div class="values">
+            <div class="value">
+              <i class="fas fa-user-gear"></i>
+              <div><h3>Eigen monteurs</h3><p>Geen onderaannemers, één aanspreekpunt.</p></div>
+            </div>
+            <div class="value">
+              <i class="fas fa-scale-balanced"></i>
+              <div><h3>Eerlijk advies</h3><p>Alleen maatregelen die echt renderen.</p></div>
+            </div>
+            <div class="value">
+              <i class="fas fa-file-invoice-dollar"></i>
+              <div><h3>Subsidie geregeld</h3><p>We helpen u met de aanvraag.</p></div>
+            </div>
+            <div class="value">
+              <i class="fas fa-shield-halved"></i>
+              <div><h3>Garantie</h3><p>Op materiaal én werkzaamheden.</p></div>
+            </div>
+          </div>
+
+          <a href="#contact" class="btn btn-primary"><i class="fas fa-comments"></i> Maak kennis met ons</a>
+        </div>
+        <div class="split-media">
+          <img src="images/vrachtwagen-monteur.png" alt="Bedrijfswagens en een monteur van Wattveld op locatie" loading="lazy">
+          <div class="media-badge"><i class="fas fa-location-dot"></i> Actief in heel Nederland</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FAQ
+    ============================================================ -->
+    <section class="section alt" id="faq">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow"><i class="fas fa-circle-question"></i> Veelgestelde vragen</span>
+          <h2>Goed om te weten</h2>
+        </div>
+
+        <div class="faq-list">
+          <details>
+            <summary>Hoe weet ik welke isolatie het beste bij mijn woning past?</summary>
+            <p>Tijdens een gratis adviesgesprek bekijken we uw dak, gevel, vloer, kruipruimte en ramen. Op basis daarvan adviseren we welke maatregelen het meeste opleveren en in welke volgorde u ze het beste kunt uitvoeren.</p>
+          </details>
+          <details>
+            <summary>Wat kost isoleren?</summary>
+            <p>Dat hangt af van de maatregel, het materiaal en het aantal vierkante meters. U ontvangt altijd een vrijblijvende offerte op maat, inclusief een berekening van de subsidie waar u recht op heeft.</p>
+          </details>
+          <details>
+            <summary>Hoeveel subsidie kan ik krijgen?</summary>
+            <p>Via de ISDE krijgt u een vast bedrag per m², dat verdubbelt als u twee of meer isolatiemaatregelen combineert binnen 24 maanden. Gebruik de subsidiecalculator op deze pagina voor een eerste indicatie.</p>
+          </details>
+          <details>
+            <summary>Kan ik vloer- en bodemisolatie combineren?</summary>
+            <p>Ja. Volgens de ISDE-voorwaarden kunt u voor beide subsidie krijgen, mits het oppervlak samen minimaal 20 m² is en u ze in dezelfde aanvraag meeneemt. We adviseren u graag over de beste combinatie voor uw kruipruimte.</p>
+          </details>
+          <details>
+            <summary>Hoe lang duurt het werk?</summary>
+            <p>Spouwmuur-, vloer- en bodemisolatie zijn vaak binnen één dag klaar. Dakisolatie en het vervangen van glas hangen af van de omvang. In de offerte staat een duidelijke planning.</p>
+          </details>
+          <details>
+            <summary>Heb ik veel overlast tijdens het werk?</summary>
+            <p>Meestal valt het mee. Bij spouwmuurisolatie werken we aan de buitenkant, en bij vloer- en bodemisolatie hebben we alleen toegang tot het kruipluik nodig. Bij dakisolatie zorgen we dat de zolder netjes wordt achtergelaten.</p>
+          </details>
+          <details>
+            <summary>Krijg ik garantie?</summary>
+            <p>Ja, u krijgt garantie op zowel het materiaal als de werkzaamheden. De precieze voorwaarden staan in uw offerte.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         Contact
+    ============================================================ -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact-wrap">
+          <div class="contact-info">
+            <h2>Plan uw gratis adviesgesprek</h2>
+            <p>Laat uw gegevens achter of neem direct contact op. We nemen binnen één werkdag contact met u op om een afspraak te maken.</p>
+
+            <a href="tel:+31684848383" class="contact-line"><i class="fas fa-phone"></i> +31 6 84848383</a>
+            <a href="mailto:info@wattveld.nl" class="contact-line"><i class="fas fa-envelope"></i> info@wattveld.nl</a>
+
+            <ul class="contact-promise">
+              <li><i class="fas fa-check"></i> Gratis en vrijblijvend</li>
+              <li><i class="fas fa-check"></i> Advies op maat van uw woning</li>
+              <li><i class="fas fa-check"></i> Inclusief subsidieberekening</li>
+            </ul>
+          </div>
+
+          <form class="contact-form" id="contact-form">
+            <div class="form-grid">
+              <div class="field">
+                <label for="naam">Naam</label>
+                <input id="naam" name="naam" type="text" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="telefoon">Telefoonnummer</label>
+                <input id="telefoon" name="telefoon" type="tel" autocomplete="tel" required>
+              </div>
+              <div class="field">
+                <label for="email">E-mailadres</label>
+                <input id="email" name="email" type="email" autocomplete="email" required>
+              </div>
+              <div class="field">
+                <label for="adres">Postcode + huisnummer</label>
+                <input id="adres" name="adres" type="text" autocomplete="postal-code">
+              </div>
+              <div class="field full">
+                <label>Waar bent u in geïnteresseerd?</label>
+                <div class="interest-group">
+                  <label><input type="checkbox" name="interesse" value="Dakisolatie"><span>Dakisolatie</span></label>
+                  <label><input type="checkbox" name="interesse" value="Spouwmuurisolatie"><span>Spouwmuurisolatie</span></label>
+                  <label><input type="checkbox" name="interesse" value="Bodemisolatie"><span>Bodemisolatie</span></label>
+                  <label><input type="checkbox" name="interesse" value="Vloerisolatie"><span>Vloerisolatie</span></label>
+                  <label><input type="checkbox" name="interesse" value="Isolatieglas"><span>Isolatieglas</span></label>
+                  <label><input type="checkbox" name="interesse" value="Thuisbatterij"><span>Thuisbatterij</span></label>
+                </div>
+              </div>
+              <div class="field full">
+                <label for="bericht">Bericht (optioneel)</label>
+                <textarea id="bericht" name="bericht" placeholder="Bijvoorbeeld het bouwjaar van uw woning of wat u al heeft laten isoleren"></textarea>
+              </div>
+            </div>
+            <div class="form-footer">
+              <small>Na verzenden opent uw e-mailprogramma met het ingevulde bericht aan info@wattveld.nl.</small>
+              <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Verstuur aanvraag</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       Footer
+  ============================================================ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="#top" class="brand" aria-label="Wattveld, naar boven">
+            <img src="images/logo-icoon.png" alt="">
+            <span class="brand-text">
+              <span class="brand-name">Wattveld</span>
+              <span class="brand-sub">Verduurzamingstechniek</span>
+            </span>
+          </a>
+          <p>Isolatie van dak tot kruipruimte, uitgevoerd door ons eigen team. Eerlijk advies, vakkundig werk en hulp bij uw subsidie.</p>
+        </div>
+
+        <div>
+          <h4>Isolatie</h4>
           <ul>
-            <li><a href="#isolatie">Isolatie</a></li>
-            <li><a href="#iso-glas">Isolatieglas</a></li>
-            <li><a href="#thuisbatterijen">Thuisbatterijen</a></li>
-            <li><a href="#airco">Airco</a></li>
-            <li><a href="#meer-informatie">Meer informatie</a></li>
+            <li><a href="#dakisolatie">Dakisolatie</a></li>
+            <li><a href="#spouwmuurisolatie">Spouwmuurisolatie</a></li>
+            <li><a href="#bodemisolatie">Bodemisolatie</a></li>
+            <li><a href="#vloerisolatie">Vloerisolatie</a></li>
+            <li><a href="#isolatieglas">Isolatieglas</a></li>
           </ul>
         </div>
 
-        <div class="footer-contact">
-          <h3>Neem contact op</h3>
-          <p><i class="fas fa-envelope"></i> <a href="mailto:info@wattveld.nl">info@wattveld.nl</a></p>
-          <p><i class="fas fa-phone"></i> <a href="tel:+31684848383">+31 6 84848383</a></p>
+        <div>
+          <h4>Wattveld</h4>
+          <ul>
+            <li><a href="#thuisbatterij">Thuisbatterij</a></li>
+            <li><a href="#werkwijze">Werkwijze</a></li>
+            <li><a href="#subsidies">Subsidies</a></li>
+            <li><a href="#over-ons">Over ons</a></li>
+            <li><a href="#faq">Veelgestelde vragen</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="tel:+31684848383"><i class="fas fa-phone"></i>&nbsp; +31 6 84848383</a></li>
+            <li><a href="mailto:info@wattveld.nl"><i class="fas fa-envelope"></i>&nbsp; info@wattveld.nl</a></li>
+            <li><a href="#contact"><i class="fas fa-calendar-check"></i>&nbsp; Gratis adviesgesprek</a></li>
+          </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2026 Wattveld. Alle rechten voorbehouden.</p>
-        <p>Alle merknamen zijn eigendom van hun respectievelijke eigenaren.</p>
+        <span>&copy; 2026 Wattveld Verduurzamingstechniek. Alle rechten voorbehouden.</span>
+        <span>Alle merknamen zijn eigendom van hun respectievelijke eigenaren.</span>
       </div>
     </div>
   </footer>
 
   <script>
-    // Mobile menu toggle
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navMenu = document.querySelector('.nav-menu');
+    // Header-schaduw bij scrollen
+    const header = document.querySelector('.site-header');
+    const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 10);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 
-    mobileMenuBtn.addEventListener('click', () => {
-      navMenu.classList.toggle('active');
-      mobileMenuBtn.innerHTML = navMenu.classList.contains('active')
-        ? '<i class="fas fa-times"></i>'
-        : '<i class="fas fa-bars"></i>';
-    });
+    // Mobiel menu
+    const toggle = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('site-nav');
 
-    // FAQ accordion
-    document.querySelectorAll('.faq-item').forEach(item => {
-      const question = item.querySelector('.faq-question');
-      question.addEventListener('click', () => {
-        item.classList.toggle('active');
-      });
-    });
+    function setMenu(open) {
+      nav.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open);
+      toggle.setAttribute('aria-label', open ? 'Menu sluiten' : 'Menu openen');
+      toggle.innerHTML = open ? '<i class="fas fa-xmark"></i>' : '<i class="fas fa-bars"></i>';
+    }
 
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
+    toggle.addEventListener('click', () => setMenu(!nav.classList.contains('open')));
+    nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
 
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
+    // Subsidiecalculator
+    const rows = Array.from(document.querySelectorAll('.calc-row'));
+    const totalEl = document.getElementById('calc-total');
+    const statusEl = document.getElementById('calc-status');
+    const euro = n => n.toLocaleString('nl-NL', { style: 'currency', currency: 'EUR' });
 
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-          window.scrollTo({
-            top: targetElement.getBoundingClientRect().top + window.pageYOffset - 80,
-            behavior: 'smooth'
-          });
+    function calculate() {
+      const categories = new Set();
+      const items = [];
 
-          if (navMenu.classList.contains('active')) {
-            navMenu.classList.remove('active');
-            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-          }
+      rows.forEach(row => {
+        const checkbox = row.querySelector('input[type="checkbox"]');
+        const input = row.querySelector('input[type="number"]');
+        const note = row.querySelector('.calc-note');
+        const rate = parseFloat(row.dataset.rate);
+        const min = parseFloat(row.dataset.min);
+        const max = parseFloat(row.dataset.max);
+
+        input.disabled = !checkbox.checked;
+        note.textContent = '';
+        if (!checkbox.checked) return;
+
+        const m2 = parseFloat(input.value) || 0;
+        if (m2 < min) {
+          note.textContent = 'Subsidie vanaf minimaal ' + min + ' m².';
+          return;
         }
+        if (m2 > max) note.textContent = 'Subsidie geldt voor maximaal ' + max + ' m².';
+
+        categories.add(row.dataset.cat);
+        items.push({ area: Math.min(m2, max), rate });
       });
+
+      const factor = categories.size >= 2 ? 2 : 1;
+      const total = items.reduce((sum, item) => sum + item.area * item.rate * factor, 0);
+      totalEl.textContent = euro(total);
+
+      if (categories.size >= 2) {
+        statusEl.textContent = 'Dubbel tarief: u combineert ' + categories.size + ' isolatiemaatregelen.';
+      } else if (categories.size === 1) {
+        statusEl.textContent = 'Tip: combineer met een tweede maatregel en het bedrag per m² verdubbelt.';
+      } else {
+        statusEl.textContent = 'Selecteer één of meer maatregelen.';
+      }
+    }
+
+    rows.forEach(row => {
+      row.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', calculate);
+        input.addEventListener('change', calculate);
+      });
+    });
+    calculate();
+
+    // Contactformulier: opent e-mailprogramma met ingevuld bericht
+    const form = document.getElementById('contact-form');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const interesse = data.getAll('interesse').join(', ') || '-';
+      const body =
+        'Naam: ' + data.get('naam') + '\n' +
+        'Telefoon: ' + data.get('telefoon') + '\n' +
+        'E-mail: ' + data.get('email') + '\n' +
+        'Postcode + huisnummer: ' + (data.get('adres') || '-') + '\n' +
+        'Interesse: ' + interesse + '\n\n' +
+        'Bericht:\n' + (data.get('bericht') || '-');
+      const subject = 'Adviesaanvraag via website - ' + data.get('naam');
+      window.location.href = 'mailto:info@wattveld.nl?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     });
   </script>
 </body>
 </html>
-```
